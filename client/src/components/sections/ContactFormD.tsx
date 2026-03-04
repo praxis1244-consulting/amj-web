@@ -12,7 +12,8 @@ import {
   Send,
 } from "lucide-react";
 
-const SITE_ID = import.meta.env.VITE_SITE_ID;
+const SITE_ID =
+  import.meta.env.VITE_SITE_ID || "c271ef9e-4751-4481-90fb-be03ab921592";
 
 /**
  * Variant D — "Dark Immersive" + Stepped form (C+D hybrid)
