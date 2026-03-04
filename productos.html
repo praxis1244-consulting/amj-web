@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#09090b">
+    <meta name="description" content="Bitdefender GravityZone — Protección endpoint de clase mundial. Distribuido por AMJ Ingeniería en Chile.">
+    <title>Bitdefender GravityZone — AMJ Ingeniería</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/"></script>
+
+    <!-- Iconify Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#1f1f22',
+                            950: '#09090b',
+                        }
+                    },
+                    animation: {
+                        marquee: 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        /* Progressive Blur */
+        .gradient-blur {
+            position: fixed;
+            z-index: 40;
+            inset: 0 0 auto;
+            height: 12%;
+            pointer-events: none;
+        }
+
+        .gradient-blur > div,
+        .gradient-blur::before,
+        .gradient-blur::after {
+            position: absolute;
+            inset: 0;
+        }
+
+        .gradient-blur::before {
+            content: "";
+            z-index: 1;
+            backdrop-filter: blur(0.5px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 0%, rgb(0,0,0) 12.5%, rgb(0,0,0) 25%, rgba(0,0,0,0) 37.5%);
+        }
+
+        .gradient-blur > div:nth-of-type(1) {
+            z-index: 2;
+            backdrop-filter: blur(1px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 12.5%, rgb(0,0,0) 25%, rgb(0,0,0) 37.5%, rgba(0,0,0,0) 50%);
+        }
+
+        .gradient-blur > div:nth-of-type(2) {
+            z-index: 3;
+            backdrop-filter: blur(2px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 25%, rgb(0,0,0) 37.5%, rgb(0,0,0) 50%, rgba(0,0,0,0) 62.5%);
+        }
+
+        .gradient-blur > div:nth-of-type(3) {
+            z-index: 4;
+            backdrop-filter: blur(4px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 37.5%, rgb(0,0,0) 50%, rgb(0,0,0) 62.5%, rgba(0,0,0,0) 75%);
+        }
+
+        .gradient-blur > div:nth-of-type(4) {
+            z-index: 5;
+            backdrop-filter: blur(8px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 50%, rgb(0,0,0) 62.5%, rgb(0,0,0) 75%, rgba(0,0,0,0) 87.5%);
+        }
+
+        .gradient-blur > div:nth-of-type(5) {
+            z-index: 6;
+            backdrop-filter: blur(16px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 62.5%, rgb(0,0,0) 75%, rgb(0,0,0) 87.5%, rgba(0,0,0,0) 100%);
+        }
+
+        .gradient-blur > div:nth-of-type(6) {
+            z-index: 7;
+            backdrop-filter: blur(32px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 75%, rgb(0,0,0) 87.5%, rgb(0,0,0) 100%);
+        }
+
+        .gradient-blur::after {
+            content: "";
+            z-index: 8;
+            backdrop-filter: blur(64px);
+            mask: linear-gradient(to top, rgba(0,0,0,0) 87.5%, rgb(0,0,0) 100%);
+        }
+
+        /* Reveal Text Animation */
+        .word-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            padding-bottom: 0.1em;
+            margin-bottom: -0.1em;
+        }
+
+        .word-inner {
+            display: inline-block;
+            transform: translateY(120%);
+        }
+
+        /* Border Gradient Effect */
+        .border-gradient {
+            position: relative;
+        }
+
+        .border-gradient::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            mask: linear-gradient(#fff 0, #fff 0) content-box exclude,
+                  linear-gradient(#fff 0, #fff 0);
+            background: linear-gradient(225deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.4) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgb(228, 228, 231); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgb(212, 212, 216); }
+
+        /* Hide scrollbar for horizontal scroll */
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+
+<body class="bg-white text-zinc-900 antialiased font-sans selection:bg-zinc-200 selection:text-black">
+
+    <!-- Progressive Blur -->
+    <div class="gradient-blur">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/50 border-b border-zinc-100/50 backdrop-blur-[2px]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <iconify-icon icon="solar:shield-keyhole-linear" class="text-2xl text-zinc-900"></iconify-icon>
+                <span class="text-lg font-medium tracking-tighter">AMJ Ingeniería</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500">
+                <a href="index.html" class="hover:text-black transition-colors">Inicio</a>
+                <a href="index.html#servicios" class="hover:text-black transition-colors">Servicios</a>
+                <a href="productos.html" class="text-black transition-colors">Productos</a>
+                <a href="#contacto" class="hover:text-black transition-colors">Contacto</a>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-medium">
+                <span class="text-zinc-400 hidden sm:block">ES</span>
+                <a href="#contacto" class="bg-zinc-900 text-white px-5 py-2.5 rounded-full hover:bg-zinc-800 transition-colors">
+                    Demo Gratis
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 max-w-7xl mx-auto px-6">
+        <!-- Status Tag -->
+        <div class="flex items-center gap-2 mb-8">
+            <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+            <span class="text-xs font-medium tracking-wide text-zinc-500 uppercase">Partner Certificado</span>
+        </div>
+
+        <!-- Product Name -->
+        <h1 class="reveal-text text-7xl md:text-9xl font-light tracking-tight leading-[0.9] mb-2">
+            Bitdefender
+        </h1>
+        <h1 class="font-serif italic font-normal text-zinc-400 text-7xl md:text-9xl tracking-tight leading-[0.9]">
+            <span class="reveal-text">GravityZone</span>
+        </h1>
+
+        <!-- Tagline -->
+        <p class="text-xl text-zinc-500 font-light mt-8 max-w-xl">
+            Protección endpoint de clase mundial. Distribuido por AMJ Ingeniería en Chile.
+        </p>
+
+        <!-- Stat Pills -->
+        <div class="flex flex-wrap gap-3 mt-10">
+            <span class="border border-zinc-200 rounded-full px-4 py-2 text-sm text-zinc-600 font-medium">100% MITRE</span>
+            <span class="border border-zinc-200 rounded-full px-4 py-2 text-sm text-zinc-600 font-medium">500M+ Endpoints</span>
+            <span class="border border-zinc-200 rounded-full px-4 py-2 text-sm text-zinc-600 font-medium">#1 AV-Test</span>
+            <span class="border border-zinc-200 rounded-full px-4 py-2 text-sm text-green-600 font-medium">24/7</span>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-10">
+            <a href="#contacto" class="inline-flex items-center gap-2 bg-zinc-900 text-white px-8 py-3.5 rounded-full text-sm font-medium hover:bg-zinc-800 transition-colors">
+                Solicitar Demo
+                <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+            </a>
+        </div>
+    </header>
+
+    <!-- Console Section -->
+    <section class="py-24 max-w-7xl mx-auto px-6">
+        <!-- Section Title -->
+        <div class="mb-12">
+            <h2 class="reveal-text font-serif italic text-4xl text-zinc-900">Consola</h2>
+            <h2 class="reveal-text text-4xl font-light tracking-tight text-zinc-400">Centralizada</h2>
+        </div>
+
+        <!-- Dashboard Card -->
+        <div class="relative bg-zinc-900 rounded-[2rem] overflow-hidden">
+            <div class="w-full flex flex-col">
+                <!-- Window Chrome -->
+                <div class="flex items-center gap-2 px-6 py-4 border-b border-zinc-800">
+                    <div class="w-3 h-3 rounded-full bg-zinc-700"></div>
+                    <div class="w-3 h-3 rounded-full bg-zinc-700"></div>
+                    <div class="w-3 h-3 rounded-full bg-zinc-700"></div>
+                    <span class="ml-4 text-xs text-zinc-500 font-medium">GravityZone Console</span>
+                </div>
+                <div class="flex overflow-hidden">
+                    <!-- Sidebar -->
+                    <div class="w-16 md:w-48 border-r border-zinc-800 p-4 hidden sm:flex flex-col gap-4">
+                        <div class="flex items-center gap-3 text-white text-sm px-2 py-2 bg-zinc-800 rounded-lg">
+                            <iconify-icon icon="solar:chart-square-bold-duotone" width="18"></iconify-icon>
+                            <span class="hidden md:inline">Dashboard</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-zinc-500 text-sm px-2 py-2">
+                            <iconify-icon icon="solar:shield-check-bold-duotone" width="18"></iconify-icon>
+                            <span class="hidden md:inline">Protección</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-zinc-500 text-sm px-2 py-2">
+                            <iconify-icon icon="solar:monitor-bold-duotone" width="18"></iconify-icon>
+                            <span class="hidden md:inline">Endpoints</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-zinc-500 text-sm px-2 py-2">
+                            <iconify-icon icon="solar:document-bold-duotone" width="18"></iconify-icon>
+                            <span class="hidden md:inline">Reportes</span>
+                        </div>
+                    </div>
+                    <!-- Main Content -->
+                    <div class="flex-1 p-6">
+                        <!-- Stat Cards -->
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="bg-zinc-800 rounded-xl p-4">
+                                <p class="text-zinc-500 text-xs mb-1">Endpoints Activos</p>
+                                <p class="text-white text-2xl font-light">847</p>
+                                <p class="text-green-400 text-xs mt-1">+12 esta semana</p>
+                            </div>
+                            <div class="bg-zinc-800 rounded-xl p-4">
+                                <p class="text-zinc-500 text-xs mb-1">Amenazas Bloqueadas</p>
+                                <p class="text-white text-2xl font-light">2,341</p>
+                                <p class="text-green-400 text-xs mt-1">100% detectadas</p>
+                            </div>
+                            <div class="bg-zinc-800 rounded-xl p-4">
+                                <p class="text-zinc-500 text-xs mb-1">Score de Riesgo</p>
+                                <p class="text-white text-2xl font-light">94<span class="text-sm text-zinc-500">/100</span></p>
+                                <p class="text-green-400 text-xs mt-1">Excelente</p>
+                            </div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="bg-zinc-800 rounded-xl p-4 mb-4 h-48 flex flex-col">
+                            <p class="text-zinc-500 text-xs mb-4">Actividad de Amenazas — Últimos 30 días</p>
+                            <div class="flex-1 flex items-end gap-1.5">
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 30%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 45%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 25%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 60%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 35%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 80%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 50%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 40%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 65%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 30%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 55%"></div>
+                                <div class="flex-1 bg-zinc-700 rounded-sm" style="height: 70%"></div>
+                                <div class="flex-1 bg-zinc-600 rounded-sm" style="height: 20%"></div>
+                                <div class="flex-1 bg-zinc-600 rounded-sm" style="height: 15%"></div>
+                            </div>
+                        </div>
+                        <!-- Threat Notification -->
+                        <div class="bg-zinc-800 rounded-xl p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-green-400/10 rounded-full flex items-center justify-center">
+                                    <iconify-icon icon="solar:shield-check-bold-duotone" class="text-green-400" width="16"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-white text-sm">Todos los endpoints protegidos</p>
+                                    <p class="text-zinc-500 text-xs">Última verificación: hace 2 min</p>
+                                </div>
+                            </div>
+                            <span class="text-green-400 text-xs font-medium bg-green-400/10 px-3 py-1 rounded-full">Seguro</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Overlay with Description -->
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-900 via-zinc-900/90 to-transparent p-8 md:p-12 pt-24">
+                <div class="flex flex-col md:flex-row items-end justify-between gap-6">
+                    <p class="text-zinc-400 text-lg font-light max-w-lg">
+                        Visibilidad completa de tu infraestructura en una única consola cloud. Políticas unificadas y respuesta automatizada.
+                    </p>
+                    <a href="#contacto" class="group flex items-center gap-3 border border-zinc-700 rounded-full pl-6 pr-2 py-2 hover:border-zinc-500 transition-colors">
+                        <span class="text-sm font-medium text-white">Ver Demo</span>
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black group-hover:rotate-45 transition-transform">
+                            <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-32 max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row gap-12">
+            <!-- Left Title -->
+            <div class="md:w-48 flex-shrink-0">
+                <h3 class="reveal-text font-serif italic text-3xl text-zinc-400 md:sticky md:top-32">Capacidades</h3>
+            </div>
+
+            <!-- Scrollable Cards -->
+            <div class="flex-1 overflow-hidden">
+                <div class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scroll-hide">
+                    <!-- Card 1: Protección Multi-capa -->
+                    <div class="min-w-[300px] md:min-w-[340px] h-[420px] bg-zinc-50 rounded-[2rem] p-8 snap-start flex-shrink-0 flex flex-col">
+                        <div class="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                            <iconify-icon icon="solar:layers-bold-duotone" width="24"></iconify-icon>
+                        </div>
+                        <h4 class="font-serif italic text-2xl text-zinc-900 mt-6 mb-3">Protección Multi-capa</h4>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed flex-1">
+                            Motor de detección con machine learning, análisis heurístico avanzado y protección contra amenazas de día cero. Múltiples capas trabajando en conjunto para una defensa integral.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-6">
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Machine Learning</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Zero-Day</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Heurístico</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Anti-Ransomware -->
+                    <div class="min-w-[300px] md:min-w-[340px] h-[420px] bg-zinc-50 rounded-[2rem] p-8 snap-start flex-shrink-0 flex flex-col">
+                        <div class="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                            <iconify-icon icon="solar:shield-check-bold-duotone" width="24"></iconify-icon>
+                        </div>
+                        <h4 class="font-serif italic text-2xl text-zinc-900 mt-6 mb-3">Anti-Ransomware</h4>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed flex-1">
+                            Protección proactiva contra ransomware con rollback automático de archivos cifrados. Copias de seguridad en tiempo real y mitigación instantánea ante ataques.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-6">
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Rollback</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Backup Automático</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Mitigación</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Defensa de Red -->
+                    <div class="min-w-[300px] md:min-w-[340px] h-[420px] bg-zinc-50 rounded-[2rem] p-8 snap-start flex-shrink-0 flex flex-col">
+                        <div class="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                            <iconify-icon icon="solar:lock-keyhole-bold-duotone" width="24"></iconify-icon>
+                        </div>
+                        <h4 class="font-serif italic text-2xl text-zinc-900 mt-6 mb-3">Defensa de Red</h4>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed flex-1">
+                            Protección a nivel de red contra ataques antes de que lleguen a los endpoints. Firewall inteligente, detección de intrusiones y control granular de tráfico.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-6">
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Firewall</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">IDS/IPS</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Control de Tráfico</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Gestión de Riesgos -->
+                    <div class="min-w-[300px] md:min-w-[340px] h-[420px] bg-zinc-50 rounded-[2rem] p-8 snap-start flex-shrink-0 flex flex-col">
+                        <div class="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                            <iconify-icon icon="solar:graph-up-bold-duotone" width="24"></iconify-icon>
+                        </div>
+                        <h4 class="font-serif italic text-2xl text-zinc-900 mt-6 mb-3">Gestión de Riesgos</h4>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed flex-1">
+                            Análisis continuo de riesgos con scoring automatizado, evaluación de vulnerabilidades y recomendaciones de hardening para cumplimiento normativo.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-6">
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Scoring</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Vulnerabilidades</span>
+                            <span class="border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-400">Compliance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Marquee -->
+    <section class="border-y border-zinc-100 bg-zinc-50/50 py-12 overflow-hidden">
+        <div class="flex w-full overflow-hidden">
+            <div class="flex animate-marquee whitespace-nowrap gap-16 md:gap-32 items-center min-w-full">
+                <!-- Set 1 -->
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:cup-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">AV-TEST Best Protection</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:medal-ribbons-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">MITRE ATT&amp;CK 100%</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:verified-check-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">AV-Comparatives #1</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:shield-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">IDC MarketScape Leader</span>
+                </div>
+                <!-- Set 2 (duplicate for seamless loop) -->
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:cup-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">AV-TEST Best Protection</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:medal-ribbons-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">MITRE ATT&amp;CK 100%</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:verified-check-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">AV-Comparatives #1</span>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <iconify-icon icon="solar:shield-star-bold-duotone" width="28"></iconify-icon>
+                    <span class="text-sm font-medium">IDC MarketScape Leader</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section id="planes" class="py-32 max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+            <h3 class="reveal-text font-serif italic text-4xl text-zinc-900 mb-6">Planes</h3>
+            <p class="text-zinc-500 font-light text-lg">Elige tu nivel de protección. Todos incluyen consola centralizada en la nube.</p>
+        </div>
+
+        <!-- Tier Rows -->
+        <div class="border-t border-zinc-100 max-w-3xl mx-auto">
+            <!-- Business Security -->
+            <a href="#contacto" class="group py-8 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors border-b border-zinc-100 px-4">
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-zinc-400 mb-1">Esencial</p>
+                    <h4 class="font-serif italic text-2xl text-zinc-900">Business Security</h4>
+                    <p class="text-zinc-500 text-sm mt-1">Antimalware, firewall y control de dispositivos.</p>
+                </div>
+                <div class="w-10 h-10 border border-zinc-200 rounded-full flex items-center justify-center group-hover:border-zinc-900 transition-colors flex-shrink-0 ml-4">
+                    <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </div>
+            </a>
+
+            <!-- Business Security Premium -->
+            <a href="#contacto" class="group py-8 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors border-b border-zinc-100 px-4">
+                <div>
+                    <div class="flex items-center gap-3 mb-1">
+                        <p class="text-xs uppercase tracking-widest text-zinc-400">Avanzado</p>
+                        <span class="text-xs bg-green-400 text-black px-2 py-0.5 rounded-full font-medium">Popular</span>
+                    </div>
+                    <h4 class="font-serif italic text-2xl text-zinc-900">Business Security Premium</h4>
+                    <p class="text-zinc-500 text-sm mt-1">Todo lo esencial + EDR, sandbox y patch management.</p>
+                </div>
+                <div class="w-10 h-10 border border-zinc-200 rounded-full flex items-center justify-center group-hover:border-zinc-900 transition-colors flex-shrink-0 ml-4">
+                    <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </div>
+            </a>
+
+            <!-- Business Security Enterprise -->
+            <a href="#contacto" class="group py-8 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors border-b border-zinc-100 px-4">
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-zinc-400 mb-1">Máximo</p>
+                    <h4 class="font-serif italic text-2xl text-zinc-900">Business Security Enterprise</h4>
+                    <p class="text-zinc-500 text-sm mt-1">Todo Premium + XDR, HyperDetect y análisis de riesgos avanzado.</p>
+                </div>
+                <div class="w-10 h-10 border border-zinc-200 rounded-full flex items-center justify-center group-hover:border-zinc-900 transition-colors flex-shrink-0 ml-4">
+                    <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </div>
+            </a>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-12">
+            <a href="#contacto" class="inline-flex items-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-full text-sm font-medium hover:bg-zinc-800 transition-colors">
+                Solicitar Demo
+                <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+            </a>
+        </div>
+
+        <!-- Add-ons -->
+        <div class="text-center mt-8">
+            <p class="text-zinc-400 text-sm font-light">Add-ons disponibles: Email Security &middot; Patch Management &middot; Full Disk Encryption &middot; Security for Mobile</p>
+        </div>
+    </section>
+
+    <!-- Why AMJ Section -->
+    <section class="py-24 max-w-7xl mx-auto px-6">
+        <div class="bg-zinc-50 rounded-[2rem] p-8 md:p-12">
+            <h3 class="reveal-text font-serif italic text-3xl text-zinc-900 mb-8">&iquest;Por Qué AMJ?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Partner Certificado -->
+                <div class="flex flex-col gap-3">
+                    <div class="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                        <iconify-icon icon="solar:shield-star-bold-duotone" width="20"></iconify-icon>
+                    </div>
+                    <h4 class="font-medium text-lg text-zinc-900">Partner Certificado</h4>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed">Distribuidores oficiales de Bitdefender en Chile con certificaciones y respaldo directo del fabricante.</p>
+                </div>
+                <!-- Soporte Local -->
+                <div class="flex flex-col gap-3">
+                    <div class="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                        <iconify-icon icon="solar:map-point-bold-duotone" width="20"></iconify-icon>
+                    </div>
+                    <h4 class="font-medium text-lg text-zinc-900">Soporte Local</h4>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed">Equipo técnico en Chile con +15 años de experiencia. Soporte en español, en tu zona horaria.</p>
+                </div>
+                <!-- Acompañamiento Continuo -->
+                <div class="flex flex-col gap-3">
+                    <div class="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center text-white">
+                        <iconify-icon icon="solar:headphones-round-bold-duotone" width="20"></iconify-icon>
+                    </div>
+                    <h4 class="font-medium text-lg text-zinc-900">Acompañamiento Continuo</h4>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed">Implementación, configuración, capacitación y monitoreo continuo de tu plataforma de seguridad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-zinc-950 text-white rounded-t-[3rem] overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6 py-24 relative z-10">
+            <!-- Top -->
+            <div class="flex flex-col md:flex-row justify-between items-center border-b border-white/10 pb-8 mb-16 gap-6">
+                <div class="flex items-center gap-2">
+                    <iconify-icon icon="solar:shield-keyhole-linear" class="text-2xl text-white"></iconify-icon>
+                    <span class="text-lg font-medium tracking-tighter italic font-serif">AMJ Ingeniería</span>
+                </div>
+                <div class="flex gap-8 text-xs text-zinc-500 uppercase tracking-widest">
+                    <span>Confianza</span>
+                    <span class="text-zinc-700">//</span>
+                    <span>Seguridad</span>
+                    <span class="text-zinc-700">//</span>
+                    <span>Innovación</span>
+                </div>
+                <a href="index.html#servicios" class="text-sm font-medium hover:text-zinc-300 transition-colors">Menú</a>
+            </div>
+
+            <!-- Large CTA -->
+            <div class="text-center mb-24">
+                <p class="font-serif italic text-3xl mb-4 text-zinc-300">/ Contáctanos</p>
+                <a href="mailto:ventas@amjingenieria.cl" class="reveal-text text-4xl sm:text-5xl md:text-8xl font-light tracking-tighter hover:text-zinc-300 transition-colors inline-block break-all md:break-normal">
+                    ventas@amjingenieria.cl
+                </a>
+            </div>
+
+            <!-- Bottom Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-xs text-zinc-500">
+                <div>
+                    <p class="mb-1 text-white">Todos los derechos reservados.</p>
+                    <p>&copy;2024 AMJ Ingeniería</p>
+                </div>
+                <div class="md:text-center">
+                    <p>Nueva Tajamar 481, T Norte, Of 303, Las Condes</p>
+                    <p>+569 4524 1309</p>
+                </div>
+                <div class="flex md:justify-end gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">Política de Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Split text into word spans for reveal animation
+            const splitTextElements = document.querySelectorAll(".reveal-text");
+
+            splitTextElements.forEach((element) => {
+                if (element.children.length === 0) {
+                    const text = element.innerText;
+                    const words = text.split(" ");
+                    element.innerHTML = words.map(word =>
+                        `<span class="word-wrapper"><span class="word-inner">${word}&nbsp;</span></span>`
+                    ).join("");
+                } else {
+                    const wrapper = document.createElement("span");
+                    wrapper.className = "word-wrapper";
+                    const inner = document.createElement("span");
+                    inner.className = "word-inner";
+                    inner.innerHTML = element.innerHTML;
+                    element.innerHTML = "";
+                    wrapper.appendChild(inner);
+                    element.appendChild(wrapper);
+                }
+            });
+
+            // Animate words sliding up into view
+            const reveals = document.querySelectorAll(".reveal-text");
+            reveals.forEach((section) => {
+                const words = section.querySelectorAll(".word-inner");
+                gsap.to(words, {
+                    y: 0,
+                    duration: 1,
+                    stagger: 0.05,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
