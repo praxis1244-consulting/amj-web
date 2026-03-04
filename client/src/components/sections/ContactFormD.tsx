@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createLeadSchema, type CreateLeadInput } from "@shared/schemas";
-import { useTRPC } from "@/lib/trpc";
+import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -12,12 +12,13 @@ import {
   Send,
 } from "lucide-react";
 
+const SITE_ID = import.meta.env.VITE_SITE_ID;
+
 /**
  * Variant D — "Dark Immersive" + Stepped form (C+D hybrid)
  * Full-width dark section with headline left, multi-step form right.
  */
 export default function ContactFormD() {
-  const trpc = useTRPC();
   const [step, setStep] = useState(0);
 
   const {
@@ -30,7 +31,20 @@ export default function ContactFormD() {
     resolver: zodResolver(createLeadSchema),
   });
 
-  const mutation = useMutation(trpc.leads.create.mutationOptions());
+  const mutation = useMutation({
+    mutationFn: async (input: CreateLeadInput) => {
+      const { error } = await supabase.from("leads").insert({
+        site_id: SITE_ID,
+        name: input.name,
+        email: input.email,
+        phone: input.phone ?? null,
+        notes: input.message ?? null,
+        source: "website",
+        custom_fields: input.company ? { company: input.company } : {},
+      });
+      if (error) throw new Error("No se pudo enviar el mensaje. Intenta de nuevo.");
+    },
+  });
 
   const onSubmit = (data: CreateLeadInput) => {
     if (step < 2) return;
