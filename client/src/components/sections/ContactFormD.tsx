@@ -12,8 +12,7 @@ import {
   Send,
 } from "lucide-react";
 
-const SITE_ID =
-  import.meta.env.VITE_SITE_ID || "c271ef9e-4751-4481-90fb-be03ab921592";
+const SITE_ID = "c271ef9e-4751-4481-90fb-be03ab921592";
 
 /**
  * Variant D — "Dark Immersive" + Stepped form (C+D hybrid)
@@ -48,7 +47,6 @@ export default function ContactFormD() {
   });
 
   const onSubmit = (data: CreateLeadInput) => {
-    if (step < 2) return;
     mutation.mutate(data, {
       onSuccess: () => reset(),
     });
@@ -65,10 +63,21 @@ export default function ContactFormD() {
       const valid = await trigger(["name", "email"]);
       if (!valid) return;
     }
+    mutation.reset();
     setStep((s) => Math.min(s + 1, 2));
   };
 
-  const prevStep = () => setStep((s) => Math.max(s - 1, 0));
+  const prevStep = () => {
+    mutation.reset();
+    setStep((s) => Math.max(s - 1, 0));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && step < 2) {
+      e.preventDefault();
+      nextStep();
+    }
+  };
 
   const inputClass =
     "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all";
@@ -91,7 +100,7 @@ export default function ContactFormD() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl" />
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 p-10 md:p-16 lg:p-20">
-          {/* Left — Headline (from D) */}
+          {/* Left — Headline */}
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-8">
               <div className="h-px flex-1 max-w-12 bg-gradient-to-r from-white/50 to-transparent" />
@@ -123,7 +132,7 @@ export default function ContactFormD() {
             </div>
           </div>
 
-          {/* Right — Stepped form (from C) */}
+          {/* Right — Stepped form */}
           <div className="flex flex-col justify-center">
             {mutation.isSuccess ? (
               <motion.div
@@ -140,7 +149,7 @@ export default function ContactFormD() {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
                 {/* Progress bar */}
                 <div className="flex items-center gap-2 mb-8">
                   {[0, 1, 2].map((i) => (
