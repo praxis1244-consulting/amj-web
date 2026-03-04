@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 import RevealText from "@/components/ui/RevealText";
 
 export default function SolutionsGrid() {
@@ -67,14 +68,14 @@ export default function SolutionsGrid() {
               Tu escudo digital completo. Desde endpoints hasta servidores,
               protegemos cada capa de tu infraestructura.
             </p>
-            <a href="#contacto" className="border-gradient rounded-full inline-block">
+            <Link href="/productos#planes" className="border-gradient rounded-full inline-block">
               <div className="flex justify-between items-center bg-white/10 backdrop-blur-md rounded-full p-1 pr-2 w-max gap-4 relative z-10">
-                <span className="text-white text-xs pl-4">Ver Servicios</span>
+                <span className="text-white text-xs pl-4">Ver Planes</span>
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black">
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
