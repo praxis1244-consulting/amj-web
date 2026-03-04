@@ -85,7 +85,7 @@ export default function ContactFormD() {
     "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all";
 
   return (
-    <section className="pb-24 px-4 md:px-6">
+    <section id="contacto" className="pb-24 px-4 md:px-6">
       <div className="max-w-7xl mx-auto bg-zinc-900 dark:bg-zinc-950 rounded-[2rem] overflow-hidden relative">
         {/* Subtle grid pattern */}
         <div
