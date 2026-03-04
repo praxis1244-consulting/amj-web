@@ -73,9 +73,9 @@ export default function ContactFormD() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && step < 2) {
+    if (e.key === "Enter" && e.target instanceof HTMLInputElement) {
       e.preventDefault();
-      nextStep();
+      if (step < 2) nextStep();
     }
   };
 
