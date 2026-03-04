@@ -17,7 +17,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/trpc": {
-        target: "http://localhost:3001",
+        target: "http://localhost:5174",
         changeOrigin: true,
       },
     },

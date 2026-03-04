@@ -8,7 +8,7 @@ import ServicesSection from "@/components/sections/ServicesSection";
 import LogoMarquee from "@/components/sections/LogoMarquee";
 import SolutionsGrid from "@/components/sections/SolutionsGrid";
 import ValuesSection from "@/components/sections/ValuesSection";
-import ContactForm from "@/components/sections/ContactForm";
+import ContactFormD from "@/components/sections/ContactFormD";
 
 export default function HomePage() {
   return (
@@ -23,7 +23,7 @@ export default function HomePage() {
         <LogoMarquee />
         <SolutionsGrid />
         <ValuesSection />
-        <ContactForm />
+        <ContactFormD />
       </main>
       <Footer />
     </>
