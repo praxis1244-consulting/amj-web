@@ -52,6 +52,15 @@ export default function ContactFormD() {
     });
   };
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (step < 2) {
+      nextStep();
+    } else {
+      handleSubmit(onSubmit)(e);
+    }
+  };
+
   const steps = [
     { title: "¿Cómo te llamas?", subtitle: "Empecemos con lo básico" },
     { title: "Sobre tu empresa", subtitle: "Opcional — nos ayuda a personalizar" },
@@ -70,13 +79,6 @@ export default function ContactFormD() {
   const prevStep = () => {
     mutation.reset();
     setStep((s) => Math.max(s - 1, 0));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && e.target instanceof HTMLInputElement) {
-      e.preventDefault();
-      if (step < 2) nextStep();
-    }
   };
 
   const inputClass =
@@ -149,7 +151,7 @@ export default function ContactFormD() {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
+              <form onSubmit={handleFormSubmit}>
                 {/* Progress bar */}
                 <div className="flex items-center gap-2 mb-8">
                   {[0, 1, 2].map((i) => (
