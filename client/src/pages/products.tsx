@@ -2,7 +2,6 @@ import ProgressiveBlur from "@/components/layout/ProgressiveBlur";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import ProductHeroSection from "@/components/sections/ProductHeroSection";
-import ConsoleDashboardSection from "@/components/sections/ConsoleDashboardSection";
 import FeaturesScrollSection from "@/components/sections/FeaturesScrollSection";
 import AwardsMarquee from "@/components/sections/AwardsMarquee";
 import PlansSection from "@/components/sections/PlansSection";
@@ -16,7 +15,6 @@ export default function ProductsPage() {
       <Nav />
       <main>
         <ProductHeroSection />
-        <ConsoleDashboardSection />
         <FeaturesScrollSection />
         <AwardsMarquee />
         <PlansSection />
