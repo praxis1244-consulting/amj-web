@@ -10,8 +10,8 @@ const serviceItems = [
     highlight: "Vulnerabilidades",
     points: [
       "Pentesting interno y externo",
-      "Escaneo de aplicaciones web",
-      "Reportes con plan de remediación",
+      "Revision de aplicaciones y activos expuestos",
+      "Reportes con plan de remediacion priorizado",
     ],
   },
   {
@@ -20,9 +20,9 @@ const serviceItems = [
     title: "Seguridad de",
     highlight: "Redes",
     points: [
-      "Firewall y segmentación de red",
-      "Detección y prevención de intrusiones",
-      "Monitoreo continuo de tráfico",
+      "Firewall, segmentacion y endurecimiento de red",
+      "Deteccion y prevencion de intrusiones",
+      "Visibilidad para reducir superficie de ataque",
     ],
   },
   {
@@ -31,9 +31,9 @@ const serviceItems = [
     title: "Evaluación de",
     highlight: "Riesgos",
     points: [
-      "Análisis de impacto y probabilidad",
-      "Cumplimiento normativo (ISO 27001, NIST)",
-      "Plan de mitigación priorizado",
+      "Analisis de impacto y probabilidad",
+      "Alineamiento con ISO 27001, NIST y controles internos",
+      "Hoja de ruta de mitigacion y continuidad",
     ],
   },
 ];
@@ -67,8 +67,9 @@ export default function ServicesSection() {
         </div>
         <div className="md:col-span-4 pl-4">
           <p className="text-zinc-500 dark:text-zinc-400 text-lg font-light leading-relaxed mb-8">
-            Protocolos avanzados, diseño de entornos seguros, revisión de
-            comportamiento de usuarios y protección de datos transaccionales.
+            Evaluamos brechas, priorizamos riesgos y recomendamos controles,
+            arquitectura y herramientas para proteger la operacion de tu
+            empresa.
           </p>
         </div>
       </div>

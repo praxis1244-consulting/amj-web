@@ -4,21 +4,21 @@ import RevealText from "@/components/ui/RevealText";
 const trustItems = [
   {
     icon: ShieldCheck,
-    title: "Partner Certificado",
+    title: "Consultoria antes de vender",
     description:
-      "Distribuidores oficiales de Bitdefender en Chile con certificaciones y respaldo directo del fabricante.",
+      "Primero entendemos riesgos, alcance y necesidades. Luego recomendamos la solucion que mejor encaja con tu operacion.",
   },
   {
     icon: MapPin,
-    title: "Soporte Local",
+    title: "Equipo local en Chile",
     description:
-      "Equipo técnico en Chile con +15 años de experiencia. Soporte en español, en tu zona horaria.",
+      "Trabajas con especialistas en tu mismo idioma y zona horaria para evaluar, implementar y resolver contingencias con rapidez.",
   },
   {
     icon: Headphones,
-    title: "Acompañamiento Continuo",
+    title: "Implementacion y acompanamiento",
     description:
-      "Implementación, configuración, capacitación y monitoreo continuo de tu plataforma de seguridad.",
+      "AMJ acompana el despliegue, la configuracion inicial y la adopcion operativa para que la plataforma entregue valor real.",
   },
 ];
 
@@ -27,7 +27,7 @@ export default function WhyAmjSection() {
     <section className="py-24 max-w-7xl mx-auto px-6">
       <div className="bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] p-8 md:p-12">
         <h3 className="font-serif text-3xl text-zinc-900 dark:text-zinc-100 mb-8">
-          <RevealText text="¿Por Qué AMJ?" />
+          <RevealText text="Por que implementar con AMJ" />
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {trustItems.map((item) => (

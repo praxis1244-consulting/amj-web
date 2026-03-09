@@ -44,7 +44,7 @@ export default function Nav() {
             href="#contacto"
             className="bg-zinc-900 text-white px-5 py-2.5 rounded-full hover:bg-zinc-800 transition-colors dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
-Evaluación Gratis
+            Solicita una asesoria
           </a>
         </div>
       </div>

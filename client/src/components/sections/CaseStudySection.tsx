@@ -5,7 +5,7 @@ export default function CaseStudySection() {
     <section id="casos" className="max-w-7xl mx-auto px-6 pb-32">
       <div className="flex justify-center mb-12">
         <h3 className="font-serif text-4xl text-zinc-900 dark:text-zinc-100">
-          <RevealText text="Caso de Éxito" />
+          <RevealText text="Escenario de Implementacion" />
         </h3>
       </div>
 
@@ -16,10 +16,10 @@ export default function CaseStudySection() {
             Resumen
           </button>
           <button className="text-zinc-400 hover:text-black dark:hover:text-white transition-colors">
-            Arquitectura
+            Alcance
           </button>
           <button className="text-zinc-400 hover:text-black dark:hover:text-white transition-colors">
-            Stack
+            Operacion
           </button>
         </div>
       </div>
@@ -34,7 +34,7 @@ export default function CaseStudySection() {
           />
           <div className="absolute top-6 right-6">
             <span className="bg-black/50 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-medium border border-white/10">
-              Proyecto: Defensa Corporativa
+              Referencia: Operacion corporativa
             </span>
           </div>
         </div>
@@ -58,12 +58,12 @@ export default function CaseStudySection() {
           </div>
           <div className="md:col-span-4 flex flex-col justify-center">
             <h4 className="font-medium text-lg mb-2">
-              <RevealText text="Defensa Corporativa Integral" />
+              <RevealText text="Despliegue de seguridad endpoint con acompanamiento local" />
             </h4>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
-              Implementamos una solución de seguridad de extremo a extremo para
-              una empresa con más de 500 endpoints, incluyendo detección
-              avanzada de amenazas, protección de red y monitoreo continuo.
+              Ejemplo de implementacion para una empresa con operacion
+              distribuida: evaluacion inicial, despliegue por etapas, definicion
+              de politicas y acompanamiento para operacion continua.
             </p>
           </div>
           <div className="md:col-span-5 flex items-center justify-between md:border-l border-zinc-200 dark:border-zinc-700 pt-4 md:pt-0 md:pl-8 border-t md:border-t-0">
@@ -75,15 +75,15 @@ export default function CaseStudySection() {
             </div>
             <div>
               <h5 className="font-serif text-base sm:text-xl md:text-3xl text-zinc-900 dark:text-zinc-100">
-                <RevealText text="99.9%" />
+                <RevealText text="500+" />
               </h5>
-              <p className="text-xs text-zinc-400 mt-1">Uptime</p>
+              <p className="text-xs text-zinc-400 mt-1">Endpoints</p>
             </div>
             <div>
               <h5 className="font-serif text-base sm:text-xl md:text-3xl text-zinc-900 dark:text-zinc-100">
                 <RevealText text="24/7" />
               </h5>
-              <p className="text-xs text-zinc-400 mt-1">Monitoreo</p>
+              <p className="text-xs text-zinc-400 mt-1">Operacion</p>
             </div>
           </div>
         </div>

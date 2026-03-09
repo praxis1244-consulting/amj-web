@@ -46,11 +46,11 @@ export default function PlansSection() {
     <section id="planes" className="py-32 max-w-7xl mx-auto px-6">
       <div className="text-center mb-16 max-w-2xl mx-auto">
         <h3 className="font-serif text-4xl text-zinc-900 dark:text-zinc-100 mb-6">
-          <RevealText text="Planes" />
+          <RevealText text="Planes GravityZone" />
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
-          Elige tu nivel de protección. Todos incluyen consola centralizada en
-          la nube.
+          Tres niveles para crecer desde proteccion base hasta capacidades EDR
+          y XDR, con evaluacion e implementacion guiada por AMJ.
         </p>
       </div>
 
@@ -122,7 +122,7 @@ export default function PlansSection() {
                   : "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200"
               }`}
             >
-              Solicitar Demo
+              Solicitar evaluacion
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -131,8 +131,9 @@ export default function PlansSection() {
 
       <div className="text-center mt-8">
         <p className="text-zinc-400 text-sm font-light">
-          Add-ons disponibles: Email Security &middot; Patch Management &middot;
-          Full Disk Encryption &middot; Security for Mobile
+          Modulos adicionales disponibles segun necesidad: Email Security
+          &middot; Patch Management &middot; Full Disk Encryption &middot;
+          Security for Mobile
         </p>
       </div>
     </section>

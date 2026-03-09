@@ -6,28 +6,28 @@ const features = [
     icon: Layers,
     title: "Protección Multi-capa",
     description:
-      "Motor de detección con machine learning, análisis heurístico avanzado y protección contra amenazas de día cero. Múltiples capas trabajando en conjunto para una defensa integral.",
+      "Combina deteccion por comportamiento, analisis heuristico y proteccion preventiva para reducir brechas antes de que se transformen en incidentes.",
     tags: ["Machine Learning", "Zero-Day", "Heurístico"],
   },
   {
     icon: ShieldCheck,
     title: "Anti-Ransomware",
     description:
-      "Protección proactiva contra ransomware con rollback automático de archivos cifrados. Copias de seguridad en tiempo real y mitigación instantánea ante ataques.",
+      "Detecta actividad sospechosa, bloquea cifrado malicioso y ayuda a contener el impacto antes de que un ataque detenga la operacion.",
     tags: ["Rollback", "Backup Automático", "Mitigación"],
   },
   {
     icon: Lock,
     title: "Defensa de Red",
     description:
-      "Protección a nivel de red contra ataques antes de que lleguen a los endpoints. Firewall inteligente, detección de intrusiones y control granular de tráfico.",
+      "Suma controles de red para frenar movimiento lateral, endurecer segmentos criticos y mejorar la visibilidad del trafico riesgoso.",
     tags: ["Firewall", "IDS/IPS", "Control de Tráfico"],
   },
   {
     icon: TrendingUp,
     title: "Gestión de Riesgos",
     description:
-      "Análisis continuo de riesgos con scoring automatizado, evaluación de vulnerabilidades y recomendaciones de hardening para cumplimiento normativo.",
+      "Prioriza brechas y configuraciones expuestas para que el equipo actue primero sobre lo que realmente compromete continuidad y cumplimiento.",
     tags: ["Scoring", "Vulnerabilidades", "Compliance"],
   },
 ];
@@ -39,6 +39,10 @@ export default function FeaturesScrollSection() {
         <h3 className="font-serif text-4xl text-zinc-900 dark:text-zinc-100 mb-6">
           <RevealText text="Capacidades" />
         </h3>
+        <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
+          Capacidades pensadas para reducir exposicion, contener incidentes y
+          darle visibilidad operativa al equipo.
+        </p>
       </div>
 
       <div>

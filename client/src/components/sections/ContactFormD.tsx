@@ -62,9 +62,9 @@ export default function ContactFormD() {
   };
 
   const steps = [
-    { title: "¿Cómo te llamas?", subtitle: "Empecemos con lo básico" },
-    { title: "Sobre tu empresa", subtitle: "Opcional — nos ayuda a personalizar" },
-    { title: "¿En qué podemos ayudarte?", subtitle: "Cuéntanos tu situación" },
+    { title: "Tu contacto", subtitle: "Empecemos con lo basico" },
+    { title: "Sobre tu empresa", subtitle: "Nos ayuda a entender el contexto" },
+    { title: "Que necesitas resolver", subtitle: "Cuéntanos tu situacion actual" },
   ];
 
   const nextStep = async () => {
@@ -107,19 +107,19 @@ export default function ContactFormD() {
             <div className="flex items-center gap-3 mb-8">
               <div className="h-px flex-1 max-w-12 bg-gradient-to-r from-white/50 to-transparent" />
               <p className="text-xs font-medium tracking-widest text-zinc-400 uppercase">
-                Evaluación Gratuita
+                Asesoria Gratuita
               </p>
             </div>
 
             <h3 className="text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.05] mb-6">
-              Protege tu
+              Conversemos sobre tu
               <br />
-              <span className="font-serif text-zinc-300">infraestructura</span>
+              <span className="font-serif text-zinc-300">entorno tecnologico</span>
             </h3>
 
             <p className="text-zinc-400 text-base leading-relaxed max-w-md mb-10">
-              Solicita una evaluación sin compromiso. Nuestros especialistas
-              analizarán tu entorno y te presentarán un plan de acción claro.
+              Cuentanos tu caso y coordinamos una primera revision para
+              entender riesgos, brechas y oportunidades de mejora.
             </p>
 
             <div className="flex items-center gap-6 text-sm">
@@ -129,7 +129,7 @@ export default function ContactFormD() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-400 rounded-full" />
-                <span className="text-zinc-400">Respuesta en 24h</span>
+                <span className="text-zinc-400">Respuesta inicial en 24h habiles</span>
               </div>
             </div>
           </div>
@@ -144,10 +144,10 @@ export default function ContactFormD() {
               >
                 <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-4" />
                 <p className="text-green-300 font-medium text-lg mb-1">
-                  Mensaje enviado
+                  Solicitud recibida
                 </p>
                 <p className="text-green-400 text-sm">
-                  Te contactaremos a la brevedad.
+                  Te contactaremos para coordinar una primera revision.
                 </p>
               </motion.div>
             ) : (
@@ -196,7 +196,7 @@ export default function ContactFormD() {
                         <div>
                           <input
                             {...register("name")}
-                            placeholder="Tu nombre completo"
+                            placeholder="Nombre y apellido"
                             className={inputClass}
                           />
                           {errors.name && (
@@ -209,7 +209,7 @@ export default function ContactFormD() {
                           <input
                             {...register("email")}
                             type="email"
-                            placeholder="tu@email.com"
+                            placeholder="correo@empresa.com"
                             className={inputClass}
                           />
                           {errors.email && (
@@ -225,12 +225,12 @@ export default function ContactFormD() {
                       <div className="space-y-4">
                         <input
                           {...register("company")}
-                          placeholder="Nombre de tu empresa"
+                          placeholder="Empresa"
                           className={inputClass}
                         />
                         <input
                           {...register("phone")}
-                          placeholder="Número de teléfono"
+                          placeholder="Telefono"
                           className={inputClass}
                         />
                       </div>
@@ -240,7 +240,7 @@ export default function ContactFormD() {
                       <div>
                         <textarea
                           {...register("message")}
-                          placeholder="Describe brevemente tu situación o lo que necesitas..."
+                          placeholder="Describe brevemente tu necesidad, problema actual o proyecto..."
                           rows={5}
                           className={`${inputClass} resize-none`}
                         />
@@ -289,7 +289,7 @@ export default function ContactFormD() {
                         "Enviando..."
                       ) : (
                         <>
-                          Enviar
+                          Solicitar asesoria
                           <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </>
                       )}

@@ -7,11 +7,12 @@ export default function SolutionsGrid() {
     <section id="servicios" className="max-w-7xl mx-auto px-6 py-32">
       <div className="text-center mb-16 max-w-2xl mx-auto">
         <h3 className="font-serif text-4xl text-zinc-900 dark:text-zinc-100 mb-6">
-          <RevealText text="Soluciones" />
+          <RevealText text="Soluciones para cada etapa" />
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
-          Soluciones integrales de ciberseguridad adaptadas a la realidad de tu
-          empresa.
+          Desde el diagnostico inicial hasta la operacion diaria, AMJ ayuda a
+          evaluar, implementar y sostener soluciones de tecnologia y
+          ciberseguridad.
         </p>
       </div>
 
@@ -29,7 +30,7 @@ export default function SolutionsGrid() {
               Consultoría
             </p>
             <h4 className="font-serif text-2xl">
-              Asesoría en Ciberseguridad
+              Diagnostico y estrategia de ciberseguridad
             </h4>
           </div>
         </div>
@@ -44,11 +45,9 @@ export default function SolutionsGrid() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
           <div className="absolute bottom-8 left-8 text-white">
             <p className="text-xs uppercase tracking-widest text-zinc-300 mb-2">
-              Software
+              Implementacion
             </p>
-            <h4 className="font-serif text-2xl">
-              Software de Seguridad
-            </h4>
+            <h4 className="font-serif text-2xl">Plataformas de seguridad y control</h4>
           </div>
         </div>
 
@@ -62,15 +61,16 @@ export default function SolutionsGrid() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 p-12 w-full md:w-1/2">
             <h4 className="font-serif text-4xl text-white mb-4">
-              Protección Empresarial Integral
+              Soluciones que se implementan y se operan
             </h4>
             <p className="text-zinc-300 font-light mb-8">
-              Tu escudo digital completo. Desde endpoints hasta servidores,
-              protegemos cada capa de tu infraestructura.
+              Te ayudamos a elegir, desplegar y operar soluciones para
+              endpoints, redes, correo y continuidad sin dejar a tu equipo solo
+              despues de la compra.
             </p>
             <Link href="/productos#planes" className="border-gradient rounded-full inline-block">
               <div className="flex justify-between items-center bg-white/10 backdrop-blur-md rounded-full p-1 pr-2 w-max gap-4 relative z-10">
-                <span className="text-white text-xs pl-4">Ver Planes</span>
+                <span className="text-white text-xs pl-4">Ver soluciones</span>
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black">
                   <ArrowRight className="w-4 h-4" />
                 </div>

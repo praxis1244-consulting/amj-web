@@ -11,8 +11,8 @@ import ContactFormD from "@/components/sections/ContactFormD";
 
 export default function ProductsPage() {
   useEffect(() => {
-    document.title = "Bitdefender GravityZone — AMJ Ingeniería";
-    return () => { document.title = "AMJ Ingeniería — Ciberseguridad Empresarial"; };
+    document.title = "Bitdefender GravityZone con soporte local — AMJ Ingeniería";
+    return () => { document.title = "AMJ Ingeniería — Consultoria y Ciberseguridad para Empresas"; };
   }, []);
   return (
     <>

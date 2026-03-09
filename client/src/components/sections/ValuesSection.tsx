@@ -4,21 +4,21 @@ import RevealText from "@/components/ui/RevealText";
 const values = [
   {
     icon: ShieldCheck,
-    title: "Confianza",
+    title: "Equipo certificado",
     description:
-      "Protege lo que más te importa. Nuestros clientes confían en nosotros porque entregamos resultados medibles y una seguridad que se siente.",
+      "Especialistas con experiencia en evaluacion, implementacion y operacion de soluciones de seguridad para empresas.",
   },
   {
     icon: Users,
-    title: "Cercanía",
+    title: "Acompanamiento local",
     description:
-      "A tu lado, siempre que lo necesites. Te acompañamos paso a paso con soporte dedicado y un equipo que entiende tu negocio.",
+      "Trabajamos en tu mismo idioma y zona horaria para acompanarte desde el diagnostico hasta la operacion diaria.",
   },
   {
     icon: Zap,
-    title: "Innovación",
+    title: "Soluciones aplicadas",
     description:
-      "Tecnología de punta al servicio de tu tranquilidad. Equipo certificado y en constante actualización para mantenerte un paso adelante.",
+      "No recomendamos tecnologia por moda. Priorizamos herramientas y controles que respondan a riesgos concretos del negocio.",
   },
 ];
 
@@ -27,7 +27,7 @@ export default function ValuesSection() {
     <section className="max-w-7xl mx-auto px-6 pb-32">
       <div className="text-center mb-16">
         <h3 className="font-serif text-4xl text-zinc-900 dark:text-zinc-100">
-          <RevealText text="Nuestros Valores" />
+          <RevealText text="Por que las empresas trabajan con AMJ" />
         </h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

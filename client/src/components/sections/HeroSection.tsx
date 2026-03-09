@@ -21,11 +21,11 @@ export default function HeroSection() {
           <div className="flex justify-between items-start">
             <p className="text-xs font-medium tracking-wide opacity-80 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-              SISTEMAS PROTEGIDOS
+              EMPRESAS E INSTITUCIONES
             </p>
             <div className="flex gap-2">
               <span className="border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-medium">
-                Ciberseguridad Empresarial
+                Consultoria e Implementacion TI
               </span>
             </div>
           </div>
@@ -33,11 +33,18 @@ export default function HeroSection() {
           {/* Title */}
           <div className="mt-auto mb-12">
             <h1 className="text-[2.75rem] sm:text-6xl md:text-8xl font-light tracking-tight leading-[0.9]">
-              <RevealText text="Seguridad Digital" />
+              <span className="block">
+                <RevealText text="Consultoria y ciberseguridad" />
+              </span>
+              <span className="block font-serif font-normal text-zinc-200 mt-2">
+                <RevealText text="para operar con menos riesgo" />
+              </span>
             </h1>
-            <h1 className="font-serif font-normal text-zinc-200 text-[2.75rem] sm:text-6xl md:text-8xl mt-2 tracking-tight">
-              <RevealText text="—Garantizada" />
-            </h1>
+            <p className="mt-6 max-w-2xl text-base sm:text-lg text-zinc-200/85 leading-relaxed">
+              Evaluamos tu entorno, definimos prioridades e implementamos
+              soluciones de seguridad y tecnologia con acompanamiento experto en
+              Chile.
+            </p>
           </div>
 
           {/* Bottom Filter Bar */}
@@ -48,26 +55,24 @@ export default function HeroSection() {
                 <p className="text-sm font-medium">+15 Años</p>
               </div>
               <div className="border-r border-white/10 px-4 py-2 hidden md:block">
-                <p className="text-zinc-400 text-xs mb-1">Malware Detectados</p>
-                <p className="text-sm font-medium">+9.899</p>
+                <p className="text-zinc-400 text-xs mb-1">Servicio</p>
+                <p className="text-sm font-medium">Consultoria + Implementacion</p>
               </div>
               <div className="border-r border-white/10 px-4 py-2 hidden md:block">
-                <p className="text-zinc-400 text-xs mb-1">
-                  Antivirus Instalados
-                </p>
-                <p className="text-sm font-medium">+3.269</p>
+                <p className="text-zinc-400 text-xs mb-1">Soporte</p>
+                <p className="text-sm font-medium">Local en Chile</p>
               </div>
               <div className="px-4 py-2 hidden md:block">
                 <p className="text-zinc-400 text-xs mb-1">Equipo</p>
                 <p className="text-sm font-medium text-green-400">
-                  25+ Años Exp.
+                  Especialistas certificados
                 </p>
               </div>
               <a
                 href="#contacto"
                 className="bg-white text-black h-12 rounded-full flex items-center justify-between px-6 hover:bg-zinc-200 transition-colors w-full md:w-auto"
               >
-                <span className="text-sm font-medium">Demo Gratis</span>
+                <span className="text-sm font-medium">Solicita una asesoria</span>
                 <ArrowRight className="ml-2 w-4 h-4" />
               </a>
             </div>

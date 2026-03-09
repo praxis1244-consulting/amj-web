@@ -35,7 +35,11 @@ export default function Footer() {
         {/* Large CTA */}
         <div className="text-center mb-24">
           <p className="font-serif text-3xl mb-4 text-zinc-300">
-            / Contáctanos
+            / Hablemos de tu operacion
+          </p>
+          <p className="text-zinc-500 text-sm mb-6 max-w-xl mx-auto">
+            Escribenos y coordinamos una primera conversacion para revisar tu
+            contexto, necesidades y proximos pasos.
           </p>
           <a
             href="mailto:ventas@amjingenieria.cl"
