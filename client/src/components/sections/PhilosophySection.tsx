@@ -10,7 +10,7 @@ export default function PhilosophySection() {
         </h3>
       </div>
       <div className="md:col-span-9">
-        <h2 className="text-4xl md:text-5xl font-light tracking-tight leading-tight mb-8">
+        <h2 className="text-3xl md:text-5xl font-light tracking-tight leading-tight mb-8">
           <span className="block">
             <RevealText text="Protegemos la infraestructura digital" />
           </span>

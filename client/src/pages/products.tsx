@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ProgressiveBlur from "@/components/layout/ProgressiveBlur";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
@@ -9,6 +10,10 @@ import WhyAmjSection from "@/components/sections/WhyAmjSection";
 import ContactFormD from "@/components/sections/ContactFormD";
 
 export default function ProductsPage() {
+  useEffect(() => {
+    document.title = "Bitdefender GravityZone — AMJ Ingeniería";
+    return () => { document.title = "AMJ Ingeniería — Ciberseguridad Empresarial"; };
+  }, []);
   return (
     <>
       <ProgressiveBlur />

@@ -17,7 +17,7 @@ export default function Footer() {
               AMJ Ingeniería
             </span>
           </div>
-          <div className="flex gap-8 text-xs text-zinc-500 uppercase tracking-widest">
+          <div className="flex gap-4 sm:gap-8 text-xs text-zinc-500 uppercase tracking-wider sm:tracking-widest">
             <span>Confianza</span>
             <span className="text-zinc-700">//</span>
             <span>Seguridad</span>
@@ -25,10 +25,10 @@ export default function Footer() {
             <span>Innovación</span>
           </div>
           <Link
-            href="/#servicios"
+            href="/productos"
             className="text-sm font-medium hover:text-zinc-300 transition-colors"
           >
-            Menú
+            Productos
           </Link>
         </div>
 
@@ -49,21 +49,24 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-xs text-zinc-500">
           <div>
             <p className="mb-1 text-white">Todos los derechos reservados.</p>
-            <p>&copy;2024 AMJ Ingeniería</p>
+            <p>&copy;2026 AMJ Ingeniería</p>
           </div>
           <div className="md:text-center">
             <p>Nueva Tajamar 481, T Norte, Of 303, Las Condes</p>
             <p>+569 4524 1309</p>
           </div>
           <div className="flex md:justify-end gap-6">
-            <a href="#" className="hover:text-white transition-colors">
-              Facebook
+            <a
+              href="mailto:ventas@amjingenieria.cl"
+              className="hover:text-white transition-colors"
+            >
+              Email
             </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Instagram
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Política de Privacidad
+            <a
+              href="tel:+56945241309"
+              className="hover:text-white transition-colors"
+            >
+              Teléfono
             </a>
           </div>
         </div>

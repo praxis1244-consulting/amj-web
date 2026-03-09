@@ -32,10 +32,10 @@ export default function HeroSection() {
 
           {/* Title */}
           <div className="mt-auto mb-12">
-            <h1 className="text-6xl md:text-8xl font-light tracking-tight leading-[0.9]">
+            <h1 className="text-[2.75rem] sm:text-6xl md:text-8xl font-light tracking-tight leading-[0.9]">
               <RevealText text="Seguridad Digital" />
             </h1>
-            <h1 className="font-serif font-normal text-zinc-200 text-6xl md:text-8xl mt-2 tracking-tight">
+            <h1 className="font-serif font-normal text-zinc-200 text-[2.75rem] sm:text-6xl md:text-8xl mt-2 tracking-tight">
               <RevealText text="—Garantizada" />
             </h1>
           </div>

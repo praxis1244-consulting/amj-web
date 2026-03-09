@@ -20,10 +20,10 @@ export default function ProductHeroSection() {
       </div>
 
       {/* Product Name */}
-      <h1 className="text-5xl md:text-7xl lg:text-9xl font-light tracking-tight leading-[0.9] mb-2">
+      <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-light tracking-tight leading-[0.9] mb-2">
         <RevealText text="Bitdefender" />
       </h1>
-      <h1 className="font-serif font-normal text-zinc-400 dark:text-zinc-500 text-5xl md:text-7xl lg:text-9xl tracking-tight leading-[0.9]">
+      <h1 className="font-serif font-normal text-zinc-400 dark:text-zinc-500 text-4xl sm:text-5xl md:text-7xl lg:text-9xl tracking-tight leading-[0.9]">
         <RevealText text="GravityZone" />
       </h1>
 

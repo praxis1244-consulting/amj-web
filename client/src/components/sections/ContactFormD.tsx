@@ -101,7 +101,7 @@ export default function ContactFormD() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl" />
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 p-10 md:p-16 lg:p-20">
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 p-6 md:p-16 lg:p-20">
           {/* Left — Headline */}
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-8">
@@ -111,7 +111,7 @@ export default function ContactFormD() {
               </p>
             </div>
 
-            <h3 className="text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.05] mb-6">
+            <h3 className="text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.05] mb-6">
               Protege tu
               <br />
               <span className="font-serif text-zinc-300">infraestructura</span>

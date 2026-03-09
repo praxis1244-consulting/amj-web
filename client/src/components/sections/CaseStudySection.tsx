@@ -41,8 +41,8 @@ export default function CaseStudySection() {
 
         {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-4 pb-4">
-          <div className="md:col-span-3">
-            <div className="border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 rounded-xl h-40 flex items-center justify-center">
+          <div className="hidden md:flex md:col-span-3">
+            <div className="border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 rounded-xl h-40 w-full flex items-center justify-center">
               <svg
                 className="w-16 h-16 text-zinc-300"
                 fill="none"
@@ -66,21 +66,21 @@ export default function CaseStudySection() {
               avanzada de amenazas, protección de red y monitoreo continuo.
             </p>
           </div>
-          <div className="md:col-span-5 flex items-center justify-between border-l border-zinc-200 dark:border-zinc-700 pl-8">
+          <div className="md:col-span-5 flex items-center justify-between md:border-l border-zinc-200 dark:border-zinc-700 pt-4 md:pt-0 md:pl-8 border-t md:border-t-0">
             <div>
-              <h5 className="font-serif text-3xl text-zinc-900 dark:text-zinc-100">
+              <h5 className="font-serif text-base sm:text-xl md:text-3xl text-zinc-900 dark:text-zinc-100">
                 <RevealText text="Bitdefender" />
               </h5>
               <p className="text-xs text-zinc-400 mt-1">Plataforma</p>
             </div>
             <div>
-              <h5 className="font-serif text-3xl text-zinc-900 dark:text-zinc-100">
+              <h5 className="font-serif text-base sm:text-xl md:text-3xl text-zinc-900 dark:text-zinc-100">
                 <RevealText text="99.9%" />
               </h5>
               <p className="text-xs text-zinc-400 mt-1">Uptime</p>
             </div>
             <div>
-              <h5 className="font-serif text-3xl text-zinc-900 dark:text-zinc-100">
+              <h5 className="font-serif text-base sm:text-xl md:text-3xl text-zinc-900 dark:text-zinc-100">
                 <RevealText text="24/7" />
               </h5>
               <p className="text-xs text-zinc-400 mt-1">Monitoreo</p>

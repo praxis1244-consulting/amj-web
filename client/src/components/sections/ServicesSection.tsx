@@ -86,14 +86,14 @@ export default function ServicesSection() {
                 onClick={() => setOpenIndex(isOpen ? null : i)}
                 className="w-full py-8 flex items-center justify-between px-4 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors"
               >
-                <div className="flex items-center gap-8">
-                  <span className="text-sm font-medium text-zinc-300 dark:text-zinc-600 w-8">
+                <div className="flex items-center gap-4 md:gap-8 min-w-0">
+                  <span className="text-sm font-medium text-zinc-300 dark:text-zinc-600 shrink-0">
                     {item.num}
                   </span>
-                  <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 transition-colors">
-                    <item.icon className="w-6 h-6" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 transition-colors shrink-0">
+                    <item.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-2xl font-serif text-zinc-900 dark:text-zinc-100 text-left">
+                  <h3 className="text-lg md:text-2xl font-serif text-zinc-900 dark:text-zinc-100 text-left">
                     {item.title}{" "}
                     <span className="font-normal">{item.highlight}</span>
                   </h3>

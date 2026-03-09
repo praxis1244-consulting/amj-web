@@ -33,7 +33,6 @@ export default function Nav() {
           </a>
         </div>
         <div className="flex items-center gap-4 text-xs font-medium">
-          <span className="text-zinc-400 hidden sm:block">ES</span>
           <button
             onClick={toggle}
             aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
