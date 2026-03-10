@@ -28,7 +28,7 @@ const features = [
     title: "Gestión de Riesgos",
     description:
       "Prioriza brechas y configuraciones expuestas para que el equipo actue primero sobre lo que realmente compromete continuidad y cumplimiento.",
-    tags: ["Scoring", "Vulnerabilidades", "Compliance"],
+    tags: ["ISO 27001", "NIST", "Scoring", "Compliance"],
   },
 ];
 
@@ -40,8 +40,8 @@ export default function FeaturesScrollSection() {
           <RevealText text="Capacidades" />
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
-          Capacidades pensadas para reducir exposicion, contener incidentes y
-          darle visibilidad operativa al equipo.
+          Capacidades pensadas para frenar ransomware, ataques fileless y
+          amenazas avanzadas, dándole visibilidad operativa al equipo.
         </p>
       </div>
 

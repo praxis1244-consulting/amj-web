@@ -4,21 +4,21 @@ import RevealText from "@/components/ui/RevealText";
 const trustItems = [
   {
     icon: ShieldCheck,
-    title: "Consultoria antes de vender",
+    title: "15+ años en el mercado",
     description:
-      "Primero entendemos riesgos, alcance y necesidades. Luego recomendamos la solucion que mejor encaja con tu operacion.",
+      "Primero entendemos riesgos, alcance y necesidades. Más de 1.761 antivirus desplegados respaldan nuestra recomendación.",
   },
   {
     icon: MapPin,
-    title: "Equipo local en Chile",
+    title: "Las Condes, Santiago",
     description:
       "Trabajas con especialistas en tu mismo idioma y zona horaria para evaluar, implementar y resolver contingencias con rapidez.",
   },
   {
     icon: Headphones,
-    title: "Implementacion y acompanamiento",
+    title: "Implementación y acompañamiento",
     description:
-      "AMJ acompana el despliegue, la configuracion inicial y la adopcion operativa para que la plataforma entregue valor real.",
+      "AMJ acompaña el despliegue, la configuración inicial y la adopción operativa para que la plataforma entregue valor real.",
   },
 ];
 

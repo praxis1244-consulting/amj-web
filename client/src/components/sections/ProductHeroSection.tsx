@@ -58,31 +58,32 @@ export default function ProductHeroSection() {
   const activeLine = liveLogs[lineIndex].slice(0, typedLength);
 
   return (
-    <header className="max-w-7xl mx-auto px-6 pt-28 md:pt-32 pb-10 overflow-hidden">
-      <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] xl:gap-16 2xl:gap-20">
-        <div className="max-w-xl xl:pt-8">
-          <div className="flex items-center gap-2 mb-6">
+    <header className="max-w-7xl mx-auto px-6 pt-24 md:pt-32 pb-10 overflow-hidden">
+      <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] xl:gap-16 2xl:gap-20">
+        <div className="max-w-xl xl:pt-8 flex flex-col items-start">
+          <div className="flex items-center gap-2 mb-4 md:mb-6">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-xs font-medium tracking-wide text-zinc-500 dark:text-zinc-400 uppercase">
-              Partner Certificado
+            <span className="text-[10px] md:text-xs font-medium tracking-widest text-zinc-500 dark:text-zinc-400 uppercase">
+              Partner Certificado Bitdefender
             </span>
           </div>
 
-          <h1 className="tracking-tight leading-[0.9]">
-            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-[5.6rem] font-light text-zinc-950 dark:text-white">
+          <h1 className="tracking-tight leading-[0.9] text-left">
+            <span className="block text-[12vw] sm:text-5xl md:text-7xl lg:text-[5.6rem] font-light text-zinc-950 dark:text-white">
               <RevealText text="Bitdefender" />
             </span>
-            <span className="block mt-2 font-serif font-normal text-zinc-400 dark:text-zinc-500 text-4xl sm:text-5xl md:text-7xl lg:text-[5.6rem]">
+            <span className="block mt-1 md:mt-2 font-serif font-normal text-zinc-400 dark:text-zinc-500 text-[12vw] sm:text-5xl md:text-7xl lg:text-[5.6rem]">
               <RevealText text="GravityZone" />
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light mt-6 max-w-lg leading-relaxed">
-            Proteccion de endpoints, servidores y cargas empresariales con
-            evaluacion, despliegue y soporte local de AMJ Ingenieria.
+          <p className="text-base md:text-xl text-zinc-500 dark:text-zinc-400 font-light mt-5 md:mt-6 max-w-lg leading-relaxed">
+            Protección de endpoints, servidores y cargas empresariales con un
+            equipo que ha detectado más de 5.361 amenazas para clientes.
           </p>
 
-          <div className="flex flex-wrap gap-2 md:gap-3 mt-7">
+          {/* Desktop-only feature chips */}
+          <div className="hidden md:flex flex-wrap gap-2 md:gap-3 mt-7">
             <span className="border border-zinc-200 dark:border-zinc-700 rounded-full px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm text-zinc-600 dark:text-zinc-300 font-medium">
               Partner certificado
             </span>
@@ -94,29 +95,32 @@ export default function ProductHeroSection() {
             </span>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-4">
+          {/* CTA Row - 100% width on mobile */}
+          <div className="mt-8 md:mt-7 flex flex-wrap items-center gap-4 w-full md:w-auto">
             <a
               href="#contacto"
-              className="inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-8 py-3.5 rounded-full text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
+              className="inline-flex w-full md:w-auto min-h-[3.5rem] items-center justify-center gap-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-6 sm:px-8 py-3.5 rounded-full text-base sm:text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
             >
               Solicitar evaluacion
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
             </a>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Te ayudamos a elegir, desplegar y operar la plataforma.
+            {/* Hidden competing text on mobile */}
+            <p className="hidden md:block text-sm text-zinc-500 dark:text-zinc-400">
+              También trabajamos con Kaspersky y Microsoft 365.
             </p>
           </div>
         </div>
 
         <div ref={dashRef} className="relative xl:pl-4 2xl:pl-8">
-          <div className="absolute inset-x-8 top-8 bottom-12 bg-blue-500/15 dark:bg-blue-500/20 blur-3xl rounded-full pointer-events-none" />
+          <div className="hidden md:block absolute inset-x-8 top-8 bottom-12 bg-blue-500/15 dark:bg-blue-500/20 blur-3xl rounded-full pointer-events-none" />
 
           <motion.div
             initial={{ opacity: 0, y: 32, x: 18 }}
             animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 32, x: 18 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="bg-zinc-900 rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden border border-zinc-800 shadow-[0_40px_100px_-30px_rgba(9,9,11,0.75)]">
+            {/* Dashboard Container */}
+            <div className="bg-zinc-900 rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden border border-zinc-800 shadow-[0_30px_80px_-20px_rgba(9,9,11,0.5)] md:shadow-[0_40px_100px_-30px_rgba(9,9,11,0.75)]">
               <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-zinc-800">
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
@@ -133,6 +137,7 @@ export default function ProductHeroSection() {
 
               <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_18rem]">
                 <div className="p-4 sm:p-6">
+                  {/* Operation Status - Mobile Core Panel 1 */}
                   <div className="rounded-2xl border border-zinc-800 bg-zinc-800/70 p-4 sm:p-5 mb-4 sm:mb-5 overflow-hidden relative">
                     <motion.div
                       className="absolute inset-y-0 -left-1/4 w-1/3 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent"
@@ -155,7 +160,8 @@ export default function ProductHeroSection() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-5">
+                  {/* Metrics - Mobile Core Panel 2 */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-5">
                     <div className="bg-zinc-800 rounded-lg sm:rounded-xl p-3 sm:p-4">
                       <p className="text-zinc-500 text-[10px] sm:text-xs mb-1">
                         Endpoints Activos
@@ -178,7 +184,8 @@ export default function ProductHeroSection() {
                         100% detectadas
                       </p>
                     </div>
-                    <div className="bg-zinc-800 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                    {/* Hide 3rd stat on very small screens to fit cleanly */}
+                    <div className="hidden md:block bg-zinc-800 rounded-lg sm:rounded-xl p-3 sm:p-4">
                       <p className="text-zinc-500 text-[10px] sm:text-xs mb-1">
                         Score de Riesgo
                       </p>
@@ -194,7 +201,8 @@ export default function ProductHeroSection() {
                     </div>
                   </div>
 
-                  <div className="bg-zinc-800 rounded-xl p-4 sm:p-5 mb-4 sm:mb-5">
+                  {/* Chart - Hidden on mobile to save vertical space */}
+                  <div className="hidden sm:block bg-zinc-800 rounded-xl p-4 sm:p-5 mb-4 sm:mb-5">
                     <div className="flex items-center justify-between gap-3 mb-4">
                       <p className="text-zinc-500 text-xs uppercase tracking-[0.18em]">
                         Actividad de Amenazas
@@ -221,6 +229,7 @@ export default function ProductHeroSection() {
                     </div>
                   </div>
 
+                  {/* Bottom Shield Panel - visible on mobile */}
                   <div className="bg-zinc-800 rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-400/10 rounded-full flex items-center justify-center">
@@ -230,7 +239,7 @@ export default function ProductHeroSection() {
                         <p className="text-white text-xs sm:text-sm">
                           Todos los endpoints protegidos
                         </p>
-                        <p className="text-zinc-500 text-[10px] sm:text-xs">
+                        <p className="text-zinc-500 text-[10px] sm:text-xs hidden sm:block">
                           Última verificación: hace 2 min
                         </p>
                       </div>
@@ -241,12 +250,13 @@ export default function ProductHeroSection() {
                   </div>
                 </div>
 
+                {/* Telemetry sidebar - collapsed to live logs + 1 item on mobile */}
                 <div className="border-t xl:border-t-0 xl:border-l border-zinc-800 bg-zinc-900/95 p-4 sm:p-5">
-                  <p className="text-zinc-500 text-[10px] sm:text-xs uppercase tracking-[0.2em]">
+                  <p className="text-zinc-500 text-[10px] sm:text-xs uppercase tracking-[0.2em] hidden sm:block">
                     Consola proactiva
                   </p>
 
-                  <div className="mt-4 rounded-2xl border border-zinc-800 bg-black/30 p-4">
+                  <div className="mt-0 sm:mt-4 rounded-2xl border border-zinc-800 bg-black/30 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                       <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500">
@@ -255,9 +265,9 @@ export default function ProductHeroSection() {
                     </div>
 
                     <div className="space-y-2 text-[12px] leading-relaxed text-zinc-400 font-mono">
-                      <p>&gt; telemetry.sync --fleet amj-cl</p>
-                      <p>&gt; threat-hunt --policy edr-critical</p>
-                      <p className="text-zinc-100 min-h-[2.5rem]">
+                      <p className="hidden md:block">&gt; telemetry.sync --fleet amj-cl</p>
+                      <p className="hidden md:block">&gt; threat-hunt --policy edr-critical</p>
+                      <p className="text-zinc-100 min-h-[2.5rem] sm:min-h-auto">
                         &gt; {activeLine}
                         <span className="inline-block w-2 h-4 ml-0.5 align-[-0.15rem] bg-zinc-100 animate-pulse" />
                       </p>
@@ -265,10 +275,10 @@ export default function ProductHeroSection() {
                   </div>
 
                   <div className="mt-4 space-y-3">
-                    {queueItems.map((item) => (
+                    {queueItems.map((item, idx) => (
                       <div
                         key={item.title}
-                        className="rounded-xl border border-zinc-800 bg-zinc-800/60 p-3"
+                        className={`rounded-xl border border-zinc-800 bg-zinc-800/60 p-3 ${idx > 0 ? 'hidden sm:block' : ''}`}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div>

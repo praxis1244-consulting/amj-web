@@ -54,7 +54,84 @@ export default function PlansSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="md:hidden -mx-6 px-6 overflow-x-auto snap-x snap-mandatory scroll-px-6 pb-8" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <div className="flex gap-4 w-max">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`snap-center w-[85vw] max-w-[320px] rounded-[2rem] p-8 flex flex-col ${
+                plan.popular
+                  ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
+                  : "bg-zinc-50 dark:bg-zinc-900"
+              }`}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <p
+                  className={`text-xs uppercase tracking-widest ${
+                    plan.popular
+                      ? "text-zinc-400 dark:text-zinc-500"
+                      : "text-zinc-400"
+                  }`}
+                >
+                  {plan.tier}
+                </p>
+                {plan.popular && (
+                  <span className="text-xs bg-green-400 text-black px-2 py-0.5 rounded-full font-medium">
+                    Popular
+                  </span>
+                )}
+              </div>
+
+              <h4
+                className={`font-serif text-2xl mb-6 ${
+                  plan.popular
+                    ? "text-white dark:text-zinc-900"
+                    : "text-zinc-900 dark:text-zinc-100"
+                }`}
+              >
+                {plan.name}
+              </h4>
+
+              <ul className="space-y-3 mb-8 flex-1">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <Check
+                      className={`w-4 h-4 mt-0.5 shrink-0 ${
+                        plan.popular
+                          ? "text-green-400"
+                          : "text-green-600 dark:text-green-400"
+                      }`}
+                    />
+                    <span
+                      className={`text-sm ${
+                        plan.popular
+                          ? "text-zinc-300 dark:text-zinc-600"
+                          : "text-zinc-600 dark:text-zinc-400"
+                      }`}
+                    >
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#contacto"
+                className={`inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium transition-colors ${
+                  plan.popular
+                    ? "bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800"
+                    : "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                }`}
+              >
+                Solicitar evaluación
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => (
           <div
             key={plan.name}
@@ -122,7 +199,7 @@ export default function PlansSection() {
                   : "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200"
               }`}
             >
-              Solicitar evaluacion
+              Solicitar evaluación
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -131,9 +208,9 @@ export default function PlansSection() {
 
       <div className="text-center mt-8">
         <p className="text-zinc-400 text-sm font-light">
-          Modulos adicionales disponibles segun necesidad: Email Security
+          Módulos adicionales disponibles según necesidad: Email Security
           &middot; Patch Management &middot; Full Disk Encryption &middot;
-          Security for Mobile
+          Security for Mobile. También ofrecemos soluciones Kaspersky y Microsoft 365.
         </p>
       </div>
     </section>
