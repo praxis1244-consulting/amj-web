@@ -10,12 +10,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 md:py-24 relative z-10">
         {/* Top */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 sm:pb-8 mb-12 sm:mb-16 gap-5 sm:gap-6">
-          <div className="flex items-center gap-2">
-            <img src="/logo-iso.png" alt="AMJ Ingeniería" className="h-7 w-auto brightness-100" />
-            <span className="text-lg font-medium tracking-tighter font-serif">
-              AMJ Ingeniería
-            </span>
-          </div>
+          <img src="/logo-iso.png" alt="AMJ Ingeniería" className="h-7 w-auto brightness-100" />
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] sm:text-xs text-zinc-500 uppercase tracking-wider sm:tracking-widest">
             <span>15+ años</span>
             <span className="text-zinc-700">//</span>
