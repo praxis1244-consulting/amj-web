@@ -89,7 +89,7 @@ function HeroStats({ mobile }: { mobile?: boolean }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: inView ? 1 : 0 }}
       transition={{ duration: 0.6, ease: EASE }}
-      className={mobile ? "relative z-10" : "absolute bottom-0 left-0 right-0 z-20"}
+      className={mobile ? "relative z-10" : "relative z-20"}
     >
       <div className={mobile ? "" : "max-w-7xl mx-auto px-4 sm:px-6"}>
         <div className="grid grid-cols-3">
