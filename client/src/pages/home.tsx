@@ -5,7 +5,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import PhilosophySection from "@/components/sections/PhilosophySection";
 import CaseStudySection from "@/components/sections/CaseStudySection";
 import ServicesSection from "@/components/sections/ServicesSection";
-import LogoMarquee from "@/components/sections/LogoMarquee";
 import SolutionsGrid from "@/components/sections/SolutionsGrid";
 import ValuesSection from "@/components/sections/ValuesSection";
 import ContactFormD from "@/components/sections/ContactFormD";
@@ -20,7 +19,6 @@ export default function HomePage() {
         <PhilosophySection />
         <CaseStudySection />
         <ServicesSection />
-        <LogoMarquee />
         <SolutionsGrid />
         <ValuesSection />
         <ContactFormD />
