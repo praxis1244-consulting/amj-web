@@ -2,6 +2,32 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+function useCountUp(target: number, duration: number, inView: boolean) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!inView) { setValue(0); return; }
+    const start = performance.now();
+    let rafId = 0;
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setValue(Math.round(eased * target));
+      if (progress < 1) rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [inView, target, duration]);
+  return value;
+}
+
+const stats = [
+  { target: 5361, label: "Amenazas detectadas", suffix: "+" },
+  { target: 1761, label: "Endpoints protegidos", suffix: "+" },
+  { target: 25, label: "Años de experiencia", suffix: "+" },
+];
+
 const barHeights = [34, 46, 30, 58, 38, 76, 52, 42, 63, 35, 56, 70];
 
 const liveLogs = [
@@ -27,6 +53,38 @@ const queueItems = [
     status: "OK",
   },
 ];
+
+function ProductStatItem({ stat, inView, delay }: { stat: typeof stats[number]; inView: boolean; delay: number }) {
+  const count = useCountUp(stat.target, stat.target > 100 ? 2200 : 1200, inView);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 8 }}
+      transition={{ duration: 0.5, delay, ease: EASE }}
+      className="py-5 sm:py-6 flex flex-col items-center gap-1"
+    >
+      <span className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-zinc-900 dark:text-white tabular-nums">
+        {count.toLocaleString("es-CL")}{stat.suffix}
+      </span>
+      <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500 text-center">
+        {stat.label}
+      </span>
+    </motion.div>
+  );
+}
+
+function ProductStats() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: false, margin: "-10% 0px" });
+
+  return (
+    <div ref={ref} className="mt-16 md:mt-20 grid grid-cols-3">
+      {stats.map((stat, idx) => (
+        <ProductStatItem key={stat.label} stat={stat} inView={inView} delay={idx * 0.1} />
+      ))}
+    </div>
+  );
+}
 
 export default function ProductHeroSection() {
   const dashRef = useRef<HTMLDivElement>(null);
@@ -81,19 +139,6 @@ export default function ProductHeroSection() {
             equipo que ha detectado más de 5.361 amenazas para clientes.
           </p>
 
-          {/* Desktop-only feature chips */}
-          <div className="hidden md:flex flex-wrap gap-2 md:gap-3 mt-7">
-            <span className="border border-zinc-200 dark:border-zinc-700 rounded-md px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm text-zinc-600 dark:text-zinc-300 font-medium">
-              Partner certificado
-            </span>
-            <span className="border border-zinc-200 dark:border-zinc-700 rounded-md px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm text-zinc-600 dark:text-zinc-300 font-medium">
-              Consola centralizada
-            </span>
-            <span className="border border-zinc-200 dark:border-zinc-700 rounded-md px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm text-zinc-600 dark:text-zinc-300 font-medium">
-              Soporte local
-            </span>
-          </div>
-
           {/* CTA Row - 100% width on mobile */}
           <div className="mt-8 md:mt-7 flex flex-wrap items-center gap-4 w-full md:w-auto">
             <a
@@ -103,11 +148,8 @@ export default function ProductHeroSection() {
               Solicitar evaluacion
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
             </a>
-            {/* Hidden competing text on mobile */}
-            <p className="hidden md:block text-sm text-zinc-500 dark:text-zinc-400">
-              Trabajamos con plataformas de renombre mundial.
-            </p>
           </div>
+
         </div>
 
         <div ref={dashRef} className="relative xl:pl-4 2xl:pl-8">
@@ -309,6 +351,9 @@ export default function ProductHeroSection() {
           </motion.div>
         </div>
       </div>
+
+      {/* Stat strip — full width */}
+      <ProductStats />
     </header>
   );
 }
