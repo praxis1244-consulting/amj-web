@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Lottie from "lottie-react";
 import RevealText from "@/components/ui/RevealText";
@@ -52,6 +52,73 @@ function GravityField() {
         <Lottie animationData={lottieData} loop className="w-full h-full" />
       </motion.div>
     </div>
+  );
+}
+
+function useCountUp(target: number, duration: number, inView: boolean) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!inView) { setValue(0); return; }
+    const start = performance.now();
+    let rafId = 0;
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setValue(Math.round(eased * target));
+      if (progress < 1) rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [inView, target, duration]);
+  return value;
+}
+
+const stats = [
+  { target: 5361, label: "Amenazas detectadas", suffix: "+" },
+  { target: 1761, label: "Endpoints protegidos", suffix: "+" },
+  { target: 25, label: "Años de experiencia", suffix: "+" },
+];
+
+function HeroStats({ mobile }: { mobile?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: false, margin: "-10% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: inView ? 1 : 0 }}
+      transition={{ duration: 0.6, ease: EASE }}
+      className={mobile ? "relative z-10" : "absolute bottom-0 left-0 right-0 z-20"}
+    >
+      <div className={mobile ? "" : "max-w-7xl mx-auto px-4 sm:px-6"}>
+        <div className="grid grid-cols-3">
+          {stats.map((stat, idx) => (
+            <StatItem key={stat.label} stat={stat} inView={inView} delay={idx * 0.1} />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function StatItem({ stat, inView, delay }: { stat: typeof stats[number]; inView: boolean; delay: number }) {
+  const count = useCountUp(stat.target, stat.target > 100 ? 2200 : 1200, inView);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 8 }}
+      transition={{ duration: 0.5, delay, ease: EASE }}
+      className="py-5 sm:py-6 flex flex-col items-center gap-1"
+    >
+      <span className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-zinc-900 dark:text-white tabular-nums">
+        {count.toLocaleString("es-CL")}{stat.suffix}
+      </span>
+      <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500 text-center">
+        {stat.label}
+      </span>
+    </motion.div>
   );
 }
 
@@ -167,34 +234,22 @@ export default function HeroSection() {
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
             </a>
 
-            {/* Hidden on mobile to avoid competing with CTA, visible on desktop */}
-            <div className="hidden sm:flex flex-wrap gap-2 text-[11px] sm:text-xs uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
-              <span className="rounded-md border border-zinc-200/80 dark:border-zinc-800 px-3 py-1.5">
-                5.361+ amenazas detectadas
-              </span>
-              <span className="rounded-md border border-zinc-200/80 dark:border-zinc-800 px-3 py-1.5">
-                1.761+ endpoints protegidos
-              </span>
-              <span className="rounded-md border border-zinc-200/80 dark:border-zinc-800 px-3 py-1.5">
-                Equipo con 25+ años de experiencia
-              </span>
-            </div>
           </motion.div>
+
+          {/* Stat strip — mobile: in flow */}
+          <div className="lg:hidden mt-10">
+            <HeroStats mobile />
+          </div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden lg:block"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 6, 0] }}
-        transition={{
-          opacity: { delay: 2.5, duration: 1 },
-          y: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 3 },
-        }}
-      >
-        <div className="w-px h-12 bg-gradient-to-b from-zinc-300 dark:from-zinc-600 to-transparent" />
-      </motion.div>
+      {/* Stat strip — desktop: absolute bottom */}
+      <div className="hidden lg:block">
+        <HeroStats />
+      </div>
+
+      {/* Bottom fade to blend into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-[#09090b] to-transparent pointer-events-none z-0" />
     </header>
   );
 }

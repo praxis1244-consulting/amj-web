@@ -2,14 +2,14 @@ import { motion } from "framer-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const brands = ["Bitdefender", "Kaspersky", "Microsoft 365"];
+const brands = ["Protección Endpoint", "Seguridad Cloud", "Defensa Avanzada"];
 
 export default function LogoMarquee() {
   return (
     <section className="border-y border-zinc-200 dark:border-zinc-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 py-10 md:py-14">
         <p className="text-[11px] uppercase tracking-[0.22em] text-zinc-400 dark:text-zinc-500 font-medium mb-6 md:mb-8 text-center">
-          Plataformas que implementamos
+          Trabajamos con marcas de renombre mundial
         </p>
         <div className="flex items-center justify-center gap-6 md:gap-16">
           {brands.map((brand, idx) => (

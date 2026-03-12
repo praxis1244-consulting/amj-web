@@ -43,7 +43,7 @@ export default function FeaturesScrollSection() {
     <section className="py-32 max-w-7xl mx-auto px-6">
       <div className="mb-16 md:mb-24 max-w-3xl">
         <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 mb-6">
-          Qué protege <span className="font-serif italic text-[#25327D] dark:text-amber-400">GravityZone</span>
+          Qué <span className="font-serif italic text-[#25327D] dark:text-amber-400">protegemos</span>
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
           Pensado para frenar ransomware, ataques fileless y amenazas avanzadas,

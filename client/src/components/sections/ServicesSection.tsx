@@ -15,9 +15,9 @@ const services = [
   {
     id: "02",
     title: "Análisis de Vulnerabilidades",
-    description: "Ejecutamos pentesting interno y externo, revisamos aplicaciones y activos expuestos para cerrar las puertas que ransomware y atacantes buscan primero.",
+    description: "Ejecutamos análisis de vulnerabilidad interno y externo, revisamos aplicaciones y activos expuestos para cerrar las puertas que ransomware y atacantes buscan primero.",
     points: [
-      "Pentesting continuo",
+      "Análisis continuo de vulnerabilidades",
       "Revisión de aplicaciones",
       "Planes de remediación",
     ]

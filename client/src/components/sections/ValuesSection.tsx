@@ -5,7 +5,7 @@ const values = [
     icon: ShieldCheck,
     title: "Equipo con 25+ años de experiencia",
     description:
-      "Profesionales certificados en Bitdefender, Kaspersky e ISO 27001. Más de 5.361 amenazas detectadas y 1.761 antivirus desplegados para clientes en Chile.",
+      "Profesionales certificados en plataformas líderes e ISO 27001. Más de 5.361 amenazas detectadas y 1.761 antivirus desplegados para clientes en Chile.",
   },
   {
     icon: Users,

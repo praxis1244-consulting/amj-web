@@ -10,7 +10,7 @@ export default function SolutionsGrid() {
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
           Desde el diagnóstico hasta la operación diaria. Trabajamos con
-          Bitdefender, Kaspersky y Microsoft para implementar la protección
+          plataformas de renombre mundial para implementar la protección
           que tu empresa necesita.
         </p>
       </div>
@@ -65,7 +65,7 @@ export default function SolutionsGrid() {
               <p className="text-xs uppercase tracking-widest text-zinc-300 mb-2">
                 Implementación
               </p>
-              <h4 className="font-light tracking-tight text-2xl">Bitdefender, Kaspersky y Microsoft 365</h4>
+              <h4 className="font-light tracking-tight text-2xl">Plataformas líderes de protección</h4>
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export default function SolutionsGrid() {
               Implementación
             </p>
             <h4 className="font-light tracking-tight text-2xl text-zinc-900 dark:text-white leading-snug">
-              Bitdefender, Kaspersky y Microsoft 365
+              Plataformas líderes de protección
             </h4>
           </div>
         </div>

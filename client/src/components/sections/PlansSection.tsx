@@ -129,7 +129,7 @@ export default function PlansSection() {
     <section id="planes" className="py-32 max-w-7xl mx-auto px-6">
       <div className="text-center mb-16 max-w-2xl mx-auto">
         <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 mb-6">
-          Planes <span className="font-serif italic text-[#25327D] dark:text-amber-400">GravityZone</span>
+          Planes de <span className="font-serif italic text-[#25327D] dark:text-amber-400">Protección</span>
         </h3>
         <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
           Tres niveles para crecer desde protección base hasta capacidades EDR
@@ -157,7 +157,7 @@ export default function PlansSection() {
         <p className="text-zinc-400 text-sm font-light">
           Módulos adicionales disponibles según necesidad: Email Security
           &middot; Patch Management &middot; Full Disk Encryption &middot;
-          Security for Mobile. También ofrecemos soluciones Kaspersky y Microsoft 365.
+          Security for Mobile. Trabajamos con marcas de renombre mundial.
         </p>
       </div>
     </section>

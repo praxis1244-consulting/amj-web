@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, MapPin, Headphones } from "lucide-react";
+import { Award, ShieldCheck, MapPin, Headphones } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const trustItems = [
+  {
+    icon: Award,
+    title: "Bitdefender Gold Partner",
+    description:
+      "Certificación oficial que respalda nuestra capacidad para implementar, configurar y dar soporte a soluciones de protección de endpoints a nivel empresarial.",
+  },
   {
     icon: ShieldCheck,
     title: "15+ años en el mercado",
@@ -59,9 +65,13 @@ export default function WhyAmjSection() {
         ))}
       </div>
 
-      {/* Desktop: Editorial grid with dividers */}
-      <div className="hidden md:grid grid-cols-3 gap-12 lg:gap-16 relative">
-        <div className="absolute top-0 left-0 right-0 h-px bg-zinc-200 dark:bg-zinc-800" />
+      {/* Desktop: Editorial 2x2 grid with dividers */}
+      <div className="hidden md:grid grid-cols-2 relative">
+        {/* Horizontal dividers */}
+        <div className="absolute left-0 right-0 top-0 h-px bg-zinc-200 dark:bg-zinc-800" />
+        <div className="absolute left-0 right-0 top-1/2 h-px bg-zinc-200 dark:bg-zinc-800" />
+        {/* Vertical divider */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800" />
 
         {trustItems.map((item, idx) => (
           <motion.div
@@ -70,11 +80,10 @@ export default function WhyAmjSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-10% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: idx * 0.1 }}
-            className="flex flex-col relative pt-10"
+            className={`flex flex-col relative p-10 lg:p-14 ${
+              idx % 2 === 1 ? "pl-10 lg:pl-14" : "pr-10 lg:pr-14"
+            }`}
           >
-            {idx !== 0 && (
-              <div className="absolute top-0 bottom-0 left-[-1.5rem] lg:left-[-2rem] w-px bg-zinc-200 dark:bg-zinc-800" />
-            )}
             <div className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center bg-white dark:bg-zinc-950 mb-8 transition-transform duration-500 hover:scale-110">
               <item.icon className="w-5 h-5 text-zinc-900 dark:text-white" />
             </div>

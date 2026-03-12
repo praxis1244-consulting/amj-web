@@ -62,17 +62,17 @@ export default function ProductHeroSection() {
         <div className="max-w-xl xl:pt-8 flex flex-col items-start">
           <div className="flex items-center gap-2 mb-4 md:mb-6">
             <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
-            <span className="text-[10px] md:text-xs font-medium tracking-widest text-zinc-500 dark:text-zinc-400 uppercase">
-              Partner Certificado Bitdefender
+            <span className="text-[10px] md:text-xs font-medium tracking-widest text-amber-600 dark:text-amber-400 uppercase">
+              Bitdefender Gold Partner
             </span>
           </div>
 
           <h1 className="tracking-tight leading-[0.9] text-left">
             <span className="block text-[12vw] sm:text-5xl md:text-7xl lg:text-[5.6rem] font-light text-zinc-950 dark:text-white">
-              Bitdefender
+              Protección de
             </span>
             <span className="block mt-1 md:mt-2 font-serif italic text-[#25327D] dark:text-amber-400 text-[12vw] sm:text-5xl md:text-7xl lg:text-[5.6rem]">
-              GravityZone
+              Endpoints
             </span>
           </h1>
 
@@ -105,7 +105,7 @@ export default function ProductHeroSection() {
             </a>
             {/* Hidden competing text on mobile */}
             <p className="hidden md:block text-sm text-zinc-500 dark:text-zinc-400">
-              También trabajamos con Kaspersky y Microsoft 365.
+              Trabajamos con plataformas de renombre mundial.
             </p>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function ProductHeroSection() {
                   <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
                   <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
                   <span className="ml-3 sm:ml-4 text-[10px] sm:text-xs text-zinc-500 font-medium uppercase tracking-[0.18em]">
-                    GravityZone Console
+                    Consola de Seguridad
                   </span>
                 </div>
                 <span className="hidden sm:inline-flex rounded-md border border-zinc-700 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-zinc-300">

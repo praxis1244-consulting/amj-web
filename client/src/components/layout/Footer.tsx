@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { Shield } from "lucide-react";
 import RevealText from "@/components/ui/RevealText";
 
 export default function Footer() {
@@ -12,7 +11,7 @@ export default function Footer() {
         {/* Top */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 sm:pb-8 mb-12 sm:mb-16 gap-5 sm:gap-6">
           <div className="flex items-center gap-2">
-            <Shield className="w-6 h-6 text-white" />
+            <img src="/logo-iso.png" alt="AMJ Ingeniería" className="h-7 w-auto brightness-100" />
             <span className="text-lg font-medium tracking-tighter font-serif">
               AMJ Ingeniería
             </span>

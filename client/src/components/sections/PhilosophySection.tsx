@@ -17,7 +17,7 @@ const steps = [
   {
     number: "02",
     title: "Implementación Ordenada",
-    description: "Desplegamos Bitdefender, Kaspersky o Microsoft 365 según tu contexto, minimizando el impacto en la continuidad operacional con presupuestos y plazos definidos."
+    description: "Desplegamos plataformas líderes del mercado según tu contexto, minimizando el impacto en la continuidad operacional con presupuestos y plazos definidos."
   },
   {
     number: "03",
