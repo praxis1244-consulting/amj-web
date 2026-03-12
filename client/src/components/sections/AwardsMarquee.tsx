@@ -1,32 +1,30 @@
-import { Trophy, Award, CheckCircle, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
-const awards = [
-  { icon: Trophy, label: "AV-TEST Best Protection" },
-  { icon: Award, label: "MITRE ATT&CK 100%" },
-  { icon: CheckCircle, label: "AV-Comparatives #1" },
-  { icon: ShieldCheck, label: "IDC MarketScape Leader" },
-];
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-function Track({ id }: { id: string }) {
-  const items = [...awards, ...awards, ...awards];
-  return (
-    <div className="flex shrink-0 animate-marquee gap-16 md:gap-32 items-center pr-16 md:pr-32">
-      {items.map((award, i) => (
-        <div key={`${id}-${i}`} className="flex items-center gap-3 text-zinc-400 whitespace-nowrap">
-          <award.icon className="w-7 h-7 shrink-0" />
-          <span className="text-sm font-medium">{award.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+const certifications = ["AV-TEST", "MITRE ATT&CK", "AV-Comparatives", "IDC MarketScape"];
 
 export default function AwardsMarquee() {
   return (
-    <section className="border-y border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 py-12 overflow-hidden">
-      <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-        <Track id="t1" />
-        <Track id="t2" />
+    <section className="border-y border-zinc-200 dark:border-zinc-800 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 py-10 md:py-14">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-zinc-400 dark:text-zinc-500 font-medium mb-6 md:mb-8 text-center">
+          Plataformas reconocidas por
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:gap-x-12">
+          {certifications.map((cert, idx) => (
+            <motion.span
+              key={cert}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.7, ease: EASE, delay: idx * 0.1 }}
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-zinc-300 dark:text-zinc-700 transition-colors duration-300 hover:text-zinc-900 dark:hover:text-zinc-200 cursor-default select-none"
+            >
+              {cert}
+            </motion.span>
+          ))}
+        </div>
       </div>
     </section>
   );

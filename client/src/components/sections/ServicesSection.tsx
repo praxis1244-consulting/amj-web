@@ -133,7 +133,7 @@ export default function ServicesSection() {
           Nuestras Capacidades
         </h2>
         <p className="text-[clamp(2.25rem,9vw,4.75rem)] md:text-5xl lg:text-7xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 max-w-4xl leading-[1.06]">
-          Protección integral contra pérdida de datos, ransomware y ciberataques, diseñada para la <span className="font-serif italic text-zinc-500">continuidad</span> de tu negocio.
+          Protección integral contra pérdida de datos, ransomware y ciberataques, diseñada para la <span className="font-serif italic text-[#25327D] dark:text-amber-400">continuidad</span> de tu negocio.
         </p>
       </div>
 

@@ -60,7 +60,7 @@ export default function ContactFormD() {
   };
 
   const inputClass =
-    "min-h-12 w-full rounded-2xl border border-white/12 bg-white/[0.04] px-4 py-3.5 text-[15px] text-white placeholder:text-zinc-500 transition-[border-color,background-color,box-shadow] duration-200 ease-out focus:border-white/35 focus:bg-white/[0.07] focus:outline-none focus:ring-4 focus:ring-white/10";
+    "min-h-12 w-full rounded-md border border-white/12 bg-white/[0.04] px-4 py-3.5 text-[15px] text-white placeholder:text-zinc-500 transition-[border-color,background-color,box-shadow] duration-200 ease-out focus:border-white/35 focus:bg-white/[0.07] focus:outline-none focus:ring-4 focus:ring-white/10";
 
   const shouldAnimate = !prefersReducedMotion;
   const enterTransition = {
@@ -102,11 +102,11 @@ export default function ContactFormD() {
             className="flex min-w-0 flex-col justify-between"
             initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
             whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-            viewport={shouldAnimate ? { once: true, margin: "-10% 0px -10% 0px" } : undefined}
+            viewport={shouldAnimate ? { once: false, margin: "-10% 0px -10% 0px" } : undefined}
             transition={shouldAnimate ? enterTransition : undefined}
           >
             <div className="max-w-2xl">
-              <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.24em] text-zinc-300">
+              <div className="mb-8 inline-flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.03] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.24em] text-zinc-300">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" />
                 Primera asesoría sin costo
               </div>
@@ -123,19 +123,19 @@ export default function ContactFormD() {
             </div>
 
             <div className="mt-8 md:mt-10 flex overflow-x-auto snap-x snap-mandatory scroll-px-6 md:grid md:grid-cols-3 gap-3 text-sm text-zinc-300 pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0" style={{ scrollbarWidth: "none" }}>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
+              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
                 <p className="font-medium text-white text-[13px] md:text-sm">1 día hábil</p>
                 <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
                   para la primera respuesta
                 </p>
               </div>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
+              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
                 <p className="font-medium text-white text-[13px] md:text-sm">Sin spam</p>
                 <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
                   usamos tus datos solo para contactarte
                 </p>
               </div>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
+              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
                 <p className="font-medium text-white text-[13px] md:text-sm">Más contexto, mejor ayuda</p>
                 <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
                   empresa y teléfono son opcionales
@@ -148,7 +148,7 @@ export default function ContactFormD() {
             className="flex min-w-0 flex-col justify-center"
             initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
             whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-            viewport={shouldAnimate ? { once: true, margin: "-10% 0px -10% 0px" } : undefined}
+            viewport={shouldAnimate ? { once: false, margin: "-10% 0px -10% 0px" } : undefined}
             transition={
               shouldAnimate
                 ? { ...enterTransition, delay: 0.08 }
@@ -370,21 +370,17 @@ export default function ContactFormD() {
                     {mutation.isError && (
                       <p
                         role="alert"
-                        className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+                        className="rounded-md border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
                       >
                         {mutation.error.message}
                       </p>
                     )}
 
-                    <div className="flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                      <p className="max-w-md text-sm leading-relaxed text-zinc-400">
-                        Al enviar, te contactaremos para coordinar la primera
-                        conversación. No compartimos tus datos con terceros.
-                      </p>
+                    <div className="flex flex-col gap-4 border-t border-white/10 pt-5">
                       <button
                         type="submit"
                         disabled={mutation.isPending}
-                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-zinc-950 transition-all duration-200 ease-out hover:bg-zinc-200 focus:outline-none focus:ring-4 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex min-h-12 w-full sm:w-auto items-center justify-center gap-2 whitespace-nowrap rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 text-sm font-medium text-zinc-900 transition-all duration-200 ease-out hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-amber-400/20 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {mutation.isPending ? (
                           "Enviando solicitud..."
@@ -395,6 +391,9 @@ export default function ContactFormD() {
                           </>
                         )}
                       </button>
+                      <p className="text-[11px] text-zinc-500 text-center">
+                        No compartimos tus datos con terceros.
+                      </p>
                     </div>
                   </form>
                 )}

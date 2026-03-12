@@ -1,5 +1,4 @@
 import { ShieldCheck, Users, Zap } from "lucide-react";
-import RevealText from "@/components/ui/RevealText";
 
 const values = [
   {
@@ -24,10 +23,10 @@ const values = [
 
 export default function ValuesSection() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-24 sm:py-32">
-      <div className="text-left md:text-center mb-12 sm:mb-16">
-        <h3 className="font-serif text-3xl sm:text-4xl text-zinc-900 dark:text-zinc-100 max-w-sm md:max-w-none">
-          <RevealText text="Por qué las empresas trabajan con AMJ" />
+    <section className="max-w-7xl mx-auto px-6 py-32">
+      <div className="text-left md:text-center mb-16">
+        <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 max-w-sm md:max-w-none">
+          Por qué las empresas trabajan con <span className="font-serif italic text-[#25327D] dark:text-amber-400">AMJ</span>
         </h3>
       </div>
       
@@ -40,7 +39,7 @@ export default function ValuesSection() {
                 <value.icon className="w-5 h-5 text-zinc-900 dark:text-white" />
               </div>
               <div className="flex flex-col pt-1.5">
-                <h4 className="font-serif text-2xl text-zinc-900 dark:text-white leading-tight mb-3">
+                <h4 className="font-light tracking-tight text-2xl text-zinc-900 dark:text-white leading-tight mb-3">
                   {value.title}
                 </h4>
                 <p className="text-base font-light leading-relaxed text-zinc-500 dark:text-zinc-400">
@@ -66,8 +65,8 @@ export default function ValuesSection() {
             <div className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center bg-white dark:bg-zinc-950 mb-8 transition-transform duration-500 hover:scale-110">
               <value.icon className="w-5 h-5 text-zinc-900 dark:text-white" />
             </div>
-            <h4 className="font-serif text-2xl lg:text-3xl text-zinc-900 dark:text-white leading-tight mb-4">
-              <RevealText text={value.title} />
+            <h4 className="font-light tracking-tight text-2xl lg:text-3xl text-zinc-900 dark:text-white leading-tight mb-4">
+              {value.title}
             </h4>
             <p className="text-base font-light leading-relaxed text-zinc-500 dark:text-zinc-400">
               {value.description}

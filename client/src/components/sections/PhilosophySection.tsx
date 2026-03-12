@@ -65,9 +65,9 @@ export default function PhilosophySection() {
         {/* Intro heading */}
         <div className="max-w-4xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight leading-[1.15] mb-8">
-            <span className="block">Partimos con un <span className="font-serif italic text-zinc-500 dark:text-zinc-400">diagnóstico</span> claro,</span>
-            <span className="block">seguimos con una <span className="font-serif italic text-zinc-500 dark:text-zinc-400">implementación</span> ordenada</span>
-            <span className="block">y te <span className="font-serif italic text-zinc-500 dark:text-zinc-400">acompañamos</span> en la operación.</span>
+            <span className="block">Partimos con un <span className="font-serif italic text-[#25327D] dark:text-amber-400">diagnóstico</span> claro,</span>
+            <span className="block">seguimos con una <span className="font-serif italic text-[#25327D] dark:text-amber-400">implementación</span> ordenada</span>
+            <span className="block">y te <span className="font-serif italic text-[#25327D] dark:text-amber-400">acompañamos</span> en la operación.</span>
           </h2>
         </div>
 
@@ -112,9 +112,9 @@ export default function PhilosophySection() {
 function StepItem({ step, index }: { step: any, index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, x: -10 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
       className="relative"
     >

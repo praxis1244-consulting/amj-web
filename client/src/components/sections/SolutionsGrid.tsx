@@ -1,15 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
-import RevealText from "@/components/ui/RevealText";
 
 export default function SolutionsGrid() {
   return (
-    <section id="servicios" className="max-w-7xl mx-auto px-6 py-24 sm:py-32">
-      <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
-        <h3 className="font-serif text-3xl sm:text-4xl text-zinc-900 dark:text-zinc-100 mb-4 sm:mb-6">
-          <RevealText text="Soluciones para cada etapa" />
+    <section id="servicios" className="max-w-7xl mx-auto px-6 py-32">
+      <div className="text-center mb-16 max-w-2xl mx-auto">
+        <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 mb-6">
+          Soluciones para cada <span className="font-serif italic text-[#25327D] dark:text-amber-400">etapa</span>
         </h3>
-        <p className="text-zinc-500 dark:text-zinc-400 font-light text-base sm:text-lg">
+        <p className="text-zinc-500 dark:text-zinc-400 font-light text-lg">
           Desde el diagnóstico hasta la operación diaria. Trabajamos con
           Bitdefender, Kaspersky y Microsoft para implementar la protección
           que tu empresa necesita.
@@ -33,7 +32,7 @@ export default function SolutionsGrid() {
               <p className="text-xs uppercase tracking-widest text-zinc-300 mb-2">
                 Consultoría
               </p>
-              <h4 className="font-serif text-2xl">
+              <h4 className="font-light tracking-tight text-2xl">
                 Diagnóstico y estrategia de ciberseguridad
               </h4>
             </div>
@@ -44,7 +43,7 @@ export default function SolutionsGrid() {
             <p className="text-[11px] uppercase tracking-[0.2em] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
               Consultoría
             </p>
-            <h4 className="font-serif text-2xl text-zinc-900 dark:text-white leading-snug">
+            <h4 className="font-light tracking-tight text-2xl text-zinc-900 dark:text-white leading-snug">
               Diagnóstico y estrategia de ciberseguridad
             </h4>
           </div>
@@ -66,7 +65,7 @@ export default function SolutionsGrid() {
               <p className="text-xs uppercase tracking-widest text-zinc-300 mb-2">
                 Implementación
               </p>
-              <h4 className="font-serif text-2xl">Bitdefender, Kaspersky y Microsoft 365</h4>
+              <h4 className="font-light tracking-tight text-2xl">Bitdefender, Kaspersky y Microsoft 365</h4>
             </div>
           </div>
 
@@ -75,7 +74,7 @@ export default function SolutionsGrid() {
             <p className="text-[11px] uppercase tracking-[0.2em] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
               Implementación
             </p>
-            <h4 className="font-serif text-2xl text-zinc-900 dark:text-white leading-snug">
+            <h4 className="font-light tracking-tight text-2xl text-zinc-900 dark:text-white leading-snug">
               Bitdefender, Kaspersky y Microsoft 365
             </h4>
           </div>
@@ -94,7 +93,7 @@ export default function SolutionsGrid() {
             
             {/* Desktop Text */}
             <div className="hidden md:block absolute bottom-0 left-0 p-12 w-full md:w-1/2 text-white">
-              <h4 className="font-serif text-4xl mb-4">
+              <h4 className="font-light tracking-tight text-4xl mb-4">
                 No te dejamos solo después de la compra
               </h4>
               <p className="text-zinc-300 font-light mb-8">
@@ -102,10 +101,10 @@ export default function SolutionsGrid() {
                 endpoints, redes, correo, cifrado de disco y continuidad con
                 soporte en tu idioma.
               </p>
-              <Link href="/productos#planes" className="border-gradient rounded-full inline-block">
-                <div className="flex justify-between items-center bg-white/10 backdrop-blur-md rounded-full p-1 pr-2 w-max gap-4 relative z-10">
+              <Link href="/productos#planes" className="border-gradient rounded-md inline-block">
+                <div className="flex justify-between items-center bg-white/10 backdrop-blur-md rounded-md p-1 pr-2 w-max gap-4 relative z-10">
                   <span className="text-white text-xs pl-4">Ver soluciones</span>
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black">
+                  <div className="w-8 h-8 bg-white rounded-md flex items-center justify-center text-black">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -115,7 +114,7 @@ export default function SolutionsGrid() {
 
           {/* Mobile Text Panel */}
           <div className="md:hidden p-6 sm:p-8 flex flex-col justify-center grow">
-            <h4 className="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-white mb-3 leading-snug">
+            <h4 className="font-light tracking-tight text-2xl sm:text-3xl text-zinc-900 dark:text-white mb-3 leading-snug">
               No te dejamos solo después de la compra
             </h4>
             <p className="text-zinc-500 dark:text-zinc-400 font-light mb-6 text-sm leading-relaxed">
@@ -123,7 +122,7 @@ export default function SolutionsGrid() {
               endpoints, redes, correo y continuidad sin dejar a tu equipo solo
               después de la compra.
             </p>
-            <Link href="/productos#planes" className="inline-flex min-h-[3.5rem] w-full items-center justify-center gap-3 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 px-6 py-3.5 rounded-full text-base font-medium transition-colors">
+            <Link href="/productos#planes" className="inline-flex min-h-[3.5rem] w-full items-center justify-center gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 py-3.5 rounded-md text-base font-medium transition-all">
               Ver soluciones
               <ArrowRight className="w-5 h-5" />
             </Link>
