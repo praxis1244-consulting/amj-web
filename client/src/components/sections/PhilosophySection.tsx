@@ -7,6 +7,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 const steps = [
   {
@@ -94,7 +95,7 @@ export default function PhilosophySection() {
 
         {/* Heavy typo link */}
         <div className="pt-8 md:pt-16 pb-12">
-          <a
+          <Link
             href="/productos"
             className="group inline-flex items-center gap-4 text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors"
           >
@@ -102,7 +103,7 @@ export default function PhilosophySection() {
               Conoce nuestros productos
             </span>
             <ArrowRight className="w-8 h-8 md:w-10 md:h-10 group-hover:translate-x-4 transition-transform" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
