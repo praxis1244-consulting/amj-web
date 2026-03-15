@@ -4,13 +4,21 @@ import RevealText from "@/components/ui/RevealText";
 export default function Footer() {
   return (
     <footer
-      id="contacto"
+      id="site-footer"
       className="bg-zinc-950 text-white rounded-t-[2.25rem] md:rounded-t-[3rem] overflow-hidden relative"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 md:py-24 relative z-10">
         {/* Top */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 sm:pb-8 mb-12 sm:mb-16 gap-5 sm:gap-6">
-          <img src="/logo-iso.png" alt="AMJ Ingeniería" className="h-7 w-auto brightness-100" />
+          <img
+            src="/logo-iso.png"
+            alt="AMJ Ingeniería"
+            width="220"
+            height="56"
+            loading="lazy"
+            decoding="async"
+            className="h-7 w-auto brightness-100"
+          />
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] sm:text-xs text-zinc-500 uppercase tracking-wider sm:tracking-widest">
             <span>15+ años</span>
             <span className="text-zinc-700">//</span>

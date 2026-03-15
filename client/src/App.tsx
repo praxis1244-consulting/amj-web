@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route, useLocation } from "wouter";
-import HomePage from "@/pages/home";
-import ProductsPage from "@/pages/products";
+
+const HomePage = lazy(() => import("@/pages/home"));
+const ProductsPage = lazy(() => import("@/pages/products"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -26,10 +27,13 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ScrollToTop />
-      <Switch>
-        <Route path="/" component={HomePage} />
-        <Route path="/productos" component={ProductsPage} />
-      </Switch>
+      <Suspense fallback={null}>
+        <Switch>
+          <Route path="/" component={HomePage} />
+          <Route path="/productos" component={ProductsPage} />
+          <Route path="/productos/" component={ProductsPage} />
+        </Switch>
+      </Suspense>
     </QueryClientProvider>
   );
 }

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /trpc
+
+Sitemap: https://amjingenieria.cl/sitemap.xml

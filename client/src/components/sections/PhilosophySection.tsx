@@ -95,11 +95,11 @@ export default function PhilosophySection() {
         {/* Heavy typo link */}
         <div className="pt-8 md:pt-16 pb-12">
           <a
-            href="#servicios"
+            href="/productos"
             className="group inline-flex items-center gap-4 text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors"
           >
             <span className="underline decoration-4 underline-offset-[12px] decoration-zinc-200 dark:decoration-zinc-800 group-hover:decoration-zinc-900 dark:group-hover:decoration-zinc-100 transition-colors">
-              Conoce nuestros servicios
+              Conoce nuestros productos
             </span>
             <ArrowRight className="w-8 h-8 md:w-10 md:h-10 group-hover:translate-x-4 transition-transform" />
           </a>

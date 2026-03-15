@@ -111,14 +111,14 @@ export default function ContactFormD() {
                 Primera asesoría sin costo
               </div>
 
-              <h3 className="max-w-[14ch] text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.02]">
+              <h3 className="max-w-[16ch] text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.02]">
                 Protege tu operación antes del próximo incidente.
               </h3>
 
               <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg">
-                Pérdida de datos, ransomware, brechas de cumplimiento: revisamos
-                tu caso, detectamos riesgos y te proponemos un siguiente paso
-                claro. Sin compromiso inicial.
+                El 43% de los ciberataques apunta a empresas medianas que creen
+                estar protegidas. Revisamos tu caso, detectamos brechas reales y
+                te proponemos un siguiente paso claro — sin compromiso.
               </p>
             </div>
 
@@ -164,6 +164,9 @@ export default function ContactFormD() {
                   <h4 className="mt-2 text-2xl font-medium tracking-tight text-white">
                     Completa una sola vez. Nosotros seguimos.
                   </h4>
+                  <p className="mt-2 text-sm text-amber-400/90">
+                    Cupos limitados por mes — respondemos en 1 día hábil.
+                  </p>
                 </div>
                 <p className="max-w-[18rem] text-sm leading-relaxed text-zinc-400">
                   Los campos con * son obligatorios.
@@ -386,14 +389,25 @@ export default function ContactFormD() {
                           "Enviando solicitud..."
                         ) : (
                           <>
-                            Solicitar asesoría sin costo
+                            Quiero mi diagnóstico gratis
                             <ArrowRight className="h-4 w-4" />
                           </>
                         )}
                       </button>
-                      <p className="text-[11px] text-zinc-500 text-center">
-                        No compartimos tus datos con terceros.
-                      </p>
+                      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-zinc-500">
+                        <span className="flex items-center gap-1.5">
+                          <ShieldCheck className="h-3 w-3 text-emerald-400" />
+                          Sin compromiso
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <ShieldCheck className="h-3 w-3 text-emerald-400" />
+                          Datos protegidos
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <ShieldCheck className="h-3 w-3 text-emerald-400" />
+                          Bitdefender Gold Partner
+                        </span>
+                      </div>
                     </div>
                   </form>
                 )}

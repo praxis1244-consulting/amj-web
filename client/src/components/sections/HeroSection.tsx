@@ -1,59 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import Lottie from "lottie-react";
-import RevealText from "@/components/ui/RevealText";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-function GravityField() {
-  const [lottieData, setLottieData] = useState<object | null>(null);
-
-  useEffect(() => {
-    fetch("/lottie-shield.json")
-      .then((r) => r.json())
-      .then(setLottieData)
-      .catch(() => {});
-  }, []);
-
-  if (!lottieData) return null;
-
-  return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      {/* Ambient glow — breathes behind the Lottie */}
-      <motion.div
-        className="absolute inset-[15%] rounded-full blur-3xl bg-indigo-400/[0.07] dark:bg-indigo-400/[0.05]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{
-          opacity: [0, 1, 1],
-          scale: [0.8, 1, 1.05, 1],
-        }}
-        transition={{
-          opacity: { duration: 1.5, delay: 0.5, ease: EASE },
-          scale: { duration: 6, delay: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
-        }}
-      />
-
-      {/* Lottie with float */}
-      <motion.div
-        className="relative w-full h-full"
-        initial={{ opacity: 0, scale: 0.85, y: 20 }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          y: [0, -10, 0],
-        }}
-        transition={{
-          opacity: { duration: 1, delay: 0.5, ease: EASE },
-          scale: { duration: 1.2, delay: 0.5, ease: EASE },
-          y: { duration: 5, delay: 1.7, repeat: Infinity, ease: "easeInOut" },
-        }}
-      >
-        <Lottie animationData={lottieData} loop className="w-full h-full" />
-      </motion.div>
-    </div>
-  );
-}
+const LottieShield = lazy(() => import("@/components/media/LottieShield"));
 
 function useCountUp(target: number, duration: number, inView: boolean) {
   const [value, setValue] = useState(0);
@@ -156,7 +107,16 @@ export default function HeroSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[100svh] lg:min-h-screen flex items-center pt-24 sm:pt-28 lg:pt-24 pb-12 sm:pb-16 overflow-hidden">
         {/* Gravity field - Desktop */}
         <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[540px] h-[540px] hidden lg:block pointer-events-none text-zinc-900 dark:text-white">
-          <GravityField />
+          <Suspense
+            fallback={
+              <div
+                aria-hidden="true"
+                className="w-full h-full rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.12),transparent_65%)]"
+              />
+            }
+          >
+            <LottieShield />
+          </Suspense>
         </div>
 
         <motion.div 
@@ -178,7 +138,7 @@ export default function HeroSection() {
             }}
             className="text-[11px] sm:text-xs font-medium tracking-[0.22em] text-zinc-400 dark:text-zinc-500 uppercase mb-6 sm:mb-8"
           >
-            15+ años protegiendo empresas en Chile
+            Bitdefender Gold Partner · 25+ años protegiendo empresas en Chile
           </motion.p>
 
           <motion.h1 
@@ -204,7 +164,16 @@ export default function HeroSection() {
             }}
             className="mt-8 w-56 h-56 mx-auto sm:w-64 sm:h-64 lg:hidden"
           >
-            <GravityField />
+            <Suspense
+              fallback={
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.12),transparent_65%)]"
+                />
+              }
+            >
+              <LottieShield />
+            </Suspense>
           </motion.div>
 
           <motion.p
@@ -214,9 +183,9 @@ export default function HeroSection() {
             }}
             className="mt-8 sm:mt-10 max-w-[33rem] text-zinc-500 dark:text-zinc-400 text-lg leading-relaxed font-light"
           >
-            Consultoría, implementación y operación de ciberseguridad para
-            empresas. Plataformas líderes, equipo certificado y acompañamiento
-            local en cada etapa.
+            Evaluamos tu infraestructura, cerramos las brechas que un atacante
+            encontraría primero y monitoreamos para que no se abran de nuevo.
+            Equipo certificado y local en Chile.
           </motion.p>
 
           <motion.div 
@@ -230,10 +199,14 @@ export default function HeroSection() {
               href="#contacto"
               className="inline-flex min-h-[3.5rem] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 sm:px-8 py-3.5 sm:py-4 rounded-md text-base sm:text-sm font-medium hover:brightness-110 transition-all"
             >
-              Agenda un diagnóstico
+              Quiero mi diagnóstico gratis
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
             </a>
 
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 flex items-center gap-2">
+              <span className="inline-block w-1.5 h-1.5 rounded-sm bg-emerald-400" />
+              Sin costo · Sin compromiso · Respuesta en 1 día hábil
+            </p>
           </motion.div>
 
           {/* Stat strip — mobile: in flow */}
