@@ -3,6 +3,7 @@ import Nav from "@/components/layout/Nav";
 import PageMeta from "@/components/seo/PageMeta";
 import ProgressiveBlur from "@/components/layout/ProgressiveBlur";
 import ProductHeroSection from "@/components/sections/ProductHeroSection";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 const FeaturesScrollSection = lazy(() => import("@/components/sections/FeaturesScrollSection"));
 const AwardsMarquee = lazy(() => import("@/components/sections/AwardsMarquee"));
@@ -31,11 +32,7 @@ const PRODUCTS_SCHEMA = [
 ];
 
 function DeferredSection({ children }: { children: ReactNode }) {
-  return (
-    <div className="content-auto">
-      <Suspense fallback={null}>{children}</Suspense>
-    </div>
-  );
+  return <Suspense fallback={null}>{children}</Suspense>;
 }
 
 export default function ProductsPage() {
@@ -70,6 +67,7 @@ export default function ProductsPage() {
       <DeferredSection>
         <Footer />
       </DeferredSection>
+      <WhatsAppButton />
     </>
   );
 }

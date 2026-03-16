@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Sun, Moon, ArrowRight } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
+import { scrollToContact } from "@/lib/scrollToContact";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -77,9 +78,21 @@ export default function Nav() {
                   {item.label}{underline}
                 </Link>
               ) : (
-                <a key={item.label} href={item.href} className={className}>
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => {
+                    const hash = item.href.includes("#") ? item.href.split("#")[1] : null;
+                    if (hash === "contacto") {
+                      scrollToContact();
+                    } else if (hash) {
+                      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }}
+                  className={className}
+                >
                   {item.label}{underline}
-                </a>
+                </button>
               );
             })}
           </div>
@@ -93,12 +106,13 @@ export default function Nav() {
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            <a
-              href="#contacto"
-              className="bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white px-5 py-2.5 rounded-md hover:brightness-110 transition-all dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 dark:hover:brightness-110"
+            <button
+              type="button"
+              onClick={() => scrollToContact()}
+              className="bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white px-5 py-2.5 rounded-md hover:brightness-110 transition-all dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 dark:hover:brightness-110 cursor-pointer"
             >
               Quiero mi diagnóstico gratis
-            </a>
+            </button>
           </div>
 
           {/* Mobile controls */}
@@ -207,7 +221,7 @@ export default function Nav() {
                       requestAnimationFrame(() => {
                         setTimeout(() => {
                           const el = document.getElementById(hash);
-                          el?.scrollIntoView({ behavior: "smooth" });
+                          el?.scrollIntoView({ behavior: "smooth", block: "start" });
                         }, 50);
                       });
                     }
@@ -260,14 +274,19 @@ export default function Nav() {
                 <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-zinc-500 mb-4 font-medium">
                   Ransomware, brechas, cumplimiento
                 </p>
-                <a
-                  href="#contacto"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex w-full items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 text-base font-semibold tracking-tight"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    requestAnimationFrame(() => {
+                      setTimeout(() => scrollToContact(), 50);
+                    });
+                  }}
+                  className="flex w-full items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 text-base font-semibold tracking-tight cursor-pointer"
                 >
                   Quiero mi diagnóstico gratis
                   <ArrowRight className="w-5 h-5" />
-                </a>
+                </button>
               </motion.div>
             </div>
           </motion.div>

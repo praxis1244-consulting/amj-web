@@ -3,7 +3,7 @@ import { Link } from "wouter";
 
 export default function SolutionsGrid() {
   return (
-    <section id="servicios" className="max-w-7xl mx-auto px-6 py-32">
+    <section id="servicios" className="scroll-mt-24 max-w-7xl mx-auto px-6 py-32">
       <div className="text-center mb-16 max-w-2xl mx-auto">
         <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 mb-6">
           Soluciones para cada <span className="font-serif italic text-[#25327D] dark:text-amber-400">etapa</span>

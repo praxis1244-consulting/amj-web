@@ -73,7 +73,7 @@ export default function ContactFormD() {
   };
 
   return (
-    <section id="contacto" className="pb-24 px-4 md:px-6">
+    <section className="pb-24 px-4 md:px-6">
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-zinc-950 text-white">
         <div
           aria-hidden="true"
@@ -155,7 +155,7 @@ export default function ContactFormD() {
                 : undefined
             }
           >
-            <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:p-7">
+            <div id="contacto" className="scroll-mt-24 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:p-7">
               <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
                 <div className="min-w-0">
                   <p className="text-xs font-medium uppercase tracking-[0.22em] text-zinc-400">

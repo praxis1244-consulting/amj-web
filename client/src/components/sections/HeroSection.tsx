@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { scrollToContact } from "@/lib/scrollToContact";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -195,13 +196,14 @@ export default function HeroSection() {
             }}
             className="mt-10 sm:mt-12 flex flex-col items-start gap-4"
           >
-            <a
-              href="#contacto"
-              className="inline-flex min-h-[3.5rem] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 sm:px-8 py-3.5 sm:py-4 rounded-md text-base sm:text-sm font-medium hover:brightness-110 transition-all"
+            <button
+              type="button"
+              onClick={() => scrollToContact()}
+              className="inline-flex min-h-[3.5rem] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 sm:px-8 py-3.5 sm:py-4 rounded-md text-base sm:text-sm font-medium hover:brightness-110 transition-all cursor-pointer"
             >
               Quiero mi diagnóstico gratis
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
-            </a>
+            </button>
 
             <p className="text-xs text-zinc-400 dark:text-zinc-500 flex items-center gap-2">
               <span className="inline-block w-1.5 h-1.5 rounded-sm bg-emerald-400" />

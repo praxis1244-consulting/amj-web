@@ -5,6 +5,7 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().url().default("https://dekyswplvzsbqzcdsavu.supabase.co"),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   SITE_ID: z.string().uuid(),
+  RESEND_API_KEY: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
+import { scrollToContact } from "@/lib/scrollToContact";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -109,9 +110,10 @@ function PlanCard({ plan, index, className }: { plan: typeof plans[number]; inde
         ))}
       </ul>
 
-      <a
-        href="#contacto"
-        className={`group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md text-sm font-medium transition-all duration-200 ${
+      <button
+        type="button"
+        onClick={() => scrollToContact()}
+        className={`group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer ${
           plan.popular
             ? "bg-gradient-to-r from-amber-400 to-amber-500 text-zinc-900 hover:brightness-110"
             : "border border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-500 dark:hover:border-zinc-500"
@@ -119,7 +121,7 @@ function PlanCard({ plan, index, className }: { plan: typeof plans[number]; inde
       >
         Solicitar evaluación
         <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-      </a>
+      </button>
     </motion.div>
   );
 }

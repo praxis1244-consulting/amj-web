@@ -3,6 +3,7 @@ import Nav from "@/components/layout/Nav";
 import PageMeta from "@/components/seo/PageMeta";
 import ProgressiveBlur from "@/components/layout/ProgressiveBlur";
 import HeroSection from "@/components/sections/HeroSection";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 const PhilosophySection = lazy(() => import("@/components/sections/PhilosophySection"));
 const CaseStudySection = lazy(() => import("@/components/sections/CaseStudySection"));
@@ -42,11 +43,7 @@ const HOME_SCHEMA = [
 ];
 
 function DeferredSection({ children }: { children: ReactNode }) {
-  return (
-    <div className="content-auto">
-      <Suspense fallback={null}>{children}</Suspense>
-    </div>
-  );
+  return <Suspense fallback={null}>{children}</Suspense>;
 }
 
 export default function HomePage() {
@@ -84,6 +81,7 @@ export default function HomePage() {
       <DeferredSection>
         <Footer />
       </DeferredSection>
+      <WhatsAppButton />
     </>
   );
 }

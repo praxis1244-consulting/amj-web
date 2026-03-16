@@ -34,7 +34,7 @@ function formatNumber(n: number) {
 
 export default function CaseStudySection() {
   return (
-    <section id="casos" className="max-w-7xl mx-auto px-6 py-32 md:py-48">
+    <section id="casos" className="scroll-mt-24 max-w-7xl mx-auto px-6 py-32 md:py-48">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6">
         <div>

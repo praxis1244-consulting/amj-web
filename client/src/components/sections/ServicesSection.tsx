@@ -126,7 +126,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section id="servicios" className="max-w-7xl mx-auto px-4 sm:px-6 py-24 md:py-48">
+    <section id="servicios" className="scroll-mt-24 max-w-7xl mx-auto px-4 sm:px-6 py-24 md:py-48">
       {/* Header */}
       <div className="mb-12 sm:mb-16 md:mb-32">
         <h2 className="text-sm uppercase tracking-widest text-zinc-400 font-medium mb-6">

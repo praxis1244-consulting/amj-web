@@ -3,6 +3,9 @@ import { createLeadSchema } from "@shared/schemas";
 import { supabase } from "../db";
 import { env } from "../_core/env";
 import { TRPCError } from "@trpc/server";
+import { Resend } from "resend";
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 export const leadsRouter = router({
   create: publicProcedure.input(createLeadSchema).mutation(async ({ input }) => {
@@ -22,6 +25,21 @@ export const leadsRouter = router({
         message: "No se pudo enviar el mensaje. Intenta de nuevo.",
       });
     }
+
+    // Send notification email (don't block the response)
+    resend.emails.send({
+      from: "AMJ Web <no-reply@send.amjingenieria.cl>",
+      to: "ventas@amjingenieria.cl",
+      subject: `Nuevo lead: ${input.name}`,
+      html: `
+        <h2>Nuevo contacto desde amjingenieria.cl</h2>
+        <p><strong>Nombre:</strong> ${input.name}</p>
+        <p><strong>Email:</strong> ${input.email}</p>
+        ${input.phone ? `<p><strong>Teléfono:</strong> ${input.phone}</p>` : ""}
+        ${input.company ? `<p><strong>Empresa:</strong> ${input.company}</p>` : ""}
+        ${input.message ? `<p><strong>Mensaje:</strong> ${input.message}</p>` : ""}
+      `,
+    }).catch(console.error);
 
     return { success: true };
   }),

@@ -1,4 +1,5 @@
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { scrollToContact } from "@/lib/scrollToContact";
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -141,13 +142,14 @@ export default function ProductHeroSection() {
 
           {/* CTA Row - 100% width on mobile */}
           <div className="mt-8 md:mt-7 flex flex-wrap items-center gap-4 w-full md:w-auto">
-            <a
-              href="#contacto"
-              className="inline-flex w-full md:w-auto min-h-[3.5rem] items-center justify-center gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 sm:px-8 py-3.5 rounded-md text-base sm:text-sm font-medium hover:brightness-110 transition-all"
+            <button
+              type="button"
+              onClick={() => scrollToContact()}
+              className="inline-flex w-full md:w-auto min-h-[3.5rem] items-center justify-center gap-3 bg-gradient-to-r from-[#25327D] to-[#103A8F] text-white dark:from-amber-400 dark:to-amber-500 dark:text-zinc-900 px-6 sm:px-8 py-3.5 rounded-md text-base sm:text-sm font-medium hover:brightness-110 transition-all cursor-pointer"
             >
               Solicitar evaluacion
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4" />
-            </a>
+            </button>
           </div>
 
         </div>
