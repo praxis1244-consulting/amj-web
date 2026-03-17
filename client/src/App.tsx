@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route, useLocation } from "wouter";
+import { TRPCProvider, trpcClient } from "@/lib/trpc";
 
 const HomePage = lazy(() => import("@/pages/home"));
 const ProductsPage = lazy(() => import("@/pages/products"));
@@ -25,15 +26,17 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ScrollToTop />
-      <Suspense fallback={null}>
-        <Switch>
-          <Route path="/" component={HomePage} />
-          <Route path="/productos" component={ProductsPage} />
-          <Route path="/productos/" component={ProductsPage} />
-        </Switch>
-      </Suspense>
-    </QueryClientProvider>
+    <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <ScrollToTop />
+        <Suspense fallback={null}>
+          <Switch>
+            <Route path="/" component={HomePage} />
+            <Route path="/productos" component={ProductsPage} />
+            <Route path="/productos/" component={ProductsPage} />
+          </Switch>
+        </Suspense>
+      </QueryClientProvider>
+    </TRPCProvider>
   );
 }
