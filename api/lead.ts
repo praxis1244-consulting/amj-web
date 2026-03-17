@@ -84,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   if (error) {
-    res.status(500).json({ error: "Failed to save lead" });
+    res.status(500).json({ error: "Failed to save lead", detail: error.message, code: error.code });
     return;
   }
 
