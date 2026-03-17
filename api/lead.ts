@@ -1,11 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
 import { createHash, randomUUID } from "crypto";
 import type { IncomingMessage, ServerResponse } from "http";
 
-const supabase = createClient(
-  "https://dekyswplvzsbqzcdsavu.supabase.co",
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const SUPABASE_URL = "https://dekyswplvzsbqzcdsavu.supabase.co";
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 const SITE_ID = process.env.SITE_ID!;
 const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
@@ -76,18 +73,28 @@ export default async function handler(
 
   const eventId = randomUUID();
 
-  const { error } = await supabase.from("leads").insert({
-    site_id: SITE_ID,
-    name,
-    email,
-    phone: phone ?? null,
-    notes: message ?? null,
-    source: "website",
-    custom_fields: company ? { company } : {},
+  const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({
+      site_id: SITE_ID,
+      name,
+      email,
+      phone: phone ?? null,
+      notes: message ?? null,
+      source: "website",
+      custom_fields: company ? { company } : {},
+    }),
   });
 
-  if (error) {
-    res.status(500).json({ error: "Failed to save lead", detail: error.message, code: error.code });
+  if (!insertRes.ok) {
+    const detail = await insertRes.text();
+    res.status(500).json({ error: "Failed to save lead", detail });
     return;
   }
 
