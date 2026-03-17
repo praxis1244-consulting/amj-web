@@ -1,11 +1,10 @@
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { createLeadSchema, type CreateLeadInput } from "@shared/schemas";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
-import { useTRPC } from "@/lib/trpc";
-import { useMutation } from "@tanstack/react-query";
 
 /**
  * Conversion-focused contact section.
@@ -14,7 +13,6 @@ import { useMutation } from "@tanstack/react-query";
 export default function ContactFormD() {
   const prefersReducedMotion = useReducedMotion();
   const formId = useId();
-  const trpc = useTRPC();
 
   const {
     register,
@@ -26,7 +24,17 @@ export default function ContactFormD() {
     mode: "onBlur",
   });
 
-  const mutation = useMutation(trpc.leads.create.mutationOptions());
+  const mutation = useMutation({
+    mutationFn: async (input: CreateLeadInput) => {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      });
+      if (!res.ok) throw new Error("No se pudo enviar tu solicitud. Intenta de nuevo.");
+      return res.json() as Promise<{ success: boolean; eventId: string }>;
+    },
+  });
 
   const onSubmit = (data: CreateLeadInput) => {
     const normalizedData: CreateLeadInput = {
