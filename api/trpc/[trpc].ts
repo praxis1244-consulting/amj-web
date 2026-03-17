@@ -26,8 +26,8 @@ export default async function handler(
       res,
       createContext: () => ({ req, res }) as any,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("tRPC handler error:", err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: err?.message ?? "Unknown error", stack: err?.stack });
   }
 }
