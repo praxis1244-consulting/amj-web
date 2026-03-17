@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
+import { createClient } from "@supabase/supabase-js";
 
-const VERSION = "v8";
+const VERSION = "v9";
 
 export default async function handler(req: any, res: any) {
   if (req.method === "GET") return res.status(200).json({
@@ -14,33 +15,25 @@ export default async function handler(req: any, res: any) {
   const { name, email, phone, company, message } = req.body ?? {};
   if (!name || !email) return res.status(400).json({ error: "name and email are required" });
 
-  const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co";
-  const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
   const SITE_ID = process.env.SITE_ID ?? "";
   const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
   const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
   const eventId = globalThis.crypto.randomUUID();
 
-  // Insert lead
-  const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
-    method: "POST",
-    headers: {
-      apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
-    body: JSON.stringify({
-      site_id: SITE_ID, name, email,
-      phone: phone ?? null, notes: message ?? null,
-      source: "website",
-      custom_fields: company ? { company } : {},
-    }),
+  // Insert lead via Supabase JS client
+  const supabase = createClient(
+    process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co",
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+  const { error: dbError } = await supabase.from("leads").insert({
+    site_id: SITE_ID, name, email,
+    phone: phone ?? null, notes: message ?? null,
+    source: "website",
+    custom_fields: company ? { company } : {},
   });
 
-  if (!insertRes.ok) {
-    const detail = await insertRes.text();
-    return res.status(500).json({ error: "Failed to save lead", detail });
+  if (dbError) {
+    return res.status(500).json({ error: "Failed to save lead", detail: dbError.message });
   }
 
   // Fire Meta CAPI Lead event
