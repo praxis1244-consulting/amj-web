@@ -6,6 +6,8 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   SITE_ID: z.string().uuid(),
   RESEND_API_KEY: z.string().min(1),
+  META_PIXEL_ID: z.string().default("1651608922679340"),
+  META_CAPI_TOKEN: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);

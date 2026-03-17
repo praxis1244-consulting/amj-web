@@ -1,13 +1,11 @@
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { createLeadSchema, type CreateLeadInput } from "@shared/schemas";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-
-const SITE_ID = "c271ef9e-4751-4481-90fb-be03ab921592";
+import { useTRPC } from "@/lib/trpc";
+import { useMutation } from "@tanstack/react-query";
 
 /**
  * Conversion-focused contact section.
@@ -16,6 +14,7 @@ const SITE_ID = "c271ef9e-4751-4481-90fb-be03ab921592";
 export default function ContactFormD() {
   const prefersReducedMotion = useReducedMotion();
   const formId = useId();
+  const trpc = useTRPC();
 
   const {
     register,
@@ -27,23 +26,7 @@ export default function ContactFormD() {
     mode: "onBlur",
   });
 
-  const mutation = useMutation({
-    mutationFn: async (input: CreateLeadInput) => {
-      const { error } = await supabase.from("leads").insert({
-        site_id: SITE_ID,
-        name: input.name,
-        email: input.email,
-        phone: input.phone ?? null,
-        notes: input.message ?? null,
-        source: "website",
-        custom_fields: input.company ? { company: input.company } : {},
-      });
-
-      if (error) {
-        throw new Error("No se pudo enviar tu solicitud. Intenta de nuevo.");
-      }
-    },
-  });
+  const mutation = useMutation(trpc.leads.create.mutationOptions());
 
   const onSubmit = (data: CreateLeadInput) => {
     const normalizedData: CreateLeadInput = {
@@ -55,9 +38,9 @@ export default function ContactFormD() {
     };
 
     mutation.mutate(normalizedData, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         if (typeof window.fbq === "function") {
-          window.fbq("track", "Lead");
+          window.fbq("track", "Lead", {}, { eventID: data.eventId });
         }
         reset();
       },

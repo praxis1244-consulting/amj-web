@@ -4,11 +4,14 @@ import { supabase } from "../db";
 import { env } from "../_core/env";
 import { TRPCError } from "@trpc/server";
 import { Resend } from "resend";
+import { generateEventId, sendLeadEvent } from "../lib/meta-capi";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
 export const leadsRouter = router({
-  create: publicProcedure.input(createLeadSchema).mutation(async ({ input }) => {
+  create: publicProcedure.input(createLeadSchema).mutation(async ({ input, ctx }) => {
+    const eventId = generateEventId();
+
     const { error } = await supabase.from("leads").insert({
       site_id: env.SITE_ID,
       name: input.name,
@@ -26,6 +29,17 @@ export const leadsRouter = router({
       });
     }
 
+    // Fire Meta CAPI Lead event (don't block the response)
+    sendLeadEvent({
+      email: input.email,
+      name: input.name,
+      phone: input.phone,
+      eventSourceUrl: ctx.req.headers.referer ?? "https://amjingenieria.cl/",
+      clientIp: (ctx.req.headers["x-forwarded-for"] as string)?.split(",")[0] ?? ctx.req.socket.remoteAddress,
+      clientUserAgent: ctx.req.headers["user-agent"],
+      eventId,
+    });
+
     // Send notification email (don't block the response)
     resend.emails.send({
       from: "AMJ Web <no-reply@send.amjingenieria.cl>",
@@ -41,6 +55,6 @@ export const leadsRouter = router({
       `,
     }).catch(console.error);
 
-    return { success: true };
+    return { success: true, eventId };
   }),
 });
