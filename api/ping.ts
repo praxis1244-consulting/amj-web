@@ -1,3 +1,6 @@
+import { createHash } from "crypto";
+
 export default function handler(_req: any, res: any) {
-  res.status(200).json({ ok: true, time: Date.now() });
+  const hash = createHash("sha256").update("test").digest("hex");
+  res.status(200).json({ ok: true, hash });
 }
