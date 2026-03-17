@@ -4,11 +4,16 @@ import { createClient } from "@supabase/supabase-js";
 const VERSION = "v9";
 
 export default async function handler(req: any, res: any) {
-  if (req.method === "GET") return res.status(200).json({
-    version: VERSION,
-    supaUrl: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "(fallback)",
-    hasKey: !!(process.env.SUPABASE_SERVICE_ROLE_KEY),
-  });
+  if (req.method === "GET") {
+    try {
+      const r = await fetch("https://dekyswplvzsbqzcdsavu.supabase.co/rest/v1/", {
+        headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "" },
+      });
+      return res.status(200).json({ version: VERSION, supaStatus: r.status, ok: r.ok });
+    } catch (e: any) {
+      return res.status(200).json({ version: VERSION, fetchError: e.message, cause: e.cause?.message });
+    }
+  }
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
