@@ -1,16 +1,18 @@
-import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { nodeHTTPRequestHandler } from "@trpc/server/adapters/node-http";
 import { appRouter } from "../../server/routers";
-import { createContext } from "../../server/_core/context";
 import type { IncomingMessage, ServerResponse } from "http";
-import express from "express";
 
-const app = express();
-app.use(
-  "/api/trpc",
-  createExpressMiddleware({ router: appRouter, createContext })
-);
+export default async function handler(
+  req: IncomingMessage,
+  res: ServerResponse
+) {
+  const path = req.url?.replace(/^\/api\/trpc\//, "").split("?")[0] ?? "";
 
-export default function handler(req: IncomingMessage, res: ServerResponse) {
-  req.url = req.url?.replace(/^\/api\/trpc/, "") || "/";
-  return app(req as any, res as any);
+  await nodeHTTPRequestHandler({
+    router: appRouter,
+    path,
+    req,
+    res,
+    createContext: () => ({ req, res } as any),
+  });
 }
