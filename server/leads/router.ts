@@ -1,5 +1,5 @@
 import { router, publicProcedure } from "../_core/trpc";
-import { createLeadSchema } from "@shared/schemas";
+import { createLeadSchema } from "../../shared/schemas";
 import { supabase } from "../db";
 import { env } from "../_core/env";
 import { TRPCError } from "@trpc/server";
