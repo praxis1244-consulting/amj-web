@@ -28,6 +28,7 @@ export function generateEventId(): string {
 }
 
 export async function sendLeadEvent(params: LeadEventParams): Promise<void> {
+  if (!env.META_CAPI_TOKEN) return;
   const eventId = params.eventId ?? generateEventId();
   const firstName = params.name.split(" ")[0];
 
@@ -53,7 +54,7 @@ export async function sendLeadEvent(params: LeadEventParams): Promise<void> {
     ],
   };
 
-  await fetch(`${CAPI_URL}?access_token=${env.META_CAPI_TOKEN}`, {
+  await fetch(`${CAPI_URL}?access_token=${env.META_CAPI_TOKEN!}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

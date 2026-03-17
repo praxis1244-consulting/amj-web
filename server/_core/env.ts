@@ -7,7 +7,7 @@ const envSchema = z.object({
   SITE_ID: z.string().uuid(),
   RESEND_API_KEY: z.string().min(1),
   META_PIXEL_ID: z.string().default("1651608922679340"),
-  META_CAPI_TOKEN: z.string().min(1),
+  META_CAPI_TOKEN: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);
