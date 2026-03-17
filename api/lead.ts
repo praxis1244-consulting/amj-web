@@ -1,6 +1,9 @@
 import { createHash } from "crypto";
 
+const VERSION = "v8";
+
 export default async function handler(req: any, res: any) {
+  if (req.method === "GET") return res.status(200).json({ version: VERSION });
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const { name, email, phone, company, message } = req.body ?? {};
@@ -13,7 +16,7 @@ export default async function handler(req: any, res: any) {
   const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
   const eventId = globalThis.crypto.randomUUID();
 
-  // Insert lead into Supabase
+  // Insert lead
   const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
     method: "POST",
     headers: {
@@ -35,54 +38,34 @@ export default async function handler(req: any, res: any) {
     return res.status(500).json({ error: "Failed to save lead", detail });
   }
 
-  // Fire Meta CAPI Lead event (non-blocking)
+  // Fire Meta CAPI Lead event
   if (CAPI_TOKEN) {
-    const sha256 = (v: string) => createHash("sha256").update(v.trim().toLowerCase()).digest("hex");
-    const firstName = name.split(" ")[0];
-    const userData: Record<string, any> = {
-      em: [sha256(email)],
-      fn: [sha256(firstName)],
+    const sha = (v: string) => createHash("sha256").update(v.trim().toLowerCase()).digest("hex");
+    const ud: Record<string, any> = {
+      em: [sha(email)], fn: [sha(name.split(" ")[0])],
       client_user_agent: req.headers?.["user-agent"] ?? "",
     };
-    if (phone) {
-      const digits = phone.replace(/\D/g, "");
-      userData.ph = [sha256(digits.startsWith("56") ? digits : `56${digits}`)];
-    }
-    const fwdFor = req.headers?.["x-forwarded-for"];
-    if (fwdFor) userData.client_ip_address = String(fwdFor).split(",")[0];
+    if (phone) { const d = phone.replace(/\D/g, ""); ud.ph = [sha(d.startsWith("56") ? d : `56${d}`)]; }
+    const ff = req.headers?.["x-forwarded-for"];
+    if (ff) ud.client_ip_address = String(ff).split(",")[0];
 
     fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_TOKEN}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        data: [{
-          event_name: "Lead", event_time: Math.floor(Date.now() / 1000),
-          event_id: eventId, action_source: "website",
-          event_source_url: req.headers?.referer ?? "https://amjingenieria.cl/",
-          user_data: userData,
-        }],
-      }),
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: [{ event_name: "Lead", event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId, action_source: "website",
+        event_source_url: req.headers?.referer ?? "https://amjingenieria.cl/", user_data: ud }] }),
     }).catch(console.error);
   }
 
-  // Send email notification (non-blocking)
+  // Send email
   if (process.env.RESEND_API_KEY) {
     fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: "AMJ Web <no-reply@send.amjingenieria.cl>",
-        to: "ventas@amjingenieria.cl",
+        from: "AMJ Web <no-reply@send.amjingenieria.cl>", to: "ventas@amjingenieria.cl",
         subject: `Nuevo lead: ${name}`,
-        html: `<h2>Nuevo contacto desde amjingenieria.cl</h2>
-          <p><strong>Nombre:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          ${phone ? `<p><strong>Teléfono:</strong> ${phone}</p>` : ""}
-          ${company ? `<p><strong>Empresa:</strong> ${company}</p>` : ""}
-          ${message ? `<p><strong>Mensaje:</strong> ${message}</p>` : ""}`,
+        html: `<h2>Nuevo contacto</h2><p>${name}</p><p>${email}</p>`,
       }),
     }).catch(console.error);
   }
