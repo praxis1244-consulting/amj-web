@@ -1,20 +1,13 @@
 import type { IncomingMessage, ServerResponse } from "http";
 
-export default function handler(
+export default async function handler(
   _req: IncomingMessage,
   res: ServerResponse & { status: (code: number) => any; json: (data: any) => void }
 ) {
-  res.status(200).json({
-    hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-    hasSiteId: !!process.env.SITE_ID,
-    hasResendKey: !!process.env.RESEND_API_KEY,
-    hasCapiToken: !!process.env.META_CAPI_TOKEN,
-    envKeys: Object.keys(process.env).filter(
-      (k) =>
-        k.includes("SUPA") ||
-        k.includes("SITE") ||
-        k.includes("RESEND") ||
-        k.includes("META")
-    ),
-  });
+  try {
+    const { appRouter } = await import("../server/routers");
+    res.status(200).json({ ok: true, procedures: Object.keys(appRouter._def.procedures) });
+  } catch (err: any) {
+    res.status(500).json({ error: err?.message, stack: err?.stack?.split("\n").slice(0, 5) });
+  }
 }
