@@ -1,4 +1,4 @@
-import { createHash, randomUUID } from "crypto";
+import { createHash } from "crypto";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
   const SITE_ID = process.env.SITE_ID ?? "";
   const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
   const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
-  const eventId = randomUUID();
+  const eventId = globalThis.crypto.randomUUID();
 
   // Insert lead into Supabase
   const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
