@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import { createHash, randomUUID } from "crypto";
 
 const SUPABASE_URL = "https://dekyswplvzsbqzcdsavu.supabase.co";
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
@@ -7,7 +7,7 @@ const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
 const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
 
 function sha256(value: string) {
-  return crypto.createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
+  return createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
 }
 
 export default async function handler(req: any, res: any) {
@@ -16,7 +16,7 @@ export default async function handler(req: any, res: any) {
   const { name, email, phone, company, message } = req.body ?? {};
   if (!name || !email) return res.status(400).json({ error: "name and email are required" });
 
-  const eventId = crypto.randomUUID();
+  const eventId = randomUUID();
 
   // Insert lead into Supabase
   const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
