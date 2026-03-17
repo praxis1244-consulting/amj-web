@@ -10,7 +10,7 @@ export default async function handler(req: any, res: any) {
   const { name, email, phone, company, message } = req.body ?? {};
   if (!name || !email) return res.status(400).json({ error: "name and email are required" });
 
-  const SUPABASE_URL = "https://dekyswplvzsbqzcdsavu.supabase.co";
+  const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co";
   const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
   const SITE_ID = process.env.SITE_ID ?? "";
   const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
