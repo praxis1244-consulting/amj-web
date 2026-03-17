@@ -59,9 +59,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/trpc": {
-        target: "http://localhost:5174",
+      "/api/trpc": {
+        target: "http://localhost:3001",
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/trpc/, "/trpc"),
       },
     },
   },
