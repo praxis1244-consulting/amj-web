@@ -55,7 +55,12 @@ export default function ContactFormD() {
     };
 
     mutation.mutate(normalizedData, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        if (typeof window.fbq === "function") {
+          window.fbq("track", "Lead");
+        }
+        reset();
+      },
     });
   };
 

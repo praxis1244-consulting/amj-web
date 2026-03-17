@@ -70,6 +70,11 @@ export default function WhatsAppButton() {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    if (typeof window.fbq === "function") {
+                      window.fbq("track", "Contact");
+                    }
+                  }}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-emerald-400"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
