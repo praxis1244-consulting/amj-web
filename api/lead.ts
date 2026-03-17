@@ -1,9 +1,9 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 import { createHash, randomUUID } from "crypto";
+import type { IncomingMessage, ServerResponse } from "http";
 
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co",
+  "https://dekyswplvzsbqzcdsavu.supabase.co",
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -58,7 +58,10 @@ async function sendCapiEvent(
   ).catch(console.error);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(
+  req: IncomingMessage & { body?: any },
+  res: ServerResponse & { status: (n: number) => any; json: (d: any) => void }
+) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
