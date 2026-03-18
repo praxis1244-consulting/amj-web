@@ -1,22 +1,9 @@
 import { createHash } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
-const VERSION = "v9";
-
 export default async function handler(req: any, res: any) {
-  if (req.method === "GET") {
-    try {
-      const r = await fetch("https://dekyswplvzsbqzcdsavu.supabase.co/rest/v1/", {
-        headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "" },
-      });
-      return res.status(200).json({ version: VERSION, supaStatus: r.status, ok: r.ok });
-    } catch (e: any) {
-      return res.status(200).json({ version: VERSION, fetchError: e.message, cause: e.cause?.message });
-    }
-  }
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  try {
   const { name, email, phone, company, message } = req.body ?? {};
   if (!name || !email) return res.status(400).json({ error: "name and email are required" });
 
@@ -38,7 +25,7 @@ export default async function handler(req: any, res: any) {
   });
 
   if (dbError) {
-    return res.status(500).json({ error: "Failed to save lead", detail: dbError.message });
+    return res.status(500).json({ error: "No se pudo enviar el mensaje. Intenta de nuevo." });
   }
 
   // Fire Meta CAPI Lead event
@@ -74,7 +61,4 @@ export default async function handler(req: any, res: any) {
   }
 
   return res.status(200).json({ success: true, eventId });
-  } catch (err: any) {
-    return res.status(500).json({ error: err?.message, stack: err?.stack?.split("\n").slice(0, 3) });
-  }
 }
