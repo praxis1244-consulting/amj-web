@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 const PhilosophySection = lazy(() => import("@/components/sections/PhilosophySection"));
 const CaseStudySection = lazy(() => import("@/components/sections/CaseStudySection"));
+const PartnersSection = lazy(() => import("@/components/sections/PartnersSection"));
 const ServicesSection = lazy(() => import("@/components/sections/ServicesSection"));
 const SolutionsGrid = lazy(() => import("@/components/sections/SolutionsGrid"));
 const ValuesSection = lazy(() => import("@/components/sections/ValuesSection"));
@@ -64,6 +65,9 @@ export default function HomePage() {
         </DeferredSection>
         <DeferredSection>
           <CaseStudySection />
+        </DeferredSection>
+        <DeferredSection>
+          <PartnersSection />
         </DeferredSection>
         <DeferredSection>
           <ServicesSection />

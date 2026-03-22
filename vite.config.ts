@@ -58,6 +58,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
     proxy: {
       "/api/trpc": {
         target: "http://localhost:3001",

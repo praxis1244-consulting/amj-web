@@ -28,7 +28,7 @@ function useCountUp(target: number, duration: number, inView: boolean) {
 const stats = [
   { target: 5361, label: "Amenazas detectadas", suffix: "+" },
   { target: 1761, label: "Endpoints protegidos", suffix: "+" },
-  { target: 25, label: "Años de experiencia", suffix: "+" },
+  { target: 15, label: "Años de experiencia", suffix: "+" },
 ];
 
 function HeroStats({ mobile }: { mobile?: boolean }) {
@@ -139,7 +139,7 @@ export default function HeroSection() {
             }}
             className="text-[11px] sm:text-xs font-medium tracking-[0.22em] text-zinc-400 dark:text-zinc-500 uppercase mb-6 sm:mb-8"
           >
-            Bitdefender Gold Partner · 25+ años protegiendo empresas en Chile
+            Bitdefender Gold Partner · 15+ años protegiendo empresas en Chile
           </motion.p>
 
           <motion.h1 

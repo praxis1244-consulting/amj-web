@@ -87,9 +87,9 @@ export default function CaseStudySection() {
 
             {/* Metrics / Breakdown */}
             <div className="flex flex-col gap-2 w-full">
-              <MetricRow label="Malware detectado" target={5361} suffix="+" delay={0.3} />
-              <MetricRow label="Antivirus instalados" target={1761} suffix="+" delay={0.4} />
-              <MetricRow label="Años en el mercado" target={15} suffix="+" delay={0.5} />
+              <MetricRow label="Detecciones de malware en clientes AMJ" target={35000} suffix="+" delay={0.3} />
+              <MetricRow label="Antivirus instalados" target={11500} suffix="+" delay={0.4} />
+              <MetricRow label="Años de experiencia" target={15} suffix="+" delay={0.5} />
             </div>
           </motion.div>
         </div>
