@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: "/", label: "Inicio", isLink: true },
   { href: "/productos", label: "Productos", isLink: true },
   { href: "#contacto", label: "Contacto", isLink: false },
-  { href: "/#casos", label: "Casos", isLink: false },
+  { href: "/casos", label: "Casos", isLink: true },
   { href: "/#servicios", label: "Servicios", isLink: false },
 ];
 

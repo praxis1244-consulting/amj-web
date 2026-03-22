@@ -5,6 +5,7 @@ import { TRPCProvider, trpcClient } from "@/lib/trpc";
 
 const HomePage = lazy(() => import("@/pages/home"));
 const ProductsPage = lazy(() => import("@/pages/products"));
+const CasosPage = lazy(() => import("@/pages/casos"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/" component={HomePage} />
             <Route path="/productos" component={ProductsPage} />
             <Route path="/productos/" component={ProductsPage} />
+            <Route path="/casos" component={CasosPage} />
           </Switch>
         </Suspense>
       </QueryClientProvider>
