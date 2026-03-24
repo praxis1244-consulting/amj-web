@@ -230,9 +230,14 @@ export default function CasosPage() {
               </p>
 
               <img
-                src="/logos/spevi.jpeg"
+                src="/logos/spevi.png"
                 alt="SPEVI — Acústica · Audio · Video"
-                className="h-20 md:h-28 lg:h-32 w-auto object-contain"
+                className="h-20 md:h-28 lg:h-32 w-auto object-contain dark:hidden"
+              />
+              <img
+                src="/logos/spevi-dark.png"
+                alt="SPEVI — Acústica · Audio · Video"
+                className="h-20 md:h-28 lg:h-32 w-auto object-contain hidden dark:block"
               />
             </motion.div>
 

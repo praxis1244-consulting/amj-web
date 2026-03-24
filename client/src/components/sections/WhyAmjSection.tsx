@@ -14,7 +14,7 @@ const trustItems = [
     icon: ShieldCheck,
     title: "15+ años en el mercado",
     description:
-      "Primero entendemos riesgos, alcance y necesidades. Más de 1.761 antivirus desplegados respaldan nuestra recomendación.",
+      "Primero entendemos riesgos, alcance y necesidades. Más de 11.500 antivirus desplegados respaldan nuestra recomendación.",
   },
   {
     icon: MapPin,

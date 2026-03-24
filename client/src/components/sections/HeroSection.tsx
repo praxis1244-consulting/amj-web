@@ -26,8 +26,8 @@ function useCountUp(target: number, duration: number, inView: boolean) {
 }
 
 const stats = [
-  { target: 5361, label: "Amenazas detectadas", suffix: "+" },
-  { target: 1761, label: "Endpoints protegidos", suffix: "+" },
+  { target: 35000, label: "Detecciones de malware", suffix: "+" },
+  { target: 11500, label: "Antivirus instalados", suffix: "+" },
   { target: 15, label: "Años de experiencia", suffix: "+" },
 ];
 

@@ -3,9 +3,9 @@ import { ShieldCheck, Users, Zap } from "lucide-react";
 const values = [
   {
     icon: ShieldCheck,
-    title: "Equipo con 25+ años de experiencia",
+    title: "Equipo con 15+ años de experiencia",
     description:
-      "Profesionales certificados en plataformas líderes e ISO 27001. Más de 5.361 amenazas detectadas y 1.761 antivirus desplegados para clientes en Chile.",
+      "Profesionales certificados en plataformas líderes e ISO 27001. Más de 35.000 amenazas detectadas y 11.500 antivirus desplegados para clientes en Chile.",
   },
   {
     icon: Users,
