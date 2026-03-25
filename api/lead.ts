@@ -53,9 +53,17 @@ export default async function handler(req: any, res: any) {
       method: "POST",
       headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: "AMJ Web <no-reply@send.amjingenieria.cl>", to: "ventas@amjingenieria.cl",
+        from: "AMJ Web <no-reply@send.amjingenieria.cl>",
+        to: ["ventas@amjingenieria.cl", "andrea.sotelo@amjingenieria.cl"],
         subject: `Nuevo lead: ${name}`,
-        html: `<h2>Nuevo contacto</h2><p>${name}</p><p>${email}</p>`,
+        html: [
+          `<h2>Nuevo contacto desde amjingenieria.cl</h2>`,
+          `<p><strong>Nombre:</strong> ${name}</p>`,
+          `<p><strong>Email:</strong> ${email}</p>`,
+          phone ? `<p><strong>Teléfono:</strong> ${phone}</p>` : "",
+          company ? `<p><strong>Empresa:</strong> ${company}</p>` : "",
+          message ? `<p><strong>Mensaje:</strong> ${message}</p>` : "",
+        ].filter(Boolean).join("\n"),
       }),
     }).catch(console.error);
   }

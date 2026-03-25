@@ -35,7 +35,7 @@ export default function WhyAmjSection() {
     <section className="py-32 max-w-7xl mx-auto px-6">
       <div className="text-left md:text-center mb-16">
         <h3 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 max-w-sm md:max-w-none">
-          Por qué implementar con <span className="font-serif italic text-[#25327D] dark:text-amber-400">AMJ</span>
+          Por qué implementar con <img src="/logo-iso.png" alt="AMJ" className="inline-block h-[1.1em] w-auto align-baseline brightness-0 dark:brightness-100 dark:drop-shadow-[0_0_1px_rgba(0,0,0,0.3)]" />
         </h3>
       </div>
 
