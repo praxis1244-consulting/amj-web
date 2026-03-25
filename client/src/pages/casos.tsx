@@ -48,7 +48,7 @@ function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
-  const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const hideTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const scheduleHide = useCallback(() => {
     clearTimeout(hideTimeout.current);
