@@ -203,7 +203,7 @@ export default function Footer() {
               Email
             </a>
             <a
-              href="tel:+56945241309"
+              href="tel:+56984298092"
               className="hover:text-white transition-colors"
             >
               Teléfono

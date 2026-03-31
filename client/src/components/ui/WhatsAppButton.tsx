@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 
-const PHONE = "56945241309";
+const PHONE = "56984298092";
 const MESSAGE = "Hola, me interesa conocer más sobre sus servicios de ciberseguridad.";
 const WHATSAPP_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent(MESSAGE)}`;
 
