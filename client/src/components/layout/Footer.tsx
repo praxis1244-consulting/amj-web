@@ -102,7 +102,7 @@ export default function Footer() {
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] sm:text-xs text-zinc-500 uppercase tracking-wider sm:tracking-widest">
             <span>15+ años</span>
             <span className="text-zinc-700">//</span>
-            <span>5.361+ amenazas detectadas</span>
+            <span>5.261+ amenazas detectadas</span>
             <span className="text-zinc-700">//</span>
             <span>Equipo local</span>
           </div>
