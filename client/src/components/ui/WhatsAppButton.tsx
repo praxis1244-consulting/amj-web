@@ -74,6 +74,9 @@ export default function WhatsAppButton() {
                     if (typeof window.fbq === "function") {
                       window.fbq("track", "Contact");
                     }
+                    if (typeof window.gtag === "function") {
+                      window.gtag("event", "whatsapp_click", { event_category: "engagement" });
+                    }
                   }}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-emerald-400"
                 >
