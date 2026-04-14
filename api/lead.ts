@@ -1,6 +1,86 @@
 import { createHash } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
+const NOTIFY_FROM = "AMJ Web <no-reply@send.amjingenieria.cl>";
+const NOTIFY_RECIPIENTS = [
+  "ventas@amjingenieria.cl",
+  "andrea.sotelo@amjingenieria.cl",
+];
+
+type LeadInput = {
+  name: string;
+  email: string;
+  phone?: string | null;
+  company?: string | null;
+  message?: string | null;
+};
+
+function esc(s: string | null | undefined): string {
+  if (!s) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function buildHtml(l: LeadInput): string {
+  return [
+    `<h2>Nuevo contacto desde amjingenieria.cl</h2>`,
+    `<p><strong>Nombre:</strong> ${esc(l.name)}</p>`,
+    `<p><strong>Email:</strong> ${esc(l.email)}</p>`,
+    l.phone ? `<p><strong>Teléfono:</strong> ${esc(l.phone)}</p>` : "",
+    l.company ? `<p><strong>Empresa:</strong> ${esc(l.company)}</p>` : "",
+    l.message ? `<p><strong>Mensaje:</strong> ${esc(l.message)}</p>` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function sendNotification(
+  apiKey: string,
+  lead: LeadInput,
+): Promise<{ ok: true; id: string | null } | { ok: false; error: string }> {
+  const body = JSON.stringify({
+    from: NOTIFY_FROM,
+    to: NOTIFY_RECIPIENTS,
+    subject: `Nuevo lead: ${lead.name}`,
+    html: buildHtml(lead),
+  });
+
+  let lastError = "";
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+      if (res.ok) {
+        const json = (await res.json().catch(() => null)) as
+          | { id?: string }
+          | null;
+        return { ok: true, id: json?.id ?? null };
+      }
+      lastError = `http ${res.status}: ${await res.text().catch(() => "")}`;
+    } catch (err) {
+      lastError = String(err);
+    }
+    console.error(`[lead] resend attempt ${attempt} failed`, {
+      lead_email: lead.email,
+      lead_name: lead.name,
+      error: lastError,
+    });
+    if (attempt === 1) {
+      await new Promise((r) => setTimeout(r, 1200));
+    }
+  }
+  return { ok: false, error: lastError.slice(0, 500) };
+}
+
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
@@ -10,28 +90,50 @@ export default async function handler(req: any, res: any) {
   const SITE_ID = process.env.SITE_ID ?? "";
   const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
   const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
+  const RESEND_KEY = process.env.RESEND_API_KEY;
   const eventId = globalThis.crypto.randomUUID();
 
-  // Insert lead via Supabase JS client
   const supabase = createClient(
     process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co",
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
-  const { error: dbError } = await supabase.from("leads").insert({
-    site_id: SITE_ID, name, email,
-    phone: phone ?? null, notes: message ?? null,
-    source: "website",
-    custom_fields: company ? { company } : {},
-  });
 
-  // 23505 = unique_violation on (site_id, email). Returning prospect — treat as
-  // success so they reach sales via email + CAPI without seeing a fake error.
-  if (dbError && dbError.code !== "23505") {
-    console.error("[lead] supabase insert failed", dbError);
-    return res.status(500).json({ error: "No se pudo enviar el mensaje. Intenta de nuevo." });
+  // Insert and capture the lead id so we can persist notification state.
+  const { data: inserted, error: dbError } = await supabase
+    .from("leads")
+    .insert({
+      site_id: SITE_ID,
+      name,
+      email,
+      phone: phone ?? null,
+      notes: message ?? null,
+      source: "website",
+      custom_fields: company ? { company } : {},
+    })
+    .select("id, custom_fields")
+    .single();
+
+  // 23505 = unique_violation on (site_id, email). Returning prospect — fetch the
+  // existing row so notification/CAPI still fire and we can record state on it.
+  let leadRow: { id: string; custom_fields: Record<string, unknown> | null } | null = null;
+  if (dbError) {
+    if (dbError.code === "23505") {
+      const { data: existing } = await supabase
+        .from("leads")
+        .select("id, custom_fields")
+        .eq("site_id", SITE_ID)
+        .eq("email", email)
+        .maybeSingle();
+      leadRow = existing as typeof leadRow;
+    } else {
+      console.error("[lead] supabase insert failed", dbError);
+      return res.status(500).json({ error: "No se pudo enviar el mensaje. Intenta de nuevo." });
+    }
+  } else {
+    leadRow = inserted as typeof leadRow;
   }
 
-  // Fire Meta CAPI Lead event
+  // Fire Meta CAPI Lead event (analytics, non-critical, fire and forget)
   if (CAPI_TOKEN) {
     const sha = (v: string) => createHash("sha256").update(v.trim().toLowerCase()).digest("hex");
     const ud: Record<string, any> = {
@@ -50,25 +152,49 @@ export default async function handler(req: any, res: any) {
     }).catch(console.error);
   }
 
-  // Send email
-  if (process.env.RESEND_API_KEY) {
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: "AMJ Web <no-reply@send.amjingenieria.cl>",
-        to: ["ventas@amjingenieria.cl", "andrea.sotelo@amjingenieria.cl"],
-        subject: `Nuevo lead: ${name}`,
-        html: [
-          `<h2>Nuevo contacto desde amjingenieria.cl</h2>`,
-          `<p><strong>Nombre:</strong> ${name}</p>`,
-          `<p><strong>Email:</strong> ${email}</p>`,
-          phone ? `<p><strong>Teléfono:</strong> ${phone}</p>` : "",
-          company ? `<p><strong>Empresa:</strong> ${company}</p>` : "",
-          message ? `<p><strong>Mensaje:</strong> ${message}</p>` : "",
-        ].filter(Boolean).join("\n"),
-      }),
-    }).catch(console.error);
+  // Sales notification — awaited so Vercel can't kill it post-response,
+  // retries once, and persists state so failures are recoverable.
+  if (RESEND_KEY) {
+    const notify = await sendNotification(RESEND_KEY, { name, email, phone, company, message });
+
+    if (leadRow) {
+      const existing = (leadRow.custom_fields as Record<string, unknown> | null) ?? {};
+      const nextCustomFields = notify.ok
+        ? {
+            ...existing,
+            notification_sent_at: new Date().toISOString(),
+            notification_resend_id: notify.id,
+          }
+        : {
+            ...existing,
+            notification_failed_at: new Date().toISOString(),
+            notification_error: notify.error,
+          };
+      const { error: updateError } = await supabase
+        .from("leads")
+        .update({ custom_fields: nextCustomFields })
+        .eq("id", leadRow.id);
+      if (updateError) {
+        console.error("[lead] failed to persist notification state", {
+          lead_id: leadRow.id,
+          error: updateError,
+        });
+      }
+    }
+
+    if (!notify.ok) {
+      console.error("[lead] LEAD SAVED BUT NOTIFICATION FAILED", {
+        lead_id: leadRow?.id,
+        lead_email: email,
+        lead_name: name,
+        lead_phone: phone,
+      });
+    }
+  } else {
+    console.error("[lead] RESEND_API_KEY missing — notification not sent", {
+      lead_email: email,
+      lead_name: name,
+    });
   }
 
   return res.status(200).json({ success: true, eventId });
