@@ -23,6 +23,36 @@ const ALARM_THRESHOLD_MS = 15 * 60 * 1000;
 const WINDOW_MS = 48 * 60 * 60 * 1000;
 const MAX_PER_RUN = 50;
 
+// RFC 2606 reserved + observed internal-test domains. Leads whose email falls
+// in one of these domains are skipped by the cron: they're tests, not real
+// prospects. Primary /api/lead still saves+notifies these; only the recovery
+// sweep filters them out to avoid blasting ventas with old test data.
+const JUNK_EMAIL_DOMAINS = new Set([
+  "test",
+  "example",
+  "invalid",
+  "localhost",
+  "example.com",
+  "example.org",
+  "example.net",
+  "test.cl",
+  "test.dev",
+  "claude-verify.test",
+]);
+
+function isJunkEmail(email: string): boolean {
+  const lower = String(email).toLowerCase().trim();
+  if (!lower) return true;
+  if (lower === "invalid") return true;
+  const at = lower.lastIndexOf("@");
+  if (at < 0) return true;
+  const domain = lower.slice(at + 1);
+  if (JUNK_EMAIL_DOMAINS.has(domain)) return true;
+  // Any .test TLD (RFC 2606)
+  if (domain.endsWith(".test")) return true;
+  return false;
+}
+
 type LeadInput = {
   name: string;
   email: string;
@@ -225,9 +255,27 @@ export default async function handler(req: any, res: any) {
     return res.status(500).json({ error: "select failed" });
   }
 
+  // Optional deploy cutoff: if RETRY_CRON_FIRST_SEEN_AT is set to an ISO
+  // timestamp, ignore any lead created before it. Protects against a DB
+  // restore / backfill blasting old data through the cron after a deploy.
+  const cutoffRaw = process.env.RETRY_CRON_FIRST_SEEN_AT;
+  const cutoffMs = cutoffRaw ? Date.parse(cutoffRaw) : NaN;
+  const hasCutoff = Number.isFinite(cutoffMs);
+
+  let skippedJunk = 0;
+  let skippedBeforeCutoff = 0;
   const stuck = (data ?? []).filter((r: LeadRow) => {
     const cf = (r.custom_fields ?? {}) as Record<string, unknown>;
-    return !cf.notification_sent_at;
+    if (cf.notification_sent_at) return false;
+    if (hasCutoff && new Date(r.created_at).getTime() < cutoffMs) {
+      skippedBeforeCutoff++;
+      return false;
+    }
+    if (isJunkEmail(r.email)) {
+      skippedJunk++;
+      return false;
+    }
+    return true;
   });
 
   const toProcess = stuck.slice(0, MAX_PER_RUN);
@@ -348,6 +396,8 @@ export default async function handler(req: any, res: any) {
     recovered,
     still_failing: stillFailing,
     alarmed,
+    skipped_junk: skippedJunk,
+    skipped_before_cutoff: skippedBeforeCutoff,
   };
   console.log("[retry-notifications] done", summary);
   return res.status(200).json({ ok: true, ...summary });
