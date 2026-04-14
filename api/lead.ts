@@ -41,12 +41,19 @@ async function sendNotification(
   apiKey: string,
   lead: LeadInput,
 ): Promise<{ ok: true; id: string | null } | { ok: false; error: string }> {
-  const body = JSON.stringify({
+  // Personal inbox BCC'd on every send so a human always has an independent
+  // copy if Supabase, the cron, or Resend log retention fails us. Override
+  // via LEAD_NOTIFICATION_BCC. Set to empty string to disable.
+  const bccEnv = process.env.LEAD_NOTIFICATION_BCC;
+  const bcc = bccEnv === undefined ? "aqf1244@gmail.com" : bccEnv.trim();
+  const payload: Record<string, unknown> = {
     from: NOTIFY_FROM,
     to: NOTIFY_RECIPIENTS,
     subject: `Nuevo lead: ${lead.name}`,
     html: buildHtml(lead),
-  });
+  };
+  if (bcc) payload.bcc = [bcc];
+  const body = JSON.stringify(payload);
 
   let lastError = "";
   for (let attempt = 1; attempt <= 2; attempt++) {
