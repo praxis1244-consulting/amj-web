@@ -1,85 +1,6 @@
 import { createHash } from "crypto";
 import { createClient } from "@supabase/supabase-js";
-
-const NOTIFY_FROM = "AMJ Web <no-reply@send.amjingenieria.cl>";
-const NOTIFY_RECIPIENTS = [
-  "ventas@amjingenieria.cl",
-  "andrea.sotelo@amjingenieria.cl",
-];
-
-type LeadInput = {
-  name: string;
-  email: string;
-  phone?: string | null;
-  company?: string | null;
-  message?: string | null;
-};
-
-function esc(s: string | null | undefined): string {
-  if (!s) return "";
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function buildHtml(l: LeadInput): string {
-  return [
-    `<h2>Nuevo contacto desde amjingenieria.cl</h2>`,
-    `<p><strong>Nombre:</strong> ${esc(l.name)}</p>`,
-    `<p><strong>Email:</strong> ${esc(l.email)}</p>`,
-    l.phone ? `<p><strong>Teléfono:</strong> ${esc(l.phone)}</p>` : "",
-    l.company ? `<p><strong>Empresa:</strong> ${esc(l.company)}</p>` : "",
-    l.message ? `<p><strong>Mensaje:</strong> ${esc(l.message)}</p>` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
-}
-
-async function sendNotification(
-  apiKey: string,
-  lead: LeadInput,
-): Promise<{ ok: true; id: string | null } | { ok: false; error: string }> {
-  const body = JSON.stringify({
-    from: NOTIFY_FROM,
-    to: NOTIFY_RECIPIENTS,
-    subject: `Nuevo lead: ${lead.name}`,
-    html: buildHtml(lead),
-  });
-
-  let lastError = "";
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body,
-      });
-      if (res.ok) {
-        const json = (await res.json().catch(() => null)) as
-          | { id?: string }
-          | null;
-        return { ok: true, id: json?.id ?? null };
-      }
-      lastError = `http ${res.status}: ${await res.text().catch(() => "")}`;
-    } catch (err) {
-      lastError = String(err);
-    }
-    console.error(`[lead] resend attempt ${attempt} failed`, {
-      lead_email: lead.email,
-      lead_name: lead.name,
-      error: lastError,
-    });
-    if (attempt === 1) {
-      await new Promise((r) => setTimeout(r, 1200));
-    }
-  }
-  return { ok: false, error: lastError.slice(0, 500) };
-}
+import { sendNotification, type LeadInput } from "./_lib/notify";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -113,8 +34,9 @@ export default async function handler(req: any, res: any) {
     .select("id, custom_fields")
     .single();
 
-  // 23505 = unique_violation on (site_id, email). Returning prospect — fetch the
-  // existing row so notification/CAPI still fire and we can record state on it.
+  // 23505 = unique_violation on (site_id, email). Returning prospect — fetch
+  // the existing row so notification/CAPI still fire and we can record state
+  // on it.
   let leadRow: { id: string; custom_fields: Record<string, unknown> | null } | null = null;
   if (dbError) {
     if (dbError.code === "23505") {
@@ -153,9 +75,11 @@ export default async function handler(req: any, res: any) {
   }
 
   // Sales notification — awaited so Vercel can't kill it post-response,
-  // retries once, and persists state so failures are recoverable.
+  // retries once, BCCs a personal inbox as defense-in-depth, and persists
+  // state so the retry cron can recover failures.
   if (RESEND_KEY) {
-    const notify = await sendNotification(RESEND_KEY, { name, email, phone, company, message });
+    const lead: LeadInput = { name, email, phone, company, message };
+    const notify = await sendNotification(RESEND_KEY, lead);
 
     if (leadRow) {
       const existing = (leadRow.custom_fields as Record<string, unknown> | null) ?? {};
