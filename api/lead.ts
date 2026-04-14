@@ -24,7 +24,10 @@ export default async function handler(req: any, res: any) {
     custom_fields: company ? { company } : {},
   });
 
-  if (dbError) {
+  // 23505 = unique_violation on (site_id, email). Returning prospect — treat as
+  // success so they reach sales via email + CAPI without seeing a fake error.
+  if (dbError && dbError.code !== "23505") {
+    console.error("[lead] supabase insert failed", dbError);
     return res.status(500).json({ error: "No se pudo enviar el mensaje. Intenta de nuevo." });
   }
 
