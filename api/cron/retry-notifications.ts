@@ -36,12 +36,9 @@ function isAuthorized(req: any): boolean {
     return false;
   }
   // No secret configured — require at least that the call looks like a
-  // known scheduler (Vercel cron or GitHub Actions) to prevent drive-by
-  // traffic. Set CRON_SECRET in prod to tighten this.
+  // Vercel cron invocation to prevent drive-by traffic.
   const ua = String(req.headers?.["user-agent"] ?? "");
-  if (ua.startsWith("vercel-cron/")) return true;
-  if (ua.includes("GitHub-Actions")) return true;
-  return false;
+  return ua.startsWith("vercel-cron/");
 }
 
 type LeadRow = {
