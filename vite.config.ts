@@ -8,6 +8,8 @@ export default defineConfig({
   root: ".",
   publicDir: "public",
   build: {
+    target: "es2020",
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks(id) {

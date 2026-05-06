@@ -1,8 +1,6 @@
 import { Link } from "wouter";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import RevealText from "@/components/ui/RevealText";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -35,52 +33,88 @@ const MARKER_CSS = `
   .amj-pin-pulse{animation:none;display:none}}
 `;
 
+type LeafletModule = typeof import("leaflet");
+
 export default function Footer() {
   const prefersReduced = useReducedMotion();
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
+  const mapInitialized = useRef(false);
 
   useEffect(() => {
-    if (!mapRef.current || mapInstanceRef.current) return;
+    if (!mapRef.current || mapInitialized.current) return;
+    const target = mapRef.current;
 
-    // Inject marker CSS once
-    if (!document.getElementById("amj-pin-css")) {
-      const style = document.createElement("style");
-      style.id = "amj-pin-css";
-      style.textContent = MARKER_CSS;
-      document.head.appendChild(style);
-    }
+    let cleanup: (() => void) | undefined;
 
-    const map = L.map(mapRef.current, {
-      center: [OFFICE_LAT, OFFICE_LNG],
-      zoom: 15,
-      zoomControl: false,
-      attributionControl: false,
-      scrollWheelZoom: false,
-      dragging: true,
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting || mapInitialized.current) continue;
+          mapInitialized.current = true;
+          observer.disconnect();
+          void initMap(target).then((dispose) => {
+            cleanup = dispose;
+          });
+        }
+      },
+      { rootMargin: "300px 0px" },
+    );
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-      { maxZoom: 19, subdomains: "abcd" },
-    ).addTo(map);
-
-    // Custom amber pin with breathing pulse
-    const icon = L.divIcon({
-      html: MARKER_HTML,
-      className: "",
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-    });
-    L.marker([OFFICE_LAT, OFFICE_LNG], { icon }).addTo(map);
-
-    mapInstanceRef.current = map;
+    observer.observe(target);
 
     return () => {
-      map.remove();
-      mapInstanceRef.current = null;
+      observer.disconnect();
+      cleanup?.();
     };
   }, []);
+
+  return renderFooter(prefersReduced, mapRef);
+}
+
+async function initMap(container: HTMLDivElement): Promise<() => void> {
+  const [{ default: L }] = await Promise.all([
+    import("leaflet") as Promise<{ default: LeafletModule }>,
+    import("leaflet/dist/leaflet.css"),
+  ]);
+
+  if (!document.getElementById("amj-pin-css")) {
+    const style = document.createElement("style");
+    style.id = "amj-pin-css";
+    style.textContent = MARKER_CSS;
+    document.head.appendChild(style);
+  }
+
+  const map = L.map(container, {
+    center: [OFFICE_LAT, OFFICE_LNG],
+    zoom: 15,
+    zoomControl: false,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: true,
+  });
+
+  L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    { maxZoom: 19, subdomains: "abcd" },
+  ).addTo(map);
+
+  const icon = L.divIcon({
+    html: MARKER_HTML,
+    className: "",
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  });
+  L.marker([OFFICE_LAT, OFFICE_LNG], { icon }).addTo(map);
+
+  return () => {
+    map.remove();
+  };
+}
+
+function renderFooter(
+  prefersReduced: boolean | null,
+  mapRef: React.RefObject<HTMLDivElement | null>,
+) {
 
   return (
     <footer
