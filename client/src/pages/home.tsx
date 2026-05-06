@@ -51,7 +51,7 @@ export default function HomePage() {
   return (
     <>
       <PageMeta
-        title="AMJ Ingeniería — Ciberseguridad para Empresas en Chile"
+        title="AMJ Ingeniería · Ciberseguridad para Empresas en Chile"
         description="AMJ Ingeniería: consultoría, implementación y operación de ciberseguridad para empresas en Chile. Plataformas líderes de protección. 15+ años de experiencia."
         path="/"
         jsonLd={HOME_SCHEMA}

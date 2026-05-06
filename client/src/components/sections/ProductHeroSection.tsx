@@ -137,7 +137,7 @@ export default function ProductHeroSection() {
 
           <p className="text-base md:text-xl text-zinc-500 dark:text-zinc-400 font-light mt-5 md:mt-6 max-w-lg leading-relaxed">
             Protección de endpoints, servidores y cargas empresariales con un
-            equipo que ha detectado más de 5.361 amenazas para clientes.
+            equipo que ha detectado más de 35.000 amenazas para clientes.
           </p>
 
           {/* CTA Row - 100% width on mobile */}
@@ -354,7 +354,7 @@ export default function ProductHeroSection() {
         </div>
       </div>
 
-      {/* Stat strip — full width */}
+      {/* Stat strip:full width */}
       <ProductStats />
     </header>
   );

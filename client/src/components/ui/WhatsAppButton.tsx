@@ -90,14 +90,16 @@ export default function WhatsAppButton() {
           {/* FAB button */}
           <motion.button
             type="button"
+            aria-label={open ? "Cerrar chat de WhatsApp" : "Abrir chat de WhatsApp"}
             initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
             animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: EASE }}
             onClick={() => setOpen((o) => !o)}
-            className="group relative flex h-16 w-16 items-center justify-center rounded-full border border-white/[0.08] bg-zinc-900/80 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-all duration-300 hover:border-emerald-400/20 hover:shadow-[0_8px_32px_rgba(16,185,129,0.15)] cursor-pointer"
+            className="group relative flex h-[68px] w-[68px] items-center justify-center rounded-full bg-[#25D366] ring-2 ring-white/20 shadow-[0_12px_40px_rgba(37,211,102,0.55)] transition-all duration-300 hover:bg-[#1ebe58] hover:scale-105 hover:shadow-[0_16px_48px_rgba(37,211,102,0.7)] cursor-pointer"
           >
-            {/* Subtle ping */}
-            <span className="absolute inset-0 rounded-full animate-ping bg-emerald-400/10 [animation-duration:3s]" />
+            {/* Pulsing rings:clearly visible */}
+            <span className="absolute inset-0 rounded-full animate-ping bg-[#25D366]/40 [animation-duration:2s]" />
+            <span className="absolute -inset-1 rounded-full animate-ping bg-[#25D366]/25 [animation-duration:2.6s] [animation-delay:0.4s]" />
 
             <AnimatePresence mode="wait">
               {open ? (
@@ -107,8 +109,9 @@ export default function WhatsAppButton() {
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  className="relative z-10"
                 >
-                  <X className="h-6 w-6 text-zinc-400 transition-colors group-hover:text-white" />
+                  <X className="h-7 w-7 text-white" strokeWidth={2.5} />
                 </motion.span>
               ) : (
                 <motion.span
@@ -117,11 +120,17 @@ export default function WhatsAppButton() {
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  className="relative z-10"
                 >
-                  <WhatsAppIcon className="h-8 w-8 text-emerald-400 transition-colors group-hover:text-emerald-300" />
+                  <WhatsAppIcon className="h-9 w-9 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]" />
                 </motion.span>
               )}
             </AnimatePresence>
+
+            {/* Status dot:"online" cue */}
+            {!open && (
+              <span className="absolute top-1 right-1 h-3 w-3 rounded-full bg-emerald-300 ring-2 ring-white" />
+            )}
           </motion.button>
         </div>
       )}

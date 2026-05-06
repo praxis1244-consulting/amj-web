@@ -105,7 +105,7 @@ export default function PartnersSection() {
           </span>
           <p className="text-xl md:text-2xl font-light text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug max-w-xl">
             Trabajamos junto a Hacknoid para entregar soluciones integrales de
-            ciberseguridad — monitoreo continuo, detección de vulnerabilidades
+            ciberseguridad: monitoreo continuo, detección de vulnerabilidades
             y respuesta a incidentes.
           </p>
         </div>

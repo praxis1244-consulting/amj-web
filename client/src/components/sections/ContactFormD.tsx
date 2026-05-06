@@ -1,18 +1,16 @@
-import { useId } from "react";
+import { useId, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createLeadSchema, type CreateLeadInput } from "@shared/schemas";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
+import { trackFormEvent } from "@/lib/formAnalytics";
 
-/**
- * Conversion-focused contact section.
- * Single-step form with clear value proposition and accessible form semantics.
- */
 export default function ContactFormD() {
   const prefersReducedMotion = useReducedMotion();
   const formId = useId();
+  const startTimeRef = useRef<number | null>(null);
 
   const {
     register,
@@ -41,19 +39,50 @@ export default function ContactFormD() {
       name: data.name.trim(),
       email: data.email.trim(),
       company: data.company?.trim() || undefined,
-      phone: data.phone?.trim() || undefined,
-      message: data.message?.trim() || undefined,
     };
 
+    const elapsedMs =
+      startTimeRef.current !== null
+        ? Math.round(performance.now() - startTimeRef.current)
+        : null;
+    trackFormEvent("form_submit_attempt", { time_to_submit_ms: elapsedMs });
+
     mutation.mutate(normalizedData, {
-      onSuccess: (data) => {
+      onSuccess: (result) => {
         if (typeof window.fbq === "function") {
-          window.fbq("track", "Lead", {}, { eventID: data.eventId });
+          window.fbq("track", "Lead", {}, { eventID: result.eventId });
         }
+        trackFormEvent("form_submit_success", { time_to_submit_ms: elapsedMs });
         reset();
+        startTimeRef.current = null;
+      },
+      onError: (err) => {
+        trackFormEvent("form_submit_error", {
+          error: err instanceof Error ? err.message : "unknown",
+        });
       },
     });
   };
+
+  const handleFieldFocus = (field: string) => {
+    if (startTimeRef.current === null) {
+      startTimeRef.current = performance.now();
+      trackFormEvent("form_start", { first_field: field });
+    }
+    trackFormEvent("form_field_focus", { field });
+  };
+
+  useEffect(() => {
+    const fields = ["name", "email", "company"] as const;
+    fields.forEach((f) => {
+      if (errors[f]?.message) {
+        trackFormEvent("form_field_error", {
+          field: f,
+          error: String(errors[f]?.message),
+        });
+      }
+    });
+  }, [errors]);
 
   const inputClass =
     "min-h-12 w-full rounded-md border border-white/12 bg-white/[0.04] px-4 py-3.5 text-[15px] text-white placeholder:text-zinc-500 transition-[border-color,background-color,box-shadow] duration-200 ease-out focus:border-white/35 focus:bg-white/[0.07] focus:outline-none focus:ring-4 focus:ring-white/10";
@@ -107,36 +136,19 @@ export default function ContactFormD() {
                 Primera asesoría sin costo
               </div>
 
-              <h3 className="max-w-[16ch] text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.02]">
-                Protege tu operación antes del próximo incidente.
+              <h3 className="max-w-[18ch] text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.02]">
+                Cerremos las brechas que aún están abiertas.
               </h3>
 
               <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg">
-                El 43% de los ciberataques apunta a empresas medianas que creen
-                estar protegidas. Revisamos tu caso, detectamos brechas reales y
-                te proponemos un siguiente paso claro — sin compromiso.
+                Revisamos tu infraestructura, identificamos los puntos donde un
+                atacante entraría primero y te entregamos un plan claro para
+                cerrarlos. La primera conversación es sin costo y sin compromiso.
               </p>
-            </div>
 
-            <div className="mt-8 md:mt-10 flex overflow-x-auto snap-x snap-mandatory scroll-px-6 md:grid md:grid-cols-3 gap-3 text-sm text-zinc-300 pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0" style={{ scrollbarWidth: "none" }}>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
-                <p className="font-medium text-white text-[13px] md:text-sm">1 día hábil</p>
-                <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
-                  para la primera respuesta
-                </p>
-              </div>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
-                <p className="font-medium text-white text-[13px] md:text-sm">Sin spam</p>
-                <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
-                  usamos tus datos solo para contactarte
-                </p>
-              </div>
-              <div className="snap-start shrink-0 w-[65vw] md:w-auto rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 md:py-4">
-                <p className="font-medium text-white text-[13px] md:text-sm">Más contexto, mejor ayuda</p>
-                <p className="mt-0.5 md:mt-1 text-[12px] md:text-sm text-zinc-400">
-                  empresa y teléfono son opcionales
-                </p>
-              </div>
+              <p className="mt-8 text-xs uppercase tracking-[0.22em] text-zinc-500">
+                Respuesta en 1 día hábil · Equipo certificado · Bitdefender Gold Partner
+              </p>
             </div>
           </motion.div>
 
@@ -152,21 +164,13 @@ export default function ContactFormD() {
             }
           >
             <div id="contacto" className="scroll-mt-24 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:p-7">
-              <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
-                <div className="min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-[0.22em] text-zinc-400">
-                    Agenda una conversación
-                  </p>
-                  <h4 className="mt-2 text-2xl font-medium tracking-tight text-white">
-                    Completa una sola vez. Nosotros seguimos.
-                  </h4>
-                  <p className="mt-2 text-sm text-amber-400/90">
-                    Cupos limitados por mes — respondemos en 1 día hábil.
-                  </p>
-                </div>
-                <p className="max-w-[18rem] text-sm leading-relaxed text-zinc-400">
-                  Los campos con * son obligatorios.
+              <div className="mb-6 border-b border-white/10 pb-5">
+                <p className="text-xs font-medium uppercase tracking-[0.22em] text-zinc-400">
+                  Agenda una conversación
                 </p>
+                <h4 className="mt-2 text-2xl font-medium tracking-tight text-white">
+                  Completa una sola vez. Nosotros seguimos.
+                </h4>
               </div>
 
               <div aria-live="polite">
@@ -183,8 +187,8 @@ export default function ContactFormD() {
                       Recibimos tu solicitud.
                     </p>
                     <p className="mt-2 max-w-lg text-sm leading-relaxed text-emerald-100/85">
-                      Te contactaremos para coordinar la primera conversación y
-                      entender tu contexto con más detalle.
+                      Te escribimos en menos de 1 día hábil para coordinar la
+                      primera conversación y entender tu contexto con detalle.
                     </p>
                   </motion.div>
                 ) : (
@@ -194,174 +198,96 @@ export default function ContactFormD() {
                     aria-busy={mutation.isPending}
                     className="space-y-5"
                   >
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <div className="min-w-0">
-                        <label
-                          htmlFor={`${formId}-name`}
-                          className="mb-2 block text-sm font-medium text-zinc-100"
+                    <div className="min-w-0">
+                      <label
+                        htmlFor={`${formId}-name`}
+                        className="mb-2 block text-sm font-medium text-zinc-100"
+                      >
+                        Nombre completo
+                      </label>
+                      <input
+                        id={`${formId}-name`}
+                        {...register("name")}
+                        autoComplete="name"
+                        placeholder="Ej. Daniela Soto"
+                        className={inputClass}
+                        onFocus={() => handleFieldFocus("name")}
+                        aria-invalid={errors.name ? "true" : "false"}
+                        aria-describedby={
+                          errors.name ? `${formId}-name-error` : undefined
+                        }
+                      />
+                      {errors.name && (
+                        <p
+                          id={`${formId}-name-error`}
+                          role="alert"
+                          className="mt-2 text-sm text-rose-300"
                         >
-                          Nombre completo *
-                        </label>
-                        <input
-                          id={`${formId}-name`}
-                          {...register("name")}
-                          autoComplete="name"
-                          placeholder="Ej. Daniela Soto"
-                          className={inputClass}
-                          aria-invalid={errors.name ? "true" : "false"}
-                          aria-describedby={
-                            errors.name ? `${formId}-name-error` : undefined
-                          }
-                        />
-                        {errors.name && (
-                          <p
-                            id={`${formId}-name-error`}
-                            role="alert"
-                            className="mt-2 text-sm text-rose-300"
-                          >
-                            {errors.name.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="min-w-0">
-                        <label
-                          htmlFor={`${formId}-email`}
-                          className="mb-2 block text-sm font-medium text-zinc-100"
-                        >
-                          Correo de trabajo *
-                        </label>
-                        <input
-                          id={`${formId}-email`}
-                          {...register("email")}
-                          type="email"
-                          autoComplete="email"
-                          inputMode="email"
-                          autoCapitalize="none"
-                          spellCheck={false}
-                          placeholder="nombre@empresa.com"
-                          className={inputClass}
-                          aria-invalid={errors.email ? "true" : "false"}
-                          aria-describedby={
-                            errors.email ? `${formId}-email-error` : undefined
-                          }
-                        />
-                        {errors.email && (
-                          <p
-                            id={`${formId}-email-error`}
-                            role="alert"
-                            className="mt-2 text-sm text-rose-300"
-                          >
-                            {errors.email.message}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <div className="min-w-0">
-                        <label
-                          htmlFor={`${formId}-company`}
-                          className="mb-2 block text-sm font-medium text-zinc-100"
-                        >
-                          Empresa
-                          <span className="ml-2 text-xs font-normal uppercase tracking-[0.16em] text-zinc-500">
-                            Opcional
-                          </span>
-                        </label>
-                        <input
-                          id={`${formId}-company`}
-                          {...register("company")}
-                          autoComplete="organization"
-                          placeholder="Ej. AMJ Ingeniería"
-                          className={inputClass}
-                          aria-invalid={errors.company ? "true" : "false"}
-                          aria-describedby={
-                            errors.company ? `${formId}-company-error` : undefined
-                          }
-                        />
-                        {errors.company && (
-                          <p
-                            id={`${formId}-company-error`}
-                            role="alert"
-                            className="mt-2 text-sm text-rose-300"
-                          >
-                            {errors.company.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="min-w-0">
-                        <label
-                          htmlFor={`${formId}-phone`}
-                          className="mb-2 block text-sm font-medium text-zinc-100"
-                        >
-                          Teléfono
-                          <span className="ml-2 text-xs font-normal uppercase tracking-[0.16em] text-zinc-500">
-                            Opcional
-                          </span>
-                        </label>
-                        <input
-                          id={`${formId}-phone`}
-                          {...register("phone")}
-                          type="tel"
-                          autoComplete="tel"
-                          inputMode="tel"
-                          placeholder="+56 9 1234 5678"
-                          className={inputClass}
-                          aria-invalid={errors.phone ? "true" : "false"}
-                          aria-describedby={
-                            errors.phone ? `${formId}-phone-error` : undefined
-                          }
-                        />
-                        {errors.phone && (
-                          <p
-                            id={`${formId}-phone-error`}
-                            role="alert"
-                            className="mt-2 text-sm text-rose-300"
-                          >
-                            {errors.phone.message}
-                          </p>
-                        )}
-                      </div>
+                          {errors.name.message}
+                        </p>
+                      )}
                     </div>
 
                     <div className="min-w-0">
                       <label
-                        htmlFor={`${formId}-message`}
+                        htmlFor={`${formId}-email`}
                         className="mb-2 block text-sm font-medium text-zinc-100"
                       >
-                        ¿Qué necesitas resolver?
+                        Correo de trabajo
                       </label>
-                      <p
-                        id={`${formId}-message-help`}
-                        className="mb-3 max-w-2xl text-sm leading-relaxed text-zinc-400"
-                      >
-                        Cuéntanos el problema, proyecto o evaluación que tienes
-                        en mente. Mientras más contexto nos des, mejor preparada
-                        llegará la primera conversación.
-                      </p>
-                      <textarea
-                        id={`${formId}-message`}
-                        {...register("message")}
-                        autoComplete="off"
-                        placeholder="Ej. Necesitamos reforzar la seguridad del correo y ordenar el despliegue sin frenar la operación."
-                        rows={5}
-                        className={`${inputClass} resize-y`}
-                        aria-invalid={errors.message ? "true" : "false"}
+                      <input
+                        id={`${formId}-email`}
+                        {...register("email")}
+                        type="email"
+                        autoComplete="email"
+                        inputMode="email"
+                        autoCapitalize="none"
+                        spellCheck={false}
+                        placeholder="nombre@empresa.com"
+                        className={inputClass}
+                        onFocus={() => handleFieldFocus("email")}
+                        aria-invalid={errors.email ? "true" : "false"}
                         aria-describedby={
-                          errors.message
-                            ? `${formId}-message-help ${formId}-message-error`
-                            : `${formId}-message-help`
+                          errors.email ? `${formId}-email-error` : undefined
                         }
                       />
-                      {errors.message && (
+                      {errors.email && (
                         <p
-                          id={`${formId}-message-error`}
+                          id={`${formId}-email-error`}
                           role="alert"
                           className="mt-2 text-sm text-rose-300"
                         >
-                          {errors.message.message}
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="min-w-0">
+                      <label
+                        htmlFor={`${formId}-company`}
+                        className="mb-2 block text-sm font-medium text-zinc-100"
+                      >
+                        Empresa
+                      </label>
+                      <input
+                        id={`${formId}-company`}
+                        {...register("company")}
+                        autoComplete="organization"
+                        placeholder="Ej. AMJ Ingeniería"
+                        className={inputClass}
+                        onFocus={() => handleFieldFocus("company")}
+                        aria-invalid={errors.company ? "true" : "false"}
+                        aria-describedby={
+                          errors.company ? `${formId}-company-error` : undefined
+                        }
+                      />
+                      {errors.company && (
+                        <p
+                          id={`${formId}-company-error`}
+                          role="alert"
+                          className="mt-2 text-sm text-rose-300"
+                        >
+                          {errors.company.message}
                         </p>
                       )}
                     </div>

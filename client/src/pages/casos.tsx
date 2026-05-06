@@ -115,7 +115,7 @@ function VideoPlayer() {
         <source src="/videos/spevi-testimony.mp4" type="video/mp4" />
       </video>
 
-      {/* Center play button — shown when paused */}
+      {/* Center play button:shown when paused */}
       {!isPlaying && (
         <button
           type="button"
@@ -193,7 +193,7 @@ export default function CasosPage() {
   return (
     <>
       <PageMeta
-        title="Casos de Éxito — AMJ Ingeniería"
+        title="Casos de Éxito · AMJ Ingeniería"
         description="Testimonios de empresas que confían en AMJ Ingeniería para proteger su infraestructura. Casos reales de ciberseguridad en Chile."
         path="/casos"
         jsonLd={CASE_SCHEMA}
@@ -231,12 +231,12 @@ export default function CasosPage() {
 
               <img
                 src="/logos/spevi.png"
-                alt="SPEVI — Acústica · Audio · Video"
+                alt="SPEVI · Acústica · Audio · Video"
                 className="h-20 md:h-28 lg:h-32 w-auto object-contain dark:hidden"
               />
               <img
                 src="/logos/spevi-dark.png"
-                alt="SPEVI — Acústica · Audio · Video"
+                alt="SPEVI · Acústica · Audio · Video"
                 className="h-20 md:h-28 lg:h-32 w-auto object-contain hidden dark:block"
               />
             </motion.div>
@@ -266,7 +266,7 @@ export default function CasosPage() {
           />
         </div>
 
-        {/* ── Video + Pull Quote — magazine spread ── */}
+        {/* ── Video + Pull Quote:magazine spread ── */}
         <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left: Portrait video */}
@@ -350,7 +350,7 @@ export default function CasosPage() {
                 <p>
                   AMJ evaluó la infraestructura existente, identificó las
                   brechas críticas y recomendó la solución más adecuada para el
-                  perfil de riesgo y presupuesto de la organización — sin
+                  perfil de riesgo y presupuesto de la organización, sin
                   intentar vender lo más caro ni lo más complejo.
                 </p>
                 <p>

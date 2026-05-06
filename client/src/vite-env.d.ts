@@ -3,6 +3,8 @@
 interface Window {
   fbq?: (...args: unknown[]) => void;
   gtag?: (...args: unknown[]) => void;
+  dataLayer?: Array<Record<string, unknown>>;
+  clarity?: (...args: unknown[]) => void;
 }
 
 interface ImportMetaEnv {

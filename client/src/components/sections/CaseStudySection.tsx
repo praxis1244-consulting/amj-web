@@ -1,5 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { scrollToContact } from "@/lib/scrollToContact";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -62,8 +64,12 @@ export default function CaseStudySection() {
               whileInView={{ scale: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 1.5, ease: "easeOut" }}
-              src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80"
-              alt="Centro de operaciones de seguridad"
+              src="/imagery/operacion-amj.jpg"
+              alt="Centro de operaciones AMJ, sala de servidores con iluminación editorial"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={1066}
               className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
             />
           </motion.div>
@@ -91,6 +97,21 @@ export default function CaseStudySection() {
               <MetricRow label="Antivirus instalados" target={11500} suffix="+" delay={0.4} />
               <MetricRow label="Años de experiencia" target={15} suffix="+" delay={0.5} />
             </div>
+
+            <motion.button
+              type="button"
+              onClick={() => scrollToContact()}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-10% 0px" }}
+              transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+              className="group mt-12 inline-flex items-center gap-3 self-start text-sm md:text-base font-medium tracking-tight text-zinc-900 dark:text-zinc-100 hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors cursor-pointer"
+            >
+              <span className="underline decoration-2 underline-offset-[8px] decoration-zinc-200 dark:decoration-zinc-800 group-hover:decoration-zinc-900 dark:group-hover:decoration-amber-400 transition-colors">
+                Pídenos las cifras de tu sector
+              </span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
           </motion.div>
         </div>
       </div>

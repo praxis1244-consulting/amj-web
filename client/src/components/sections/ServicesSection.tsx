@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { scrollToContact } from "@/lib/scrollToContact";
 
 const services = [
   {
@@ -285,6 +287,26 @@ export default function ServicesSection() {
           </div>
         </div>
       </div>
+
+      {/* Closing CTA:quiet text-link */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, margin: "-10% 0px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="mt-20 sm:mt-24 md:mt-32 flex justify-start lg:justify-center"
+      >
+        <button
+          type="button"
+          onClick={() => scrollToContact()}
+          className="group inline-flex items-center gap-3 text-base md:text-lg font-medium tracking-tight text-zinc-900 dark:text-zinc-100 hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors cursor-pointer"
+        >
+          <span className="underline decoration-2 underline-offset-[10px] decoration-zinc-200 dark:decoration-zinc-800 group-hover:decoration-zinc-900 dark:group-hover:decoration-amber-400 transition-colors">
+            Hablemos de cuál aplica a tu caso
+          </span>
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </button>
+      </motion.div>
     </section>
   );
 }

@@ -77,7 +77,7 @@ function StatItem({ stat, inView, delay }: { stat: typeof stats[number]; inView:
 export default function HeroSection() {
   return (
     <header className="relative bg-white dark:bg-zinc-950 -mt-24 overflow-hidden">
-      {/* Depth gradient — light */}
+      {/* Depth gradient:light */}
       <div
         className="absolute inset-0 dark:hidden"
         style={{
@@ -85,7 +85,7 @@ export default function HeroSection() {
             "radial-gradient(ellipse at 70% 50%, #f4f4f5 0%, #ffffff 70%)",
         }}
       />
-      {/* Depth gradient — dark */}
+      {/* Depth gradient:dark */}
       <div
         className="absolute inset-0 hidden dark:block"
         style={{
@@ -139,7 +139,7 @@ export default function HeroSection() {
             }}
             className="text-[11px] sm:text-xs font-medium tracking-[0.22em] text-zinc-400 dark:text-zinc-500 uppercase mb-6 sm:mb-8"
           >
-            Bitdefender Gold Partner · 15+ años protegiendo empresas en Chile
+            Bitdefender Gold Partner · Ciberseguridad para empresas en Chile
           </motion.p>
 
           <motion.h1 
@@ -150,14 +150,14 @@ export default function HeroSection() {
             className="text-5xl leading-[1.05] sm:text-6xl lg:text-[5.5rem] tracking-tight sm:leading-[0.94] max-w-2xl text-balance"
           >
             <span className="block text-zinc-900 dark:text-white font-light">
-              Tu operación tiene brechas.
+              15 años cerrando brechas.
             </span>
             <span className="block font-serif italic text-[#25327D] dark:text-amber-400 mt-2">
-              Nosotros las cerramos.
+              Sin frenar la operación.
             </span>
           </motion.h1>
 
-          {/* Lottie animation — mobile only */}
+          {/* Lottie animation:mobile only */}
           <motion.div
             variants={{
               hidden: { opacity: 0, scale: 0.9 },
@@ -184,9 +184,9 @@ export default function HeroSection() {
             }}
             className="mt-8 sm:mt-10 max-w-[33rem] text-zinc-500 dark:text-zinc-400 text-lg leading-relaxed font-light"
           >
-            Evaluamos tu infraestructura, cerramos las brechas que un atacante
-            encontraría primero y monitoreamos para que no se abran de nuevo.
-            Equipo certificado y local en Chile.
+            Te mostramos las 3 brechas que un atacante explotaría primero y un
+            plan que tu equipo puede ejecutar, sin reemplazar lo que ya
+            funciona.
           </motion.p>
 
           <motion.div 
@@ -211,14 +211,14 @@ export default function HeroSection() {
             </p>
           </motion.div>
 
-          {/* Stat strip — mobile: in flow */}
+          {/* Stat strip:mobile: in flow */}
           <div className="lg:hidden mt-10">
             <HeroStats mobile />
           </div>
         </motion.div>
       </div>
 
-      {/* Stat strip — desktop: absolute bottom */}
+      {/* Stat strip:desktop: absolute bottom */}
       <div className="hidden lg:block">
         <HeroStats />
       </div>

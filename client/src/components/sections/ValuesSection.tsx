@@ -17,7 +17,7 @@ const values = [
     icon: Zap,
     title: "Tecnología sin moda, con criterio",
     description:
-      "No vendemos lo que está de moda. Evaluamos riesgos reales — pérdida de datos, ransomware, cumplimiento — y recomendamos controles que los resuelvan.",
+      "No vendemos lo que está de moda. Evaluamos riesgos reales (pérdida de datos, ransomware, cumplimiento) y recomendamos controles que los resuelvan.",
   },
 ];
 

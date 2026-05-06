@@ -152,7 +152,7 @@ export default function Nav() {
             transition={{ duration: reduced ? 0.1 : 0.35, ease: EASE }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            {/* Backdrop — blur + tint animate together with content */}
+            {/* Backdrop:blur + tint animate together with content */}
             <motion.div
               initial={{ backdropFilter: "blur(0px)", opacity: 0 }}
               animate={{ backdropFilter: "blur(20px)", opacity: 1 }}
@@ -162,7 +162,7 @@ export default function Nav() {
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Cards — start animating immediately, overlapping with blur */}
+            {/* Cards:start animating immediately, overlapping with blur */}
             <div className="absolute inset-0 flex flex-col pt-[4.5rem] px-5 pb-8 overflow-y-auto pointer-events-none">
 
               {/* Nav card */}
@@ -217,7 +217,7 @@ export default function Nav() {
                         return;
                       }
 
-                      // Same page — wait for menu to close, then scroll
+                      // Same page:wait for menu to close, then scroll
                       requestAnimationFrame(() => {
                         setTimeout(() => {
                           const el = document.getElementById(hash);

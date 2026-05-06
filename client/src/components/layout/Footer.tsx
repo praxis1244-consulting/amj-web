@@ -102,7 +102,7 @@ export default function Footer() {
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] sm:text-xs text-zinc-500 uppercase tracking-wider sm:tracking-widest">
             <span>15+ años</span>
             <span className="text-zinc-700">//</span>
-            <span>5.261+ amenazas detectadas</span>
+            <span>35.000+ amenazas detectadas</span>
             <span className="text-zinc-700">//</span>
             <span>Equipo local</span>
           </div>
@@ -139,7 +139,7 @@ export default function Footer() {
           viewport={{ once: false, margin: "-10% 0px" }}
           transition={{ duration: 0.7, ease: EASE }}
         >
-          {/* Leaflet dark map — brightness boost for label legibility */}
+          {/* Leaflet dark map:brightness boost for label legibility */}
           <div
             ref={mapRef}
             className="h-[200px] sm:h-[260px] md:h-[300px] w-full"

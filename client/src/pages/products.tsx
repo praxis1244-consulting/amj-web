@@ -39,7 +39,7 @@ export default function ProductsPage() {
   return (
     <>
       <PageMeta
-        title="Protección de Endpoints con soporte local — AMJ Ingeniería"
+        title="Protección de Endpoints con soporte local · AMJ Ingeniería"
         description="Protección de endpoints, servidores y cargas empresariales con soporte local, monitoreo operativo y acompañamiento experto en Chile."
         path="/productos"
         jsonLd={PRODUCTS_SCHEMA}
