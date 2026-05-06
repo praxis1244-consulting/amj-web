@@ -59,19 +59,25 @@ export default function CaseStudySection() {
             transition={{ duration: 0.8, ease: EASE }}
             className="w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden bg-zinc-100 dark:bg-zinc-900"
           >
-            <motion.img
+            <motion.picture
               initial={{ scale: 1.15 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 1.5, ease: "easeOut" }}
-              src="/imagery/operacion-amj.jpg"
-              alt="Centro de operaciones AMJ, sala de servidores con iluminación editorial"
-              loading="lazy"
-              decoding="async"
-              width={1600}
-              height={1066}
-              className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
-            />
+              className="block w-full h-full"
+            >
+              <source srcSet="/imagery/operacion-amj.avif" type="image/avif" />
+              <source srcSet="/imagery/operacion-amj.webp" type="image/webp" />
+              <img
+                src="/imagery/operacion-amj.jpg"
+                alt="Centro de operaciones AMJ, sala de servidores con iluminación editorial"
+                loading="lazy"
+                decoding="async"
+                width={1600}
+                height={1066}
+                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
+              />
+            </motion.picture>
           </motion.div>
         </div>
 

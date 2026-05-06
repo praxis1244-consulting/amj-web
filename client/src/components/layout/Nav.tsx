@@ -59,6 +59,10 @@ export default function Nav() {
             <img
               src="/logo-iso.png"
               alt="AMJ Ingeniería"
+              width={523}
+              height={165}
+              fetchPriority="high"
+              decoding="async"
               className="h-7 md:h-8 w-auto brightness-0 dark:brightness-100 dark:drop-shadow-[0_0_1px_rgba(0,0,0,0.3)] transition-all"
             />
           </Link>

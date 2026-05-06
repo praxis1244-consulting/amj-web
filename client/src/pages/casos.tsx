@@ -229,16 +229,32 @@ export default function CasosPage() {
                 Caso de Éxito
               </p>
 
-              <img
-                src="/logos/spevi.png"
-                alt="SPEVI · Acústica · Audio · Video"
-                className="h-20 md:h-28 lg:h-32 w-auto object-contain dark:hidden"
-              />
-              <img
-                src="/logos/spevi-dark.png"
-                alt="SPEVI · Acústica · Audio · Video"
-                className="h-20 md:h-28 lg:h-32 w-auto object-contain hidden dark:block"
-              />
+              <picture className="dark:hidden">
+                <source srcSet="/logos/spevi.avif" type="image/avif" />
+                <source srcSet="/logos/spevi.webp" type="image/webp" />
+                <img
+                  src="/logos/spevi.png"
+                  alt="SPEVI · Acústica · Audio · Video"
+                  width={1724}
+                  height={684}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-20 md:h-28 lg:h-32 w-auto object-contain"
+                />
+              </picture>
+              <picture className="hidden dark:block">
+                <source srcSet="/logos/spevi-dark.avif" type="image/avif" />
+                <source srcSet="/logos/spevi-dark.webp" type="image/webp" />
+                <img
+                  src="/logos/spevi-dark.png"
+                  alt="SPEVI · Acústica · Audio · Video"
+                  width={1724}
+                  height={684}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-20 md:h-28 lg:h-32 w-auto object-contain"
+                />
+              </picture>
             </motion.div>
 
             <motion.div
@@ -295,11 +311,19 @@ export default function CasosPage() {
               </blockquote>
 
               <div className="flex items-center gap-4 mt-8">
-                <img
-                  src="/logos/francisco-villegas.jpg"
-                  alt="Francisco Villegas"
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                <picture>
+                  <source srcSet="/logos/francisco-villegas.avif" type="image/avif" />
+                  <source srcSet="/logos/francisco-villegas.webp" type="image/webp" />
+                  <img
+                    src="/logos/francisco-villegas.jpg"
+                    alt="Francisco Villegas"
+                    width={500}
+                    height={500}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </picture>
                 <div>
                   <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
                     Francisco Villegas
@@ -362,15 +386,25 @@ export default function CasosPage() {
             </div>
 
             <div className="lg:col-span-4">
-              <motion.img
+              <motion.picture
                 initial={{ opacity: 0, scale: 0.97 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, margin: "-10% 0px" }}
                 transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-                src="/logos/francisco-villegas-portrait.jpg"
-                alt="Francisco Villegas en InfoComm"
-                className="w-full aspect-square object-cover filter grayscale"
-              />
+                className="block w-full aspect-square overflow-hidden"
+              >
+                <source srcSet="/logos/francisco-villegas.avif" type="image/avif" />
+                <source srcSet="/logos/francisco-villegas.webp" type="image/webp" />
+                <img
+                  src="/logos/francisco-villegas.jpg"
+                  alt="Francisco Villegas en InfoComm"
+                  width={500}
+                  height={500}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover filter grayscale"
+                />
+              </motion.picture>
             </div>
           </motion.div>
         </section>

@@ -80,11 +80,19 @@ export default function PartnersSection() {
         >
           <div className="relative p-8 md:p-12">
             <div className="absolute inset-0 border border-amber-400/20 dark:border-amber-400/15 rounded-xl" />
-            <img
-              src="/logos/bitdefender-gold.png"
-              alt="Bitdefender Gold Reseller"
-              className="w-44 md:w-56 lg:w-64 h-auto relative"
-            />
+            <picture>
+              <source srcSet="/logos/bitdefender-gold.avif" type="image/avif" />
+              <source srcSet="/logos/bitdefender-gold.webp" type="image/webp" />
+              <img
+                src="/logos/bitdefender-gold.png"
+                alt="Bitdefender Gold Reseller"
+                width={403}
+                height={151}
+                loading="lazy"
+                decoding="async"
+                className="w-44 md:w-56 lg:w-64 h-auto relative"
+              />
+            </picture>
           </div>
         </motion.div>
       </div>
@@ -111,11 +119,19 @@ export default function PartnersSection() {
         </div>
 
         <div className="lg:col-span-5 flex justify-start lg:justify-end">
-          <img
-            src="/logos/hacknoid.jpg"
-            alt="Hacknoid"
-            className="max-h-12 md:max-h-14 w-auto object-contain opacity-50 dark:invert dark:opacity-40"
-          />
+          <picture>
+            <source srcSet="/logos/hacknoid.avif" type="image/avif" />
+            <source srcSet="/logos/hacknoid.webp" type="image/webp" />
+            <img
+              src="/logos/hacknoid.jpg"
+              alt="Hacknoid"
+              width={822}
+              height={118}
+              loading="lazy"
+              decoding="async"
+              className="max-h-12 md:max-h-14 w-auto object-contain opacity-50 dark:invert dark:opacity-40"
+            />
+          </picture>
         </div>
       </motion.div>
 
@@ -139,11 +155,19 @@ export default function PartnersSection() {
           </blockquote>
 
           <div className="flex items-center gap-4">
-            <img
-              src="/logos/francisco-villegas.jpg"
-              alt="Francisco Villegas"
-              className="w-10 h-10 rounded-full object-cover"
-            />
+            <picture>
+              <source srcSet="/logos/francisco-villegas.avif" type="image/avif" />
+              <source srcSet="/logos/francisco-villegas.webp" type="image/webp" />
+              <img
+                src="/logos/francisco-villegas.jpg"
+                alt="Francisco Villegas"
+                width={500}
+                height={500}
+                loading="lazy"
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </picture>
             <span className="text-sm text-zinc-400 dark:text-zinc-500">
               Francisco Villegas · SPEVI
             </span>
