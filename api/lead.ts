@@ -13,7 +13,26 @@ type LeadInput = {
   phone?: string | null;
   company?: string | null;
   message?: string | null;
+  origin_url?: string | null;
+  origin_path?: string | null;
 };
+
+const FALLBACK_ORIGIN_URL = "https://amjingenieria.cl/";
+
+function parseOrigin(refererHeader: unknown): {
+  url: string;
+  path: string;
+} {
+  if (typeof refererHeader !== "string" || !refererHeader) {
+    return { url: FALLBACK_ORIGIN_URL, path: "/" };
+  }
+  try {
+    const parsed = new URL(refererHeader);
+    return { url: parsed.toString(), path: parsed.pathname || "/" };
+  } catch {
+    return { url: FALLBACK_ORIGIN_URL, path: "/" };
+  }
+}
 
 function esc(s: string | null | undefined): string {
   if (!s) return "";
@@ -32,9 +51,20 @@ function buildHtml(l: LeadInput): string {
     l.phone ? `<p><strong>Teléfono:</strong> ${esc(l.phone)}</p>` : "",
     l.company ? `<p><strong>Empresa:</strong> ${esc(l.company)}</p>` : "",
     l.message ? `<p><strong>Mensaje:</strong> ${esc(l.message)}</p>` : "",
+    l.origin_url
+      ? `<p><strong>Origen:</strong> <a href="${esc(l.origin_url)}">${esc(l.origin_url)}</a></p>`
+      : "",
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function buildSubject(lead: LeadInput): string {
+  const path = lead.origin_path;
+  if (path && path !== "/") {
+    return `Nuevo lead [${path}]: ${lead.name}`;
+  }
+  return `Nuevo lead: ${lead.name}`;
 }
 
 async function sendNotification(
@@ -49,7 +79,7 @@ async function sendNotification(
   const payload: Record<string, unknown> = {
     from: NOTIFY_FROM,
     to: NOTIFY_RECIPIENTS,
-    subject: `Nuevo lead: ${lead.name}`,
+    subject: buildSubject(lead),
     html: buildHtml(lead),
   };
   if (bcc) payload.bcc = [bcc];
@@ -99,11 +129,18 @@ export default async function handler(req: any, res: any) {
   const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
   const RESEND_KEY = process.env.RESEND_API_KEY;
   const eventId = globalThis.crypto.randomUUID();
+  const origin = parseOrigin(req.headers?.referer);
 
   const supabase = createClient(
     process.env.VITE_SUPABASE_URL || "https://dekyswplvzsbqzcdsavu.supabase.co",
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
+
+  const initialCustomFields: Record<string, string> = {
+    origin_url: origin.url,
+    origin_path: origin.path,
+  };
+  if (company) initialCustomFields.company = company;
 
   // Insert and capture the lead id so we can persist notification state.
   const { data: inserted, error: dbError } = await supabase
@@ -115,7 +152,7 @@ export default async function handler(req: any, res: any) {
       phone: phone ?? null,
       notes: message ?? null,
       source: "website",
-      custom_fields: company ? { company } : {},
+      custom_fields: initialCustomFields,
     })
     .select("id, custom_fields")
     .single();
@@ -155,14 +192,22 @@ export default async function handler(req: any, res: any) {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: [{ event_name: "Lead", event_time: Math.floor(Date.now() / 1000),
         event_id: eventId, action_source: "website",
-        event_source_url: req.headers?.referer ?? "https://amjingenieria.cl/", user_data: ud }] }),
+        event_source_url: origin.url, user_data: ud }] }),
     }).catch(console.error);
   }
 
   // Sales notification — awaited so Vercel can't kill it post-response,
   // retries once, and persists state so failures are recoverable.
   if (RESEND_KEY) {
-    const notify = await sendNotification(RESEND_KEY, { name, email, phone, company, message });
+    const notify = await sendNotification(RESEND_KEY, {
+      name,
+      email,
+      phone,
+      company,
+      message,
+      origin_url: origin.url,
+      origin_path: origin.path,
+    });
 
     if (leadRow) {
       const existing = (leadRow.custom_fields as Record<string, unknown> | null) ?? {};

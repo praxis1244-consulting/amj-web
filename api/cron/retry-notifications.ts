@@ -59,6 +59,8 @@ type LeadInput = {
   phone?: string | null;
   company?: string | null;
   message?: string | null;
+  origin_url?: string | null;
+  origin_path?: string | null;
 };
 
 function esc(s: string | null | undefined): string {
@@ -78,9 +80,20 @@ function buildNotificationHtml(l: LeadInput): string {
     l.phone ? `<p><strong>Teléfono:</strong> ${esc(l.phone)}</p>` : "",
     l.company ? `<p><strong>Empresa:</strong> ${esc(l.company)}</p>` : "",
     l.message ? `<p><strong>Mensaje:</strong> ${esc(l.message)}</p>` : "",
+    l.origin_url
+      ? `<p><strong>Origen:</strong> <a href="${esc(l.origin_url)}">${esc(l.origin_url)}</a></p>`
+      : "",
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function buildSubject(prefix: string, lead: LeadInput): string {
+  const path = lead.origin_path;
+  if (path && path !== "/") {
+    return `${prefix} [${path}]: ${lead.name}`;
+  }
+  return `${prefix}: ${lead.name}`;
 }
 
 type SendResult =
@@ -97,7 +110,7 @@ async function sendNotification(
   const payload: Record<string, unknown> = {
     from: NOTIFY_FROM,
     to: NOTIFY_RECIPIENTS,
-    subject: `${subjectPrefix}: ${lead.name}`,
+    subject: buildSubject(subjectPrefix, lead),
     html: buildNotificationHtml(lead),
   };
   if (bcc) payload.bcc = [bcc];
@@ -289,12 +302,18 @@ export default async function handler(req: any, res: any) {
     const cf = (row.custom_fields ?? {}) as Record<string, unknown>;
     const company =
       typeof cf.company === "string" ? (cf.company as string) : null;
+    const originUrl =
+      typeof cf.origin_url === "string" ? (cf.origin_url as string) : null;
+    const originPath =
+      typeof cf.origin_path === "string" ? (cf.origin_path as string) : null;
     const lead: LeadInput = {
       name: row.name,
       email: row.email,
       phone: row.phone,
       company,
       message: row.notes,
+      origin_url: originUrl,
+      origin_path: originPath,
     };
 
     const sendRes = await sendNotification(
