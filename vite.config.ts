@@ -11,6 +11,11 @@ export default defineConfig({
     target: "es2020",
     cssCodeSplit: true,
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        productos: path.resolve(__dirname, "productos/index.html"),
+        compliance: path.resolve(__dirname, "compliance/index.html"),
+      },
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) {

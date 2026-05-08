@@ -87,7 +87,7 @@ export default function PageMeta({
 
     upsertLink("canonical", url);
     upsertLink("alternate", url, { hreflang: "es-CL" });
-    upsertLink("alternate", SITE_URL, { hreflang: "x-default" });
+    upsertLink("alternate", url, { hreflang: "x-default" });
 
     const existingScript = document.head.querySelector(
       "#structured-data",

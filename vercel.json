@@ -2,7 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "/((?!api|assets|favicon\\.svg|logo-iso\\.png|lottie-shield\\.json|robots\\.txt|site\\.webmanifest|sitemap\\.xml).*)",
+      "source": "/compliance",
+      "destination": "/compliance/index.html"
+    },
+    {
+      "source": "/compliance/",
+      "destination": "/compliance/index.html"
+    },
+    {
+      "source": "/((?!api|assets|compliance|favicon\\.svg|logo-iso\\.png|lottie-shield\\.json|robots\\.txt|site\\.webmanifest|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
   ],

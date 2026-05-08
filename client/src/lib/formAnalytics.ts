@@ -16,6 +16,14 @@ export function trackFormEvent(
 
   if (typeof window.gtag === "function") {
     window.gtag("event", name, data);
+
+    const googleAdsSendTo = import.meta.env.VITE_GOOGLE_ADS_LEAD_SEND_TO;
+    if (name === "form_submit_success" && googleAdsSendTo) {
+      window.gtag("event", "conversion", {
+        send_to: googleAdsSendTo,
+        event_callback: () => undefined,
+      });
+    }
   } else if (Array.isArray(window.dataLayer)) {
     window.dataLayer.push({ event: name, ...data });
   }
