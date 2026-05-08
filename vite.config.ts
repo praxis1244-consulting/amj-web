@@ -15,6 +15,7 @@ export default defineConfig({
         main: path.resolve(__dirname, "index.html"),
         productos: path.resolve(__dirname, "productos/index.html"),
         compliance: path.resolve(__dirname, "compliance/index.html"),
+        gracias: path.resolve(__dirname, "gracias/index.html"),
       },
       output: {
         manualChunks(id) {

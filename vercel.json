@@ -10,7 +10,15 @@
       "destination": "/compliance/index.html"
     },
     {
-      "source": "/((?!api|assets|compliance|favicon\\.svg|logo-iso\\.png|lottie-shield\\.json|robots\\.txt|site\\.webmanifest|sitemap\\.xml).*)",
+      "source": "/gracias",
+      "destination": "/gracias/index.html"
+    },
+    {
+      "source": "/gracias/",
+      "destination": "/gracias/index.html"
+    },
+    {
+      "source": "/((?!api|assets|compliance|gracias|favicon\\.svg|logo-iso\\.png|lottie-shield\\.json|robots\\.txt|site\\.webmanifest|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
   ],

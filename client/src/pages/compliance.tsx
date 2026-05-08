@@ -578,7 +578,7 @@ export default function CompliancePage() {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-zinc-900 dark:text-white leading-tight">
               Cuatro fases.{" "}
               <span className="font-serif italic text-[#25327D] dark:text-amber-400">
-                Sin sorpresas.
+                Menos carga para tu equipo.
               </span>
             </h2>
           </motion.div>

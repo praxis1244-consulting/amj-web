@@ -7,6 +7,7 @@ const HomePage = lazy(() => import("@/pages/home"));
 const ProductsPage = lazy(() => import("@/pages/products"));
 const CasosPage = lazy(() => import("@/pages/casos"));
 const CompliancePage = lazy(() => import("@/pages/compliance"));
+const GraciasPage = lazy(() => import("@/pages/gracias"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -39,6 +40,8 @@ export default function App() {
             <Route path="/casos" component={CasosPage} />
             <Route path="/compliance" component={CompliancePage} />
             <Route path="/compliance/" component={CompliancePage} />
+            <Route path="/gracias" component={GraciasPage} />
+            <Route path="/gracias/" component={GraciasPage} />
           </Switch>
         </Suspense>
       </QueryClientProvider>

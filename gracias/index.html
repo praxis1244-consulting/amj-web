@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+  <head>
+    <script>
+      (function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.classList.add('dark')})();
+    </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0SNLQH18X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-J0SNLQH18X');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="Recibimos tu solicitud. Te escribimos en menos de 1 día hábil para coordinar la primera conversación."
+    />
+    <meta name="author" content="AMJ Ingeniería" />
+    <link rel="canonical" href="https://amjingenieria.cl/gracias" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AMJ Ingeniería" />
+    <meta property="og:title" content="Gracias · Solicitud recibida · AMJ Ingeniería" />
+    <meta
+      property="og:description"
+      content="Recibimos tu solicitud. Te escribimos en menos de 1 día hábil."
+    />
+    <meta property="og:url" content="https://amjingenieria.cl/gracias" />
+    <meta property="og:image" content="https://amjingenieria.cl/logo-iso.png" />
+    <meta property="og:image:alt" content="AMJ Ingeniería" />
+    <link rel="icon" type="image/png" href="/logo-iso.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>Gracias · Solicitud recibida · AMJ Ingeniería</title>
+    <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Meta Pixel Code (deferred until idle or first interaction) -->
+    <script>
+      !function(f,b,e,v){
+        if(f.fbq)return;
+        var n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+        var loaded=false;
+        function loadPixel(){
+          if(loaded)return;loaded=true;
+          var t=b.createElement(e);t.async=!0;t.src=v;
+          var s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s);
+        }
+        var idle=f.requestIdleCallback||function(cb){return setTimeout(cb,200)};
+        idle(function(){setTimeout(loadPixel,1500)},{timeout:4000});
+        ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){
+          f.addEventListener(ev,loadPixel,{once:true,passive:true});
+        });
+      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1651608922679340');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+  </head>
+  <body class="bg-white text-zinc-900 antialiased font-sans selection:bg-zinc-200 selection:text-black dark:bg-zinc-950 dark:text-zinc-100 dark:selection:bg-zinc-700 dark:selection:text-white transition-colors duration-300">
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1651608922679340&amp;ev=PageView&amp;noscript=1"
+    /></noscript>
+    <div id="root"></div>
+    <script type="module" src="/client/src/main.tsx"></script>
+  </body>
+</html>

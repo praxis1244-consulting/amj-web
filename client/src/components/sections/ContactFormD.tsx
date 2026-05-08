@@ -1,4 +1,5 @@
 import { useId, useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ export default function ContactFormD() {
   const prefersReducedMotion = useReducedMotion();
   const formId = useId();
   const startTimeRef = useRef<number | null>(null);
+  const [, setLocation] = useLocation();
 
   const {
     register,
@@ -55,6 +57,9 @@ export default function ContactFormD() {
         trackFormEvent("form_submit_success", { time_to_submit_ms: elapsedMs });
         reset();
         startTimeRef.current = null;
+        // Defer route change one tick so analytics callbacks queued above
+        // get to flush before React unmounts the form.
+        setTimeout(() => setLocation("/gracias"), 50);
       },
       onError: (err) => {
         trackFormEvent("form_submit_error", {

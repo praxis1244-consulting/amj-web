@@ -11,6 +11,7 @@ type PageMetaProps = {
   path: string;
   image?: string;
   jsonLd?: JsonLd;
+  noindex?: boolean;
 };
 
 function upsertMeta(
@@ -59,6 +60,7 @@ export default function PageMeta({
   path,
   image = DEFAULT_IMAGE,
   jsonLd,
+  noindex = false,
 }: PageMetaProps) {
   useEffect(() => {
     const url = new URL(path, SITE_URL).toString();
@@ -69,7 +71,9 @@ export default function PageMeta({
     upsertMeta(
       "name",
       "robots",
-      "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+      noindex
+        ? "noindex,nofollow"
+        : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     );
     upsertMeta("name", "description", description);
     upsertMeta("property", "og:locale", "es_CL");
@@ -106,7 +110,7 @@ export default function PageMeta({
     if (!existingScript) {
       document.head.appendChild(script);
     }
-  }, [description, image, jsonLd, path, title]);
+  }, [description, image, jsonLd, noindex, path, title]);
 
   return null;
 }
