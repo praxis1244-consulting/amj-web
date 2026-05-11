@@ -7,6 +7,7 @@ import { createLeadSchema, type CreateLeadInput } from "@shared/schemas";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 import { trackFormEvent } from "@/lib/formAnalytics";
+import { getAttribution } from "@/lib/attribution";
 
 export default function ContactFormD() {
   const prefersReducedMotion = useReducedMotion();
@@ -37,10 +38,13 @@ export default function ContactFormD() {
   });
 
   const onSubmit = (data: CreateLeadInput) => {
+    const attribution = getAttribution();
+    const hasAttribution = Object.keys(attribution).length > 0;
     const normalizedData: CreateLeadInput = {
       name: data.name.trim(),
       email: data.email.trim(),
       company: data.company?.trim() || undefined,
+      ...(hasAttribution ? { attribution } : {}),
     };
 
     const elapsedMs =
@@ -54,7 +58,10 @@ export default function ContactFormD() {
         if (typeof window.fbq === "function") {
           window.fbq("track", "Lead", {}, { eventID: result.eventId });
         }
-        trackFormEvent("form_submit_success", { time_to_submit_ms: elapsedMs });
+        trackFormEvent("form_submit_success", {
+          time_to_submit_ms: elapsedMs,
+          ...attribution,
+        });
         reset();
         startTimeRef.current = null;
         // Defer route change one tick so analytics callbacks queued above

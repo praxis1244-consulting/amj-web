@@ -19,6 +19,39 @@ type LeadInput = {
 
 const FALLBACK_ORIGIN_URL = "https://amjingenieria.cl/";
 
+const ATTRIBUTION_FIELD_CAPS: Record<string, number> = {
+  utm_source: 255,
+  utm_medium: 255,
+  utm_campaign: 255,
+  utm_term: 255,
+  utm_content: 255,
+  gclid: 500,
+  gad_source: 500,
+  wbraid: 500,
+  gbraid: 500,
+  fbclid: 500,
+  li_fat_id: 500,
+  first_touch_url: 2048,
+  last_touch_url: 2048,
+  referrer: 2048,
+};
+
+const GCLID_REGEX = /^[A-Za-z0-9_-]{20,200}$/;
+
+function sanitizeAttribution(raw: unknown): Record<string, string> {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    const cap = ATTRIBUTION_FIELD_CAPS[key];
+    if (!cap) continue;
+    if (typeof value !== "string") continue;
+    const trimmed = value.trim();
+    if (!trimmed) continue;
+    result[key] = trimmed.length > cap ? trimmed.slice(0, cap) : trimmed;
+  }
+  return result;
+}
+
 function parseOrigin(refererHeader: unknown): {
   url: string;
   path: string;
@@ -121,8 +154,9 @@ async function sendNotification(
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  const { name, email, phone, company, message } = req.body ?? {};
+  const { name, email, phone, company, message, attribution: rawAttribution } = req.body ?? {};
   if (!name || !email) return res.status(400).json({ error: "name and email are required" });
+  const attribution = sanitizeAttribution(rawAttribution);
 
   const SITE_ID = process.env.SITE_ID ?? "";
   const PIXEL_ID = process.env.META_PIXEL_ID || "1651608922679340";
@@ -139,6 +173,7 @@ export default async function handler(req: any, res: any) {
   const initialCustomFields: Record<string, string> = {
     origin_url: origin.url,
     origin_path: origin.path,
+    ...attribution,
   };
   if (company) initialCustomFields.company = company;
 
@@ -175,6 +210,21 @@ export default async function handler(req: any, res: any) {
     }
   } else {
     leadRow = inserted as typeof leadRow;
+  }
+
+  // Populate dedicated gclid column for Enhanced Conversions / offline uploads.
+  // gclid also lives in custom_fields for safety; this column is the JOIN key.
+  if (leadRow && attribution.gclid && GCLID_REGEX.test(attribution.gclid)) {
+    const { error: gclidErr } = await supabase
+      .from("leads")
+      .update({ gclid: attribution.gclid })
+      .eq("id", leadRow.id);
+    if (gclidErr) {
+      console.error("[lead] failed to write gclid column (migration pending?)", {
+        lead_id: leadRow.id,
+        error: gclidErr.message ?? gclidErr,
+      });
+    }
   }
 
   // Fire Meta CAPI Lead event (analytics, non-critical, fire and forget)

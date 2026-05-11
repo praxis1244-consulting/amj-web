@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route, useLocation } from "wouter";
 import { TRPCProvider, trpcClient } from "@/lib/trpc";
+import { useAttributionCapture } from "@/lib/attribution";
 
 const HomePage = lazy(() => import("@/pages/home"));
 const ProductsPage = lazy(() => import("@/pages/products"));
@@ -25,12 +26,18 @@ function ScrollToTop() {
   return null;
 }
 
+function AttributionCapture() {
+  useAttributionCapture();
+  return null;
+}
+
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
+        <AttributionCapture />
         <ScrollToTop />
         <Suspense fallback={null}>
           <Switch>
