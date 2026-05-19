@@ -67,6 +67,21 @@ function parseOrigin(refererHeader: unknown): {
   }
 }
 
+function parseCookie(header: unknown, name: string): string | null {
+  if (typeof header !== "string" || !header) return null;
+  for (const part of header.split(";")) {
+    const trimmed = part.trim();
+    if (trimmed.startsWith(name + "=")) {
+      try {
+        return decodeURIComponent(trimmed.slice(name.length + 1));
+      } catch {
+        return trimmed.slice(name.length + 1);
+      }
+    }
+  }
+  return null;
+}
+
 function esc(s: string | null | undefined): string {
   if (!s) return "";
   return String(s)
@@ -194,7 +209,8 @@ export default async function handler(req: any, res: any) {
 
   // 23505 = unique_violation on (site_id, email). Returning prospect — fetch the
   // existing row so notification/CAPI still fire and we can record state on it.
-  let leadRow: { id: string; custom_fields: Record<string, unknown> | null } | null = null;
+  type LeadRow = { id: string; custom_fields: Record<string, unknown> | null };
+  let leadRow: LeadRow | null = null;
   if (dbError) {
     if (dbError.code === "23505") {
       const { data: existing } = await supabase
@@ -203,13 +219,13 @@ export default async function handler(req: any, res: any) {
         .eq("site_id", SITE_ID)
         .eq("email", email)
         .maybeSingle();
-      leadRow = existing as typeof leadRow;
+      leadRow = existing as LeadRow | null;
     } else {
       console.error("[lead] supabase insert failed", dbError);
       return res.status(500).json({ error: "No se pudo enviar el mensaje. Intenta de nuevo." });
     }
   } else {
-    leadRow = inserted as typeof leadRow;
+    leadRow = inserted as LeadRow;
   }
 
   // Populate dedicated gclid column for Enhanced Conversions / offline uploads.
@@ -230,13 +246,22 @@ export default async function handler(req: any, res: any) {
   // Fire Meta CAPI Lead event (analytics, non-critical, fire and forget)
   if (CAPI_TOKEN) {
     const sha = (v: string) => createHash("sha256").update(v.trim().toLowerCase()).digest("hex");
+    const nameParts = name.trim().split(/\s+/).filter(Boolean);
     const ud: Record<string, any> = {
-      em: [sha(email)], fn: [sha(name.split(" ")[0])],
+      em: [sha(email)],
+      fn: [sha(nameParts[0] ?? name)],
       client_user_agent: req.headers?.["user-agent"] ?? "",
     };
+    if (nameParts.length > 1) ud.ln = [sha(nameParts.slice(1).join(" "))];
     if (phone) { const d = phone.replace(/\D/g, ""); ud.ph = [sha(d.startsWith("56") ? d : `56${d}`)]; }
     const ff = req.headers?.["x-forwarded-for"];
     if (ff) ud.client_ip_address = String(ff).split(",")[0];
+    // fbp/fbc cookies — critical for Meta event match quality + ad attribution.
+    // Pixel sets _fbp on every visit and _fbc when a fbclid is in the URL.
+    const fbp = parseCookie(req.headers?.cookie, "_fbp");
+    if (fbp) ud.fbp = fbp;
+    const fbc = parseCookie(req.headers?.cookie, "_fbc");
+    if (fbc) ud.fbc = fbc;
 
     fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_TOKEN}`, {
       method: "POST", headers: { "Content-Type": "application/json" },

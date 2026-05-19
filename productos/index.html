@@ -53,6 +53,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <!-- Meta Pixel Code (deferred until idle or first interaction) -->
+    <script>
+      !function(f,b,e,v){
+        if(f.fbq)return;
+        var n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+        var loaded=false;
+        function loadPixel(){
+          if(loaded)return;loaded=true;
+          var t=b.createElement(e);t.async=!0;t.src=v;
+          var s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s);
+        }
+        var idle=f.requestIdleCallback||function(cb){return setTimeout(cb,200)};
+        idle(function(){setTimeout(loadPixel,1500)},{timeout:4000});
+        ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){
+          f.addEventListener(ev,loadPixel,{once:true,passive:true});
+        });
+      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1651608922679340');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
     <script type="application/ld+json" id="structured-data">
       [
         {
@@ -74,6 +98,9 @@
     </script>
   </head>
   <body class="bg-white text-zinc-900 antialiased font-sans selection:bg-zinc-200 selection:text-black dark:bg-zinc-950 dark:text-zinc-100 dark:selection:bg-zinc-700 dark:selection:text-white transition-colors duration-300">
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1651608922679340&amp;ev=PageView&amp;noscript=1"
+    /></noscript>
     <div id="root"></div>
     <script type="module" src="/client/src/main.tsx"></script>
   </body>
