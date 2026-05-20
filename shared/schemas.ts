@@ -42,10 +42,17 @@ export const ATTRIBUTION_KEYS = [
   "referrer",
 ] as const satisfies readonly (keyof Attribution)[];
 
+// Require an actual TLD — Zod's .email() accepts "juan@empresa" which is rarely intended.
+const EMAIL_WITH_TLD = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 export const createLeadSchema = z.object({
-  name: z.string().min(1, "Nombre es requerido").max(100),
-  email: z.string().email("Email inválido"),
-  company: z.string().max(100).optional(),
+  name: z.string().trim().min(2, "Ingresa tu nombre completo").max(100),
+  email: z
+    .string()
+    .trim()
+    .email("Revisa el correo, parece incompleto")
+    .regex(EMAIL_WITH_TLD, "Revisa el correo, parece incompleto"),
+  company: z.string().trim().max(100).optional(),
   attribution: attributionSchema.optional(),
 });
 

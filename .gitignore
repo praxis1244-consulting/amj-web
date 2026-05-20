@@ -9,3 +9,5 @@ dist
 !public/**/*.png
 .playwright-mcp
 output
+.env.development.local
+.vercel

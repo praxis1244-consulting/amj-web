@@ -22,7 +22,9 @@ export default function ContactFormD() {
     formState: { errors },
   } = useForm<CreateLeadInput>({
     resolver: zodResolver(createLeadSchema),
-    mode: "onBlur",
+    // onTouched: validate only after the user has interacted, not on every blur.
+    // Avoids the "I touched and saw red" anxiety that drives early form abandonment.
+    mode: "onTouched",
   });
 
   const mutation = useMutation({
@@ -84,15 +86,18 @@ export default function ContactFormD() {
     trackFormEvent("form_field_focus", { field });
   };
 
+  // Dedupe form_field_error: only fire when a field's error message actually changes,
+  // not on every re-render while the error persists. Otherwise GA4 sees noise.
+  const lastErrorRef = useRef<Record<string, string | undefined>>({});
   useEffect(() => {
     const fields = ["name", "email", "company"] as const;
     fields.forEach((f) => {
-      if (errors[f]?.message) {
-        trackFormEvent("form_field_error", {
-          field: f,
-          error: String(errors[f]?.message),
-        });
+      const current = errors[f]?.message;
+      const previous = lastErrorRef.current[f];
+      if (current && current !== previous) {
+        trackFormEvent("form_field_error", { field: f, error: String(current) });
       }
+      lastErrorRef.current[f] = current;
     });
   }, [errors]);
 
@@ -279,7 +284,7 @@ export default function ContactFormD() {
                         htmlFor={`${formId}-company`}
                         className="mb-2 block text-sm font-medium text-zinc-100"
                       >
-                        Empresa
+                        Empresa <span className="text-zinc-500 font-normal">(opcional)</span>
                       </label>
                       <input
                         id={`${formId}-company`}
