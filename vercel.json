@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/bitdefender", "destination": "/compliance", "permanent": false },
+    { "source": "/bitdefender/", "destination": "/compliance", "permanent": false },
+    { "source": "/servicios", "destination": "/compliance", "permanent": false },
+    { "source": "/servicios/", "destination": "/compliance", "permanent": false }
+  ],
   "rewrites": [
     {
       "source": "/compliance",
