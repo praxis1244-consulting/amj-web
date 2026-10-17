@@ -1,0 +1,51 @@
+name: AMJ database health check
+
+on:
+  schedule:
+    - cron: "13 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: "Safely exercise the GitHub failure-notification path without contacting AMJ or Supabase"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # Scheduled checks remain off until the production route and alert path
+    # have both been manually verified and the repository variable is enabled.
+    # Manual dispatch bypasses this gate so those verifications are possible.
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.AMJ_DB_HEALTHCHECK_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Safely simulate a failure when explicitly requested
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.simulate_failure }}
+        run: |
+          echo "Simulated database health-check failure; no endpoint was called."
+          exit 1
+
+      - name: Probe the AMJ database health endpoint
+        env:
+          TOKEN: ${{ secrets.AMJ_DB_HEALTHCHECK_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "AMJ_DB_HEALTHCHECK_TOKEN is not configured; refusing to probe."
+            exit 1
+          fi
+          CODE=$(curl --silent --show-error --output /dev/null \
+            --write-out '%{http_code}' \
+            --max-time 10 \
+            --max-redirs 0 \
+            --header "Authorization: Bearer $TOKEN" \
+            --header 'Accept: application/json' \
+            https://www.amjingenieria.cl/api/health/database)
+          if [ "$CODE" != "204" ]; then
+            echo "AMJ database health check failed (HTTP $CODE)."
+            exit 1
+          fi
+          echo "AMJ database health check passed."
