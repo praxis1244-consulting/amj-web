@@ -16,6 +16,10 @@ permissions:
 
 jobs:
   check:
+    # Scheduled checks remain off until the production route and alert path
+    # have both been manually verified and the repository variable is enabled.
+    # Manual dispatch bypasses this gate so those verifications are possible.
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.AMJ_DB_HEALTHCHECK_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -36,9 +40,10 @@ jobs:
           CODE=$(curl --silent --show-error --output /dev/null \
             --write-out '%{http_code}' \
             --max-time 10 \
+            --max-redirs 0 \
             --header "Authorization: Bearer $TOKEN" \
             --header 'Accept: application/json' \
-            https://amjingenieria.cl/api/health/database)
+            https://www.amjingenieria.cl/api/health/database)
           if [ "$CODE" != "204" ]; then
             echo "AMJ database health check failed (HTTP $CODE)."
             exit 1

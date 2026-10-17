@@ -55,6 +55,7 @@ export default async function handler(req: any, res: any) {
         Prefer: "count=none",
       },
       cache: "no-store",
+      redirect: "error",
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
 
